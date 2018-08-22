@@ -13,12 +13,22 @@ class App extends Component {
     this.state = {
       time: 0,
     }
+
+    this.channel = new window.BroadcastChannel('channel');
+
+    this.channel.onmessage = ({data}) => {
+      this.setState({
+        time: data,
+      });
+    };
   }
 
   onListen(time) {
     this.setState({
       time: time,
     });
+
+    this.channel.postMessage(time);
   }
 
   render() {

@@ -4,35 +4,46 @@ class WritingSurface extends Component {
   constructor(props) {
     super(props);
 
-    this.onChange = this.onChange.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
 
     this.state = {
       notes: [],
     }
   }
 
-  onChange({target: {value}}) {
-    const newNotes = this.state.notes;
+  addNote(newNote) {
+    const notes = this.state.notes;
 
-    newNotes.push({
+    notes.push({
       timestamp: this.props.time,
-      value: value,
+      value: newNote,
     });
 
     this.setState({
-      notes: newNotes,
+      notes: notes,
     });
+  }
+
+  onKeyDown(event) {
+    if (event.key === 'Enter') {
+      const note = event.target.value;
+      this.addNote(note);
+      event.target.value = '';
+    }
   }
 
   render() {
     const notes = this.state.notes.map((note) =>
-      <li>{note.timestamp}: {note.value}</li>
+      <li key={note.timestamp}>{note.timestamp}: {note.value}</li>
     );
 
     return (
       <div>
+        <div>{this.props.label}</div>
+
         <textarea
-          onChange={this.onChange}
+          onKeyDown={this.onKeyDown}
+          placeholder={this.props.label}
         ></textarea>
 
         <ul>

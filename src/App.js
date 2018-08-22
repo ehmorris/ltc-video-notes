@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import LTCAudio from './LTC_00_00_00_00__30mins_23976.wav';
 import Audio from 'react-audio-player';
 import WritingSurface from './WritingSurface';
+import Clock from './Clock';
 
 class App extends Component {
   constructor(props) {
@@ -32,7 +33,7 @@ class App extends Component {
           src={LTCAudio}
         />
 
-        <div>{this.state.time}</div>
+        <Clock time={this.state.time} />
 
         <WritingSurface
           time={this.state.time}

@@ -26,6 +26,7 @@ class App extends Component {
         <Audio
           controls
           autoPlay
+          muted
           onListen={this.onListen}
           listenInterval={1000}
           src={LTCAudio}

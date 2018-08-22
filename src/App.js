@@ -1,11 +1,41 @@
 import React, { Component } from 'react';
 import LTCAudio from './LTC_00_00_00_00__30mins_23976.wav';
+import Audio from 'react-audio-player';
+import WritingSurface from './WritingSurface';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.onListen = this.onListen.bind(this);
+
+    this.state = {
+      time: 0,
+    }
+  }
+
+  onListen(time) {
+    this.setState({
+      time: time,
+    });
+  }
+
   render() {
     return (
       <div>
-        <audio controls autoplay="true" src={LTCAudio}></audio>
+        <Audio
+          controls
+          autoPlay
+          onListen={this.onListen}
+          listenInterval={1000}
+          src={LTCAudio}
+        />
+
+        <div>{this.state.time}</div>
+
+        <WritingSurface
+          time={this.state.time}
+        />
       </div>
     );
   }

@@ -36,6 +36,12 @@ class App extends Component {
 
         <WritingSurface
           time={this.state.time}
+          label="For Interviewer"
+        />
+
+        <WritingSurface
+          time={this.state.time}
+          label="For Producer"
         />
       </div>
     );

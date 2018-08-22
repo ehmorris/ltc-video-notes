@@ -27,7 +27,11 @@ class WritingSurface extends Component {
   onKeyDown(event) {
     if (event.key === 'Enter') {
       const note = event.target.value;
-      this.addNote(note);
+
+      if (note.trim() !== '') {
+        this.addNote(note);
+      }
+
       event.target.value = '';
     }
   }

@@ -22,6 +22,10 @@ class WritingSurface extends Component {
     this.setState({
       notes: notes,
     });
+
+    if (this.props.onNotesForInterviewerUpdate) {
+      this.props.onNotesForInterviewerUpdate(notes);
+    }
   }
 
   onKeyDown(event) {

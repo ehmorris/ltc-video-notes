@@ -1,32 +1,10 @@
 import React, { Component } from 'react';
-import Notes from './Notes';
 
 class WritingSurface extends Component {
   constructor(props) {
     super(props);
 
     this.onKeyDown = this.onKeyDown.bind(this);
-
-    this.state = {
-      notes: [],
-    }
-  }
-
-  addNote(newNote) {
-    const notes = this.state.notes;
-
-    notes.push({
-      timestamp: this.props.time,
-      value: newNote,
-    });
-
-    this.setState({
-      notes: notes,
-    });
-
-    if (this.props.onNotesForInterviewerUpdate) {
-      this.props.onNotesForInterviewerUpdate(notes);
-    }
   }
 
   onKeyDown(event) {
@@ -34,7 +12,7 @@ class WritingSurface extends Component {
       const note = event.target.value;
 
       if (note.trim() !== '') {
-        this.addNote(note);
+        this.props.onAddedNote(note);
       }
 
       event.target.value = '';
@@ -50,8 +28,6 @@ class WritingSurface extends Component {
           onKeyDown={this.onKeyDown}
           placeholder={this.props.label}
         ></textarea>
-
-        <Notes notes={this.state.notes} />
       </div>
     );
   }

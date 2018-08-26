@@ -1,23 +1,49 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addProducerNote, addInterviewerNote } from './actions';
 import WritingSurface from './WritingSurface';
+import InterviewerNotes from './InterviewerNotes';
+import ProducerNotes from './ProducerNotes';
 
 class ForProducer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.onProducerNote = this.onProducerNote.bind(this);
+    this.onInterviewerNote = this.onInterviewerNote.bind(this);
+  }
+
+  onProducerNote(note) {
+    this.props.dispatch(
+      addProducerNote(this.props.time, note)
+    );
+  }
+
+  onInterviewerNote(note) {
+    this.props.dispatch(
+      addInterviewerNote(this.props.time, note)
+    );
+  }
+
   render() {
     return (
       <div>
         <WritingSurface
-          time={this.props.time}
-          onNotesForInterviewerUpdate={this.props.onNotesForInterviewerUpdate}
+          onAddedNote={this.onInterviewerNote}
           label="Notes For Interviewer"
         />
 
+        <InterviewerNotes />
+
         <WritingSurface
-          time={this.props.time}
+          onAddedNote={this.onProducerNote}
           label="Private Notes For Producer"
         />
+
+        <ProducerNotes />
       </div>
     );
   }
 }
 
-export default ForProducer;
+export default connect()(ForProducer);

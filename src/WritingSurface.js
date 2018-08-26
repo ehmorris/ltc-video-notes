@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Notes from './Notes';
 
 class WritingSurface extends Component {
   constructor(props) {
@@ -41,10 +42,6 @@ class WritingSurface extends Component {
   }
 
   render() {
-    const notes = this.state.notes.map((note) =>
-      <li key={note.timestamp}>{note.timestamp}: {note.value}</li>
-    );
-
     return (
       <div>
         <div>{this.props.label}</div>
@@ -54,9 +51,7 @@ class WritingSurface extends Component {
           placeholder={this.props.label}
         ></textarea>
 
-        <ul>
-          {notes}
-        </ul>
+        <Notes notes={this.state.notes} />
       </div>
     );
   }

@@ -4,6 +4,7 @@ import { addProducerNote, addInterviewerNote } from './actions';
 import WritingSurface from './WritingSurface';
 import InterviewerNotes from './InterviewerNotes';
 import ProducerNotes from './ProducerNotes';
+import ClockContainer from './Clock';
 
 class ForProducer extends Component {
   constructor(props) {
@@ -28,6 +29,8 @@ class ForProducer extends Component {
   render() {
     return (
       <div>
+        <ClockContainer />
+
         <WritingSurface
           onAddedNote={this.onInterviewerNote}
           label="Notes For Interviewer"

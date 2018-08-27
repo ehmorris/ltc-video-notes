@@ -6,6 +6,10 @@ import InterviewerNotes from './InterviewerNotes';
 import ProducerNotes from './ProducerNotes';
 import ClockContainer from './Clock';
 
+const mapStateToProps = state => ({
+  time: state.time,
+});
+
 class ForProducer extends Component {
   constructor(props) {
     super(props);
@@ -49,4 +53,6 @@ class ForProducer extends Component {
   }
 }
 
-export default connect()(ForProducer);
+export default connect(
+  mapStateToProps
+)(ForProducer);

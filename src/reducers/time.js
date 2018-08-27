@@ -1,11 +1,7 @@
 const time = (state = [], action) => {
   switch (action.type) {
     case 'UPDATE_TIME':
-      return [
-        {
-          time: action.time,
-        }
-      ];
+      return action.time;
     default:
       return state;
   }

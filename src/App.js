@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import LTCAudio from './LTCAudio';
 import ForProducer from './ForProducer';
 import ForInterviewer from './ForInterviewer';
-import ClockContainer from './ClockContainer';
 
 class App extends Component {
   constructor(props) {
@@ -19,7 +18,6 @@ class App extends Component {
         {this.state.mode === 'forProducer' &&
           <div>
             <LTCAudio />
-            <ClockContainer />
             <ForProducer />
           </div>
         }

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import ClockContainer from './Clock';
+import Clock from './Clock';
 import InterviewerNotes from './InterviewerNotes';
 
 class ForInterviewer extends Component {
   render() {
     return (
       <div>
-        <ClockContainer />
+        <Clock />
         <InterviewerNotes />
       </div>
     );

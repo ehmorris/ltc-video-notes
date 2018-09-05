@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => ({
+  time: state.time,
+});
 
 class Clock extends Component {
   render() {
@@ -10,4 +15,6 @@ class Clock extends Component {
   }
 }
 
-export default Clock;
+export default connect(
+  mapStateToProps
+)(Clock);

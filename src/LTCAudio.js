@@ -4,11 +4,25 @@ import { updateTime } from './actions';
 import AudioFile from './LTC_00_00_00_00__30mins_23976.wav';
 import Audio from 'react-audio-player';
 
+const mapStateToProps = state => ({
+  time: state.time,
+});
+
 class LTCAudio extends Component {
   constructor(props) {
     super(props);
 
+    this.audioTag = React.createRef();
+
     this.onAudioUpdate = this.onAudioUpdate.bind(this);
+  }
+
+  componentDidMount() {
+    this.audioTag.current.audioEl.currentTime = this.props.time;
+
+    this.props.dispatch(
+      updateTime(this.props.time)
+    );
   }
 
   onAudioUpdate(time) {
@@ -21,6 +35,7 @@ class LTCAudio extends Component {
     return (
       <div>
         <Audio
+          ref={this.audioTag}
           controls
           autoPlay
           muted
@@ -33,4 +48,6 @@ class LTCAudio extends Component {
   }
 }
 
-export default connect()(LTCAudio);
+export default connect(
+  mapStateToProps
+)(LTCAudio);

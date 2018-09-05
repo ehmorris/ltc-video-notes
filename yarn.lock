@@ -5725,6 +5725,10 @@ redux-persist@^5.10.0:
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-5.10.0.tgz#5d8d802c5571e55924efc1c3a9b23575283be62b"
 
+redux-state-sync@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/redux-state-sync/-/redux-state-sync-1.1.1.tgz#e9bd5032e6906055fa99a1efb9403aed13353ed3"
+
 redux@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.0.tgz#aa698a92b729315d22b34a0553d7e6533555cc03"

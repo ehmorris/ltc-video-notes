@@ -3,14 +3,16 @@ export const updateTime = time => ({
   time
 });
 
-export const addInterviewerNote = (time, note) => ({
+export const addInterviewerNote = (timeStart, timeEnd, note) => ({
   type: 'ADD_INTERVIEWER_NOTE',
-  time: time,
+  timeStart: timeStart,
+  timeEnd: timeEnd,
   note
 });
 
-export const addProducerNote = (time, note) => ({
+export const addProducerNote = (timeStart, timeEnd, note) => ({
   type: 'ADD_PRODUCER_NOTE',
-  time: time,
+  timeStart: timeStart,
+  timeEnd: timeEnd,
   note
 });

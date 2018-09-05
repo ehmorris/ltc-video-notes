@@ -20,13 +20,13 @@ class ForProducer extends Component {
 
   onProducerNote(note) {
     this.props.dispatch(
-      addProducerNote(this.props.time, note)
+      addProducerNote(note.timeStart, note.timeEnd, note.note)
     );
   }
 
   onInterviewerNote(note) {
     this.props.dispatch(
-      addInterviewerNote(this.props.time, note)
+      addInterviewerNote(note.timeStart, note.timeEnd, note.note)
     );
   }
 
@@ -37,6 +37,7 @@ class ForProducer extends Component {
 
         <WritingSurface
           onAddedNote={this.onInterviewerNote}
+          time={this.props.time}
           label="Notes For Interviewer"
         />
 
@@ -44,6 +45,7 @@ class ForProducer extends Component {
 
         <WritingSurface
           onAddedNote={this.onProducerNote}
+          time={this.props.time}
           label="Private Notes For Producer"
         />
 

@@ -3,7 +3,11 @@ import React, { Component } from 'react';
 class Notes extends Component {
   render() {
     const notes = this.props.notes.map((note) =>
-      <li key={note.time}>{note.time}: {note.note}</li>
+      <li key={note.timeEnd}>
+        <div>Start: {note.timeStart}</div>
+        <div>End: {note.timeEnd}</div>
+        <div>Note: {note.note}</div>
+      </li>
     );
 
     return (

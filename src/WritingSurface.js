@@ -4,17 +4,41 @@ class WritingSurface extends Component {
   constructor(props) {
     super(props);
 
-    this.onKeyDown = this.onKeyDown.bind(this);
+    this.handleKey = this.handleKey.bind(this);
+    this.onChange = this.onChange.bind(this);
+
+    this.state = {
+      timeStart: null,
+    }
   }
 
-  onKeyDown(event) {
-    if (event.key === 'Enter') {
-      const note = event.target.value;
+  addNote(note) {
+    this.props.onAddedNote({
+      timeStart: this.state.timeStart,
+      timeEnd: this.props.time,
+      note: note
+    });
+  }
 
-      if (note.trim() !== '') {
-        this.props.onAddedNote(note);
-      }
+  onChange({target: {value}}) {
+    if (!value.trim()) {
+      this.setState({
+        timeStart: null,
+      });
+    }
+  }
 
+  handleKey(event) {
+    const note = event.target.value.trim();
+
+    if (!this.state.timeStart) {
+      this.setState({
+        timeStart: this.props.time,
+      });
+    }
+
+    if (note.length > 0 && event.key === 'Enter') {
+      this.addNote(note);
       event.target.value = '';
     }
   }
@@ -25,7 +49,8 @@ class WritingSurface extends Component {
         <div>{this.props.label}</div>
 
         <textarea
-          onKeyDown={this.onKeyDown}
+          onKeyPress={this.handleKey}
+          onChange={this.onChange}
           placeholder={this.props.label}
         ></textarea>
       </div>

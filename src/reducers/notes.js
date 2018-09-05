@@ -5,7 +5,8 @@ const notes = (state = [], action) => {
         ...state,
         {
           type: 'interviewer',
-          time: action.time,
+          timeStart: action.timeStart,
+          timeEnd: action.timeEnd,
           note: action.note
         }
       ];
@@ -14,7 +15,8 @@ const notes = (state = [], action) => {
         ...state,
         {
           type: 'producer',
-          time: action.time,
+          timeStart: action.timeStart,
+          timeEnd: action.timeEnd,
           note: action.note
         }
       ];

@@ -1,45 +1,97 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import LTCAudio from './LTCAudio';
 import ForProducer from './ForProducer';
 import ForInterviewer from './ForInterviewer';
+
+const mapStateToProps = state => ({
+  time: state.time,
+});
 
 class App extends Component {
   constructor(props) {
     super(props);
 
-    this.makeInterviewer = this.makeInterviewer.bind(this);
+    this.producerMode = this.producerMode.bind(this);
+    this.pausedMode = this.pausedMode.bind(this);
 
     this.state = {
-      mode: 'forProducer',
+      mode: 'uninitializedMode',
     }
   }
 
-  makeInterviewer() {
+  componentDidMount() {
+    if (this.props.time > 0) {
+      this.pausedMode();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.state.mode === 'pausedMode' && prevProps.time !== this.props.time) {
+      this.interviewerMode();
+    }
+  }
+
+  uninitializedMode() {
     this.setState({
-      mode: 'forInterviewer',
+      mode: 'uninitializedMode',
+    });
+  }
+
+  producerMode() {
+    this.setState({
+      mode: 'producerMode',
+    });
+  }
+
+  interviewerMode() {
+    this.setState({
+      mode: 'interviewerMode',
+    });
+  }
+
+  pausedMode() {
+    this.setState({
+      mode: 'pausedMode',
     });
   }
 
   render() {
     return (
       <div>
-        <div
-          onClick={this.makeInterviewer}
-        >Make this screen an interviewer screen</div>
-
-        {this.state.mode === 'forProducer' &&
-          <div>
-            <LTCAudio />
-            <ForProducer />
-          </div>
+        {this.state.mode !== 'interviewerMode' &&
+          <LTCAudio
+            onPlay={this.producerMode}
+            onPause={this.pausedMode}
+          />
         }
 
-        {this.state.mode === 'forInterviewer' &&
+        {this.state.mode === 'uninitializedMode' &&
+          <ol>
+            <li>Begin recording, and you will see producer mode</li>
+            <li>Open new window to get interviewer mode</li>
+          </ol>
+        }
+
+        {this.state.mode === 'producerMode' &&
+          <ForProducer />
+        }
+
+        {this.state.mode === 'interviewerMode' &&
           <ForInterviewer />
+        }
+
+        {this.state.mode === 'pausedMode' &&
+          <div>
+            <div>Export notes</div>
+            <div>Clear notes and reset time</div>
+          </div>
         }
       </div>
     );
   }
 }
 
-export default App;
+export default connect(
+  mapStateToProps
+)(App);

@@ -4,7 +4,6 @@ import { addProducerNote, addInterviewerNote } from './actions';
 import WritingSurface from './WritingSurface';
 import InterviewerNotes from './InterviewerNotes';
 import ProducerNotes from './ProducerNotes';
-import Clock from './Clock';
 
 const mapStateToProps = state => ({
   time: state.time,
@@ -33,8 +32,6 @@ class ForProducer extends Component {
   render() {
     return (
       <div>
-        <Clock />
-
         <WritingSurface
           onAddedNote={this.onInterviewerNote}
           time={this.props.time}

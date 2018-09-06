@@ -37,9 +37,10 @@ class LTCAudio extends Component {
         <Audio
           ref={this.audioTag}
           controls
-          autoPlay
           muted
           onListen={this.onAudioUpdate}
+          onPlay={this.props.onPlay}
+          onPause={this.props.onPause}
           listenInterval={100}
           src={AudioFile}
         />

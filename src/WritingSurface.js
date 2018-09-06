@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Notes from './Notes';
 
 class WritingSurface extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class WritingSurface extends Component {
 
     this.state = {
       timeStart: null,
+      note: '',
     }
   }
 
@@ -16,12 +18,26 @@ class WritingSurface extends Component {
     this.props.onAddedNote({
       timeStart: this.state.timeStart,
       timeEnd: this.props.time,
-      note: note
+      note: this.state.note,
+    });
+
+    this.setState({
+      note: '',
     });
   }
 
   onChange({target: {value}}) {
-    if (!value.trim()) {
+    this.setState({
+      note: value,
+    });
+
+    if (!this.state.timeStart && value.trim().length) {
+      this.setState({
+        timeStart: this.props.time,
+      });
+    }
+
+    if (!value.trim().length) {
       this.setState({
         timeStart: null,
       });
@@ -29,17 +45,12 @@ class WritingSurface extends Component {
   }
 
   handleKey(event) {
-    const note = event.target.value.trim();
-
-    if (!this.state.timeStart) {
-      this.setState({
-        timeStart: this.props.time,
-      });
-    }
-
-    if (note.length > 0 && event.key === 'Enter') {
-      this.addNote(note);
-      event.target.value = '';
+    if (
+      this.state.note.trim().length > 0
+      && event.key === 'Enter'
+      && !event.shiftKey
+    ) {
+      this.addNote();
     }
   }
 
@@ -52,7 +63,18 @@ class WritingSurface extends Component {
           onKeyPress={this.handleKey}
           onChange={this.onChange}
           placeholder={this.props.label}
+          value={this.state.note}
         ></textarea>
+
+        {this.state.note.trim() &&
+          <Notes
+            notes={[{
+              timeStart: this.state.timeStart,
+              timeEnd: 'TBD',
+              note: this.state.note,
+            }]}
+          />
+        }
       </div>
     );
   }

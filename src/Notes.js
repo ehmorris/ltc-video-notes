@@ -6,7 +6,7 @@ class Notes extends Component {
       <li key={note.timeEnd}>
         <div>Start: {note.timeStart}</div>
         <div>End: {note.timeEnd}</div>
-        <div>Note: {note.note}</div>
+        <div>Note: <pre>{note.note}</pre></div>
       </li>
     );
 

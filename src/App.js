@@ -29,7 +29,7 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.state.mode === 'pausedMode' && prevProps.time !== this.props.time) {
+    if ((this.state.mode === 'pausedMode' || this.state.mode === 'uninitializedMode') && prevProps.time !== this.props.time) {
       this.interviewerMode();
     }
   }

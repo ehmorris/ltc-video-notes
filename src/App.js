@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import LTCAudio from './LTCAudio';
 import ForProducer from './ForProducer';
 import ForInterviewer from './ForInterviewer';
+import Reset from './Reset';
+import Download from './Download';
 
 const mapStateToProps = state => ({
   time: state.time,
@@ -83,8 +85,8 @@ class App extends Component {
 
         {this.state.mode === 'pausedMode' &&
           <div>
-            <div>Export notes</div>
-            <div>Clear notes and reset time</div>
+            <Download />
+            <Reset />
           </div>
         }
       </div>

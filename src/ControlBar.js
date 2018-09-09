@@ -120,7 +120,7 @@ class ControlBar extends Component {
             onPlay={this.props.onPlay}
             onPause={this.props.onPause}
             onCanPlay={this.isLoaded}
-            listenInterval={100}
+            listenInterval={41.71}
             src={AudioFile}
           />
         </Hidden>

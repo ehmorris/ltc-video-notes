@@ -19,6 +19,10 @@ const Bar = styled('div')`
   justify-content: space-between;
 `;
 
+const Padded = styled('div')`
+  padding: 0 40px;
+`;
+
 const Hidden = styled('div')`
   position: absolute;
   top: 0;
@@ -31,7 +35,6 @@ const Button = styled('div')`
   height: 100%;
   display: flex;
   align-items: center;
-  padding: 0 40px;
 `;
 
 class ControlBar extends Component {
@@ -89,23 +92,31 @@ class ControlBar extends Component {
 
         {this.state.loaded &&
           <Bar>
-            <Clock />
+            <Padded>
+              <Clock />
+            </Padded>
 
             {this.props.mode === 'uninitializedMode' &&
               <Button onClick={this.play}>
-                Begin Recording
+                <Padded>
+                  Begin Recording
+                </Padded>
               </Button>
             }
 
             {this.props.mode === 'producerMode' &&
               <Button onClick={this.pause}>
-                Stop
+                <Padded>
+                  Stop
+                </Padded>
               </Button>
             }
 
             {this.props.mode === 'pausedMode' &&
               <Button onClick={this.play}>
-                Resume
+                <Padded>
+                  Resume
+                </Padded>
               </Button>
             }
           </Bar>

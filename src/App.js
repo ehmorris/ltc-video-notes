@@ -63,6 +63,7 @@ class App extends Component {
       <div>
         {this.state.mode !== 'interviewerMode' &&
           <ControlBar
+            mode={this.state.mode}
             onPlay={this.producerMode}
             onPause={this.pausedMode}
           />

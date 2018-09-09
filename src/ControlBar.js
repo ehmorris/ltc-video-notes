@@ -4,6 +4,7 @@ import { updateTime } from './actions';
 import AudioFile from './LTC_00_00_00_00__30mins_23976.wav';
 import Audio from 'react-audio-player';
 import styled, { css } from 'react-emotion';
+import Clock from './Clock';
 
 const mapStateToProps = state => ({
   time: state.time,
@@ -11,8 +12,26 @@ const mapStateToProps = state => ({
 
 const Bar = styled('div')`
   width: 100%;
-  background: #000;
-  color: #fff;
+  height: 88px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Hidden = styled('div')`
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+  opacity: 0;
+`;
+
+const Button = styled('div')`
+  color: var(--color-red);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
 `;
 
 class ControlBar extends Component {
@@ -22,6 +41,13 @@ class ControlBar extends Component {
     this.audioTag = React.createRef();
 
     this.onAudioUpdate = this.onAudioUpdate.bind(this);
+    this.isLoaded = this.isLoaded.bind(this);
+    this.play = this.play.bind(this);
+    this.pause = this.pause.bind(this);
+
+    this.state = {
+      loaded: false,
+    }
   }
 
   componentDidMount() {
@@ -32,6 +58,20 @@ class ControlBar extends Component {
     );
   }
 
+  isLoaded() {
+    this.setState({
+      loaded: true,
+    });
+  }
+
+  play() {
+    this.audioTag.current.audioEl.play();
+  }
+
+  pause() {
+    this.audioTag.current.audioEl.pause();
+  }
+
   onAudioUpdate(time) {
     this.props.dispatch(
       updateTime(time)
@@ -40,18 +80,51 @@ class ControlBar extends Component {
 
   render() {
     return (
-      <Bar>
-        <Audio
-          ref={this.audioTag}
-          controls
-          muted
-          onListen={this.onAudioUpdate}
-          onPlay={this.props.onPlay}
-          onPause={this.props.onPause}
-          listenInterval={100}
-          src={AudioFile}
-        />
-      </Bar>
+      <div>
+        {!this.state.loaded &&
+          <Bar>
+            <div>Loading</div>
+          </Bar>
+        }
+
+        {this.state.loaded &&
+          <Bar>
+            <Clock />
+
+            {this.props.mode === 'uninitializedMode' &&
+              <Button onClick={this.play}>
+                Begin Recording
+              </Button>
+            }
+
+            {this.props.mode === 'producerMode' &&
+              <Button onClick={this.pause}>
+                Stop
+              </Button>
+            }
+
+            {this.props.mode === 'pausedMode' &&
+              <Button onClick={this.play}>
+                Resume
+              </Button>
+            }
+          </Bar>
+        }
+
+        <Hidden>
+          <Audio
+            ref={this.audioTag}
+            controls
+            muted
+            onListen={this.onAudioUpdate}
+            onPlay={this.props.onPlay}
+            onPause={this.props.onPause}
+            onCanPlay={this.isLoaded}
+            listenInterval={100}
+            src={AudioFile}
+          />
+        </Hidden>
+      </div>
     );
   }
 }

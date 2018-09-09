@@ -35,7 +35,7 @@ class Download extends Component {
           href={this.state.fileURL}
           download
         >
-          Download notes
+          Download notes ({this.props.notes.length})
         </a>
       </div>
     );

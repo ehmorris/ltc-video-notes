@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import LTCAudio from './LTCAudio';
+import ControlBar from './ControlBar';
 import ForProducer from './ForProducer';
 import ForInterviewer from './ForInterviewer';
 import Reset from './Reset';
@@ -62,7 +62,7 @@ class App extends Component {
     return (
       <div>
         {this.state.mode !== 'interviewerMode' &&
-          <LTCAudio
+          <ControlBar
             onPlay={this.producerMode}
             onPause={this.pausedMode}
           />

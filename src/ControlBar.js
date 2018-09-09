@@ -3,12 +3,19 @@ import { connect } from 'react-redux';
 import { updateTime } from './actions';
 import AudioFile from './LTC_00_00_00_00__30mins_23976.wav';
 import Audio from 'react-audio-player';
+import styled, { css } from 'react-emotion';
 
 const mapStateToProps = state => ({
   time: state.time,
 });
 
-class LTCAudio extends Component {
+const Bar = styled('div')`
+  width: 100%;
+  background: #000;
+  color: #fff;
+`;
+
+class ControlBar extends Component {
   constructor(props) {
     super(props);
 
@@ -33,7 +40,7 @@ class LTCAudio extends Component {
 
   render() {
     return (
-      <div>
+      <Bar>
         <Audio
           ref={this.audioTag}
           controls
@@ -44,11 +51,11 @@ class LTCAudio extends Component {
           listenInterval={100}
           src={AudioFile}
         />
-      </div>
+      </Bar>
     );
   }
 }
 
 export default connect(
   mapStateToProps
-)(LTCAudio);
+)(ControlBar);

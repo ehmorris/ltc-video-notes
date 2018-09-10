@@ -1,5 +1,6 @@
 body {
-  --color-red: #BB0000;
+  --color-red: #bb0000;
+  --color-gray: #424242;
   background: #000;
   color: #fff;
   font-family: 'Source Sans Pro', sans-serif;

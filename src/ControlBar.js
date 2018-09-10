@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { updateTime } from './actions';
 import AudioFile from './LTC_00_00_00_00__30mins_23976.wav';
 import Audio from 'react-audio-player';
-import styled, { css } from 'react-emotion';
+import styled from 'react-emotion';
 import Clock from './Clock';
 
 const mapStateToProps = state => ({
@@ -17,6 +17,12 @@ const Bar = styled('div')`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: ${props => props.mode === 'producerMode' ? 'var(--color-red)' : 'transparent'};
+`;
+
+const RedBar = styled('Bar')`
+  background-color: var(--color-red);
+  color: #fff;
 `;
 
 const Padded = styled('div')`
@@ -30,11 +36,44 @@ const Hidden = styled('div')`
   opacity: 0;
 `;
 
-const Button = styled('div')`
+const RedButton = styled('div')`
   color: var(--color-red);
   height: 100%;
   display: flex;
   align-items: center;
+  cursor: pointer;
+  user-select: none;
+
+  :before {
+    content: '';
+    width: .8em;
+    height: .8em;
+    background-color: var(--color-red);
+    border-radius: .8em;
+    position: relative;
+    top: 1px;
+    left: 26px;
+  }
+`;
+
+const WhiteButton = styled('RedButton')`
+  color: #fff;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+
+  :before {
+    content: '';
+    width: .8em;
+    height: .8em;
+    background-color: #fff;
+    border-radius: .8em;
+    position: relative;
+    top: 1px;
+    left: 26px;
+  }
 `;
 
 class ControlBar extends Component {
@@ -91,33 +130,33 @@ class ControlBar extends Component {
         }
 
         {this.state.loaded &&
-          <Bar>
+          <Bar mode={this.props.mode}>
             <Padded>
               <Clock />
             </Padded>
 
             {this.props.mode === 'uninitializedMode' &&
-              <Button onClick={this.play}>
+              <RedButton onClick={this.play}>
                 <Padded>
                   Begin Recording
                 </Padded>
-              </Button>
+              </RedButton>
             }
 
             {this.props.mode === 'producerMode' &&
-              <Button onClick={this.pause}>
+              <WhiteButton onClick={this.pause}>
                 <Padded>
                   Stop
                 </Padded>
-              </Button>
+              </WhiteButton>
             }
 
             {this.props.mode === 'pausedMode' &&
-              <Button onClick={this.play}>
+              <RedButton onClick={this.play}>
                 <Padded>
                   Resume
                 </Padded>
-              </Button>
+              </RedButton>
             }
           </Bar>
         }

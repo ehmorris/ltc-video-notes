@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import styled from 'react-emotion';
 
 const mapStateToProps = state => ({
   time: state.time,
 });
 
 const pad = (n) => n < 10 ? `0${n}` : n;
+
+const Monospace = styled('div')`
+  font-family: 'Source Code Pro', monospace;
+`;
+
 
 class Clock extends Component {
   render() {
@@ -18,9 +24,9 @@ class Clock extends Component {
     ].join(':');
 
     return (
-      <div>
+      <Monospace>
         {formattedTime}
-      </div>
+      </Monospace>
     );
   }
 }

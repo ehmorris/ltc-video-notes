@@ -52,20 +52,15 @@ class WritingSurface extends Component {
     ) {
       this.addNote();
     }
+
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+    }
   }
 
   render() {
     return (
       <div>
-        <div>{this.props.label}</div>
-
-        <textarea
-          onKeyPress={this.handleKey}
-          onChange={this.onChange}
-          placeholder={this.props.label}
-          value={this.state.note}
-        ></textarea>
-
         {this.state.note.trim() &&
           <Notes
             notes={[{
@@ -75,6 +70,26 @@ class WritingSurface extends Component {
             }]}
           />
         }
+        <textarea
+          onKeyPress={this.handleKey}
+          onChange={this.onChange}
+          placeholder={this.props.label}
+          value={this.state.note}
+          style={{
+            width: '100%',
+            fontFamily: 'inherit',
+            fontSize: 'inherit',
+            webkitAppearance: 'none',
+            display: 'block',
+            padding: '0',
+            margin: '0',
+            background: 'none',
+            resize: 'none',
+            outline: 'none',
+            color: 'inherit',
+            border: 'none',
+          }}
+        ></textarea>
       </div>
     );
   }

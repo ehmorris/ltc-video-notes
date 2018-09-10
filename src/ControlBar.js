@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { updateTime } from './actions';
 import AudioFile from './LTC_00_00_00_00__30mins_23976.wav';
 import Audio from 'react-audio-player';
-import styled from 'react-emotion';
 import Clock from './Clock';
+import styled from 'react-emotion';
 
 const mapStateToProps = state => ({
   time: state.time,
@@ -13,7 +13,8 @@ const mapStateToProps = state => ({
 const Bar = styled('div')`
   width: 100%;
   height: 88px;
-  position: relative;
+  position: absolute;
+  top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -125,7 +126,7 @@ class ControlBar extends Component {
       <div>
         {!this.state.loaded &&
           <Bar>
-            <div>Loading</div>
+            <Padded>Loading</Padded>
           </Bar>
         }
 
@@ -137,25 +138,19 @@ class ControlBar extends Component {
 
             {this.props.mode === 'uninitializedMode' &&
               <RedButton onClick={this.play}>
-                <Padded>
-                  Begin Recording
-                </Padded>
+                <Padded>Begin Recording</Padded>
               </RedButton>
             }
 
             {this.props.mode === 'producerMode' &&
               <WhiteButton onClick={this.pause}>
-                <Padded>
-                  Stop
-                </Padded>
+                <Padded>Stop</Padded>
               </WhiteButton>
             }
 
             {this.props.mode === 'pausedMode' &&
               <RedButton onClick={this.play}>
-                <Padded>
-                  Resume
-                </Padded>
+                <Padded>Resume</Padded>
               </RedButton>
             }
           </Bar>

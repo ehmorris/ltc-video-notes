@@ -21,11 +21,6 @@ const Bar = styled('div')`
   background-color: ${props => props.mode === 'producerMode' ? 'var(--color-red)' : 'transparent'};
 `;
 
-const RedBar = styled('Bar')`
-  background-color: var(--color-red);
-  color: #fff;
-`;
-
 const Padded = styled('div')`
   padding: 0 40px;
 `;
@@ -57,7 +52,7 @@ const RedButton = styled('div')`
   }
 `;
 
-const WhiteButton = styled('RedButton')`
+const WhiteButton = styled('div')`
   color: #fff;
   height: 100%;
   display: flex;

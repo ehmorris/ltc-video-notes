@@ -54,7 +54,7 @@ class ForProducer extends Component {
       <Grid>
         <Column>
           <FullHeight>
-           <ProducerNotes />
+            <ProducerNotes />
           </FullHeight>
           <WritingSurface
             onAddedNote={this.onProducerNote}

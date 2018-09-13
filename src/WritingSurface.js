@@ -79,7 +79,7 @@ class WritingSurface extends Component {
             width: '100%',
             fontFamily: 'inherit',
             fontSize: 'inherit',
-            webkitAppearance: 'none',
+            WebkitAppearance: 'none',
             display: 'block',
             padding: '0',
             margin: '0',

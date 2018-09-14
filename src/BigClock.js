@@ -10,13 +10,15 @@ const pad = (n) => n < 10 ? `0${n}` : n;
 
 const Monospace = styled('div')`
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 22vw;
+  font-size: 18vw;
+  font-weight: 600;
   text-align: center;
   width: 100%;
+  line-height: 1;
 `;
 
 const Deemphasized = styled('span')`
-  color: var(--color-gray);
+  opacity: .25;
 `;
 
 class BigClock extends Component {

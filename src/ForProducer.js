@@ -10,25 +10,6 @@ const mapStateToProps = state => ({
   time: state.time,
 });
 
-const Grid = styled('div')`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: calc(100vh - 88px);
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-`;
-
-const Column = styled('div')`
-  display: flex;
-  flex-direction: column;
-`;
-
-const FullHeight = styled('div')`
-  flex: 1;
-  overflow: scroll;
-`;
-
 class ForProducer extends Component {
   constructor(props) {
     super(props);
@@ -53,24 +34,24 @@ class ForProducer extends Component {
     return (
       <Grid>
         <Column>
-          <FullHeight>
-            <ProducerNotes />
-          </FullHeight>
           <WritingSurface
             onAddedNote={this.onProducerNote}
             time={this.props.time}
-            label="Private Notes For Producer"
+            label="Add a producer note"
           />
+          <FullHeight>
+            <ProducerNotes />
+          </FullHeight>
         </Column>
         <Column>
-          <FullHeight>
-            <InterviewerNotes />
-          </FullHeight>
           <WritingSurface
             onAddedNote={this.onInterviewerNote}
             time={this.props.time}
-            label="Notes For Interviewer"
+            label="Add an interviewer note"
           />
+          <FullHeight>
+            <InterviewerNotes />
+          </FullHeight>
         </Column>
       </Grid>
     );
@@ -80,3 +61,22 @@ class ForProducer extends Component {
 export default connect(
   mapStateToProps
 )(ForProducer);
+
+const Grid = styled('div')`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: calc(100vh - 88px);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+`;
+
+const Column = styled('div')`
+  display: flex;
+  flex-direction: column;
+`;
+
+const FullHeight = styled('div')`
+  flex: 1;
+  overflow: scroll;
+`;

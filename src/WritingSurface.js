@@ -61,15 +61,6 @@ class WritingSurface extends Component {
   render() {
     return (
       <div>
-        {this.state.note.trim() &&
-          <Notes
-            notes={[{
-              timeStart: this.state.timeStart,
-              timeEnd: 'TBD',
-              note: this.state.note,
-            }]}
-          />
-        }
         <textarea
           onKeyPress={this.handleKey}
           onChange={this.onChange}
@@ -81,7 +72,7 @@ class WritingSurface extends Component {
             fontSize: 'inherit',
             WebkitAppearance: 'none',
             display: 'block',
-            padding: '0',
+            padding: '48px',
             margin: '0',
             background: 'none',
             resize: 'none',
@@ -90,6 +81,10 @@ class WritingSurface extends Component {
             border: 'none',
           }}
         ></textarea>
+
+        {this.state.startTime &&
+          <span>{this.state.startTime}</span>
+        }
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import styled from 'react-emotion';
 import ControlBar from './ControlBar';
 import ForProducer from './ForProducer';
 import ForInterviewer from './ForInterviewer';
@@ -69,10 +70,10 @@ class App extends Component {
         }
 
         {this.state.mode === 'uninitializedMode' &&
-          <ol>
-            <li>Begin recording, and you will see producer mode</li>
-            <li>Open new window to get interviewer mode</li>
-          </ol>
+          <Modal>
+            <div>First click "Begin recording", and you’ll see producer mode.</div>
+            <div>Then open a new window and it’ll automatically turn into interviewer mode</div>
+          </Modal>
         }
 
         {this.state.mode === 'producerMode' &&
@@ -94,3 +95,18 @@ class App extends Component {
 export default connect(
   mapStateToProps
 )(App);
+
+const Modal = styled('div')`
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #000;
+  background: #fff;
+  padding: 48px;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  justify-content: space-between;
+`;

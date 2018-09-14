@@ -3,14 +3,14 @@ import styled from 'react-emotion';
 
 const Note = styled('div')`
   width: 100%;
-  padding: 40px;
+  padding: 0 48px;
+  margin-bottom: 48px;
 `;
 
 const Timespan = styled('div')`
   display: flex;
-  justify-content: space-between;
   font-size: 14px;
-  font-weight: 600;
+  font-family: 'IBM Plex Mono', monospace,
 `;
 
 const Text = styled('div')`
@@ -21,13 +21,12 @@ class Notes extends Component {
   render() {
     const notes = this.props.notes.map((note) =>
       <Note key={note.timeStart + note.timeEnd}>
-        <Timespan>
-          <div>{note.timeStart}</div>
-          <div>{note.timeEnd}</div>
-        </Timespan>
         <Text>
           {note.note}
         </Text>
+        <Timespan>
+          {note.timeStart} – {note.timeEnd}
+        </Timespan>
       </Note>
     );
 

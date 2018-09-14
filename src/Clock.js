@@ -8,11 +8,6 @@ const mapStateToProps = state => ({
 
 const pad = (n) => n < 10 ? `0${n}` : n;
 
-const Monospace = styled('div')`
-  font-family: 'Source Code Pro', monospace;
-`;
-
-
 class Clock extends Component {
   render() {
     const date = new Date(this.props.time * 1000);
@@ -34,3 +29,7 @@ class Clock extends Component {
 export default connect(
   mapStateToProps
 )(Clock);
+
+const Monospace = styled('div')`
+  font-family: 'IBM Plex Mono', monospace;
+`;

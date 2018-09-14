@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import ControlBar from './ControlBar';
 import ForProducer from './ForProducer';
 import ForInterviewer from './ForInterviewer';
-import Reset from './Reset';
-import Download from './Download';
+import PausedMode from './PausedMode';
 
 const mapStateToProps = state => ({
   time: state.time,
@@ -85,10 +84,7 @@ class App extends Component {
         }
 
         {this.state.mode === 'pausedMode' &&
-          <div>
-            <Download />
-            <Reset />
-          </div>
+          <PausedMode />
         }
       </div>
     );

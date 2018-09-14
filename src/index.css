@@ -1,10 +1,10 @@
 body {
-  --color-red: #bb0000;
   --color-gray: #424242;
-  background: #000;
-  color: #fff;
-  font-family: 'Source Sans Pro', sans-serif;
-  font-size: 42px;
+  --color-red: #bb0000;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 42px;
   margin: 0;
   overflow: hidden;
   padding: 0;

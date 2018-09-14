@@ -34,8 +34,12 @@ class Download extends Component {
         <a
           href={this.state.fileURL}
           download
+          style={{
+            textDecoration: 'inherit',
+            color: 'inherit',
+          }}
         >
-          Download notes ({this.props.notes.length})
+          Download notes
         </a>
       </div>
     );

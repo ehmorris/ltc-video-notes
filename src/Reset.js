@@ -17,7 +17,7 @@ class Reset extends Component {
       <div
         onClick={this.onClick}
       >
-        Clear notes and reset time
+        {this.props.text}
       </div>
     );
   }

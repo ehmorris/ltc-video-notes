@@ -10,68 +10,6 @@ const mapStateToProps = state => ({
   time: state.time,
 });
 
-const Bar = styled('div')`
-  width: 100%;
-  height: 88px;
-  position: absolute;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: ${props => props.mode === 'producerMode' ? 'var(--color-red)' : 'transparent'};
-`;
-
-const Padded = styled('div')`
-  padding: 0 40px;
-`;
-
-const Hidden = styled('div')`
-  position: absolute;
-  top: 0;
-  pointer-events: none;
-  opacity: 0;
-`;
-
-const RedButton = styled('div')`
-  color: var(--color-red);
-  height: 100%;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
-
-  :before {
-    content: '';
-    width: .8em;
-    height: .8em;
-    background-color: var(--color-red);
-    border-radius: .8em;
-    position: relative;
-    top: 1px;
-    left: 26px;
-  }
-`;
-
-const WhiteButton = styled('div')`
-  color: #fff;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
-
-  :before {
-    content: '';
-    width: .8em;
-    height: .8em;
-    background-color: #fff;
-    border-radius: .8em;
-    position: relative;
-    top: 1px;
-    left: 26px;
-  }
-`;
-
 class ControlBar extends Component {
   constructor(props) {
     super(props);
@@ -102,6 +40,12 @@ class ControlBar extends Component {
     });
   }
 
+  onAudioUpdate(time) {
+    this.props.dispatch(
+      updateTime(time)
+    );
+  }
+
   play() {
     this.audioTag.current.audioEl.play();
   }
@@ -110,43 +54,37 @@ class ControlBar extends Component {
     this.audioTag.current.audioEl.pause();
   }
 
-  onAudioUpdate(time) {
-    this.props.dispatch(
-      updateTime(time)
-    );
-  }
-
   render() {
     return (
       <div>
         {!this.state.loaded &&
           <Bar>
-            <Padded>Loading</Padded>
+            Loading
           </Bar>
         }
 
         {this.state.loaded &&
           <Bar mode={this.props.mode}>
-            <Padded>
+            <Indicator recording={this.props.mode !== 'uninitializedMode' && this.props.mode !== 'pausedMode'}>
               <Clock />
-            </Padded>
+            </Indicator>
 
             {this.props.mode === 'uninitializedMode' &&
-              <RedButton onClick={this.play}>
-                <Padded>Begin Recording</Padded>
-              </RedButton>
+              <GreenButton onClick={this.play}>
+                Begin Recording
+              </GreenButton>
             }
 
             {this.props.mode === 'producerMode' &&
-              <WhiteButton onClick={this.pause}>
-                <Padded>Stop</Padded>
-              </WhiteButton>
+              <RedButton onClick={this.pause}>
+                Stop
+              </RedButton>
             }
 
             {this.props.mode === 'pausedMode' &&
-              <RedButton onClick={this.play}>
-                <Padded>Resume</Padded>
-              </RedButton>
+              <GreenButton onClick={this.play}>
+                Resume
+              </GreenButton>
             }
           </Bar>
         }
@@ -172,3 +110,57 @@ class ControlBar extends Component {
 export default connect(
   mapStateToProps
 )(ControlBar);
+
+const Bar = styled('div')`
+  width: 100%;
+  position: relative;
+  top: 0;
+  padding: 48px 48px 0;
+  display: flex;
+`;
+
+const Hidden = styled('div')`
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+  opacity: 0;
+`;
+
+const GreenButton = styled('div')`
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  padding: 0 48px;
+
+  :hover {
+    text-shadow: -3px 5px 12px rgba(0, 255, 0, .2);
+  }
+`;
+
+const RedButton = styled('div')`
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  padding: 0 48px;
+
+  :hover {
+    text-shadow: -3px 5px 12px rgba(255, 0, 0, .2);
+  }
+`;
+
+const Indicator = styled('div')`
+  position: relative;
+
+  :before {
+    border-radius: 10px;
+    box-shadow: ${props => props.recording ? '-3px 5px 12px rgba(255, 0, 0, .2)' : ''};
+    background-color: ${props => props.recording ? 'rgb(255, 0, 0)' : '#999999'};
+    content: '';
+    height: 10px;
+    left: 0;
+    position: absolute;
+    top: .5em;
+    left: -.6em;
+    width: 10px;
+  }
+`;

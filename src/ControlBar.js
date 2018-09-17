@@ -4,6 +4,7 @@ import { updateTime } from './actions';
 import AudioFile from './LTC_00_00_00_00__30mins_23976.wav';
 import Audio from 'react-audio-player';
 import Clock from './Clock';
+import Button from './Button';
 import styled from 'react-emotion';
 
 const mapStateToProps = state => ({
@@ -65,26 +66,26 @@ class ControlBar extends Component {
 
         {this.state.loaded &&
           <Bar mode={this.props.mode}>
-            <Indicator recording={this.props.mode !== 'uninitializedMode' && this.props.mode !== 'pausedMode'}>
+            <WithIndicator recording={this.props.mode !== 'uninitializedMode' && this.props.mode !== 'pausedMode'}>
               <Clock />
-            </Indicator>
+            </WithIndicator>
 
             {this.props.mode === 'uninitializedMode' &&
-              <GreenButton onClick={this.play}>
+              <Button onClick={this.play}>
                 Begin Recording
-              </GreenButton>
+              </Button>
             }
 
             {this.props.mode === 'producerMode' &&
-              <RedButton onClick={this.pause}>
+              <Button onClick={this.pause}>
                 Stop
-              </RedButton>
+              </Button>
             }
 
             {this.props.mode === 'pausedMode' &&
-              <GreenButton onClick={this.play}>
+              <Button onClick={this.play}>
                 Resume
-              </GreenButton>
+              </Button>
             }
           </Bar>
         }
@@ -126,30 +127,9 @@ const Hidden = styled('div')`
   opacity: 0;
 `;
 
-const GreenButton = styled('div')`
-  font-weight: 600;
-  cursor: pointer;
-  user-select: none;
-  padding: 0 48px;
-
-  :hover {
-    text-shadow: -3px 5px 12px rgba(0, 255, 0, .2);
-  }
-`;
-
-const RedButton = styled('div')`
-  font-weight: 600;
-  cursor: pointer;
-  user-select: none;
-  padding: 0 48px;
-
-  :hover {
-    text-shadow: -3px 5px 12px rgba(255, 0, 0, .2);
-  }
-`;
-
-const Indicator = styled('div')`
+const WithIndicator = styled('div')`
   position: relative;
+  margin-right: 48px;
 
   :before {
     border-radius: 10px;

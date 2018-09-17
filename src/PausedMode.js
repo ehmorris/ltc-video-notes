@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import styled from 'react-emotion';
 import Reset from './Reset';
 import Download from './Download';
+import Button from './Button';
+import Modal from './Modal';
 
 const mapStateToProps = state => ({
   notes: state.notes,
 });
-
 
 
 class PausedMode extends Component {
@@ -20,40 +21,28 @@ class PausedMode extends Component {
   }
 
   render() {
-    const notesCount = this.props.notes.length;
+    const notesExist = this.props.notes.length > 0;
     const producerNotesCount = this.filterNotesByString('producer').length;
     const interviewerNotesCount = this.filterNotesByString('interviewer').length;
 
     return (
-      <div>
-        {notesCount < 1 &&
-          <Modal>
-            There are no notes. Once you made notes, you’ll be able to download them here.
-
-            <div>
-              <Button>
-                <Reset text="Reset timer" />
-              </Button>
-            </div>
-          </Modal>
+      <Modal>
+        {!notesExist &&
+          <div>You haven’t made any notes yet.</div>
         }
 
-        {notesCount > 1 &&
-          <Modal>
-            <div>
-              There {producerNotesCount > 1 ? 'are' : 'is'} {producerNotesCount} producer {this.pluralize('note', producerNotesCount)} and {interviewerNotesCount} interviewer {this.pluralize('note', interviewerNotesCount)}. Resume to view all notes.
-            </div>
-            <div>
-              <Button>
-                <Download />
-              </Button>
-              <Button>
-                <Reset text="Clear notes and reset" />
-              </Button>
-            </div>
-          </Modal>
+        {notesExist &&
+          <div>There {producerNotesCount > 1 ? 'are' : 'is'} {producerNotesCount} producer {this.pluralize('note', producerNotesCount)} and {interviewerNotesCount} interviewer {this.pluralize('note', interviewerNotesCount)}. Resume to view all notes.</div>
         }
-      </div>
+        <Actions>
+          <Button disabled={!notesExist}>
+            <Download />
+          </Button>
+          <Button>
+            <Reset text={notesExist ? 'Clear notes and reset' : 'Reset timer'} />
+          </Button>
+        </Actions>
+      </Modal>
     );
   }
 }
@@ -62,25 +51,8 @@ export default connect(
   mapStateToProps
 )(PausedMode);
 
-const Modal = styled('div')`
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #000;
-  background: #fff;
-  padding: 48px;
-  left: 50%;
-  top: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  justify-content: space-between;
-`;
-
-const Button = styled('div')`
-  font-weight: 600;
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-  margin-top: 24px;
+const Actions = styled('div')`
+  > * {
+    margin-top: 24px;
+  }
 `;

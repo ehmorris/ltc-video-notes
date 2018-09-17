@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Notes from './Notes';
 
 class WritingSurface extends Component {
   constructor(props) {

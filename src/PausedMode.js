@@ -8,22 +8,28 @@ import Modal from './Modal';
 
 const mapStateToProps = state => ({
   notes: state.notes,
+  producerNotes: state.notes.filter(note => note.type === 'producer'),
+  interviewerNotes: state.notes.filter(note => note.type === 'interviewer'),
 });
 
+const pluralize = (word, count) => {
+  return `${word}${count === 1 ? '' : 's'}`;
+};
 
 class PausedMode extends Component {
-  filterNotesByString(filter) {
-    return this.props.notes.filter(note => note.type === filter);
-  }
-
-  pluralize(word, count) {
-    return `${word}${count > 1 ? 's' : ''}`;
-  }
-
   render() {
     const notesExist = this.props.notes.length > 0;
-    const producerNotesCount = this.filterNotesByString('producer').length;
-    const interviewerNotesCount = this.filterNotesByString('interviewer').length;
+    const producerNoteCount = this.props.producerNotes.length;
+    const interviewerNoteCount = this.props.interviewerNotes.length;
+
+    const producerNoteCountSentence = `
+      There ${producerNoteCount === 1 ? 'is' : 'are'}
+      ${producerNoteCount}
+      producer ${pluralize('note', producerNoteCount)}`;
+
+    const interviewerNoteCountSentence = `
+      and ${interviewerNoteCount}
+      interviewer ${pluralize('note', interviewerNoteCount)}`;
 
     return (
       <Modal>
@@ -32,8 +38,12 @@ class PausedMode extends Component {
         }
 
         {notesExist &&
-          <div>There {producerNotesCount > 1 ? 'are' : 'is'} {producerNotesCount} producer {this.pluralize('note', producerNotesCount)} and {interviewerNotesCount} interviewer {this.pluralize('note', interviewerNotesCount)}. Resume to view all notes.</div>
+          <div>
+            {producerNoteCountSentence}{interviewerNoteCountSentence}.
+            Resume to view all notes.
+          </div>
         }
+
         <Actions>
           <Button disabled={!notesExist}>
             <Download />

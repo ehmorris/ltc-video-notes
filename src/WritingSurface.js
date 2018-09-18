@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Textarea from 'react-textarea-autosize';
+import styled from 'react-emotion';
 
 class WritingSurface extends Component {
   constructor(props) {
@@ -54,35 +56,31 @@ class WritingSurface extends Component {
 
   render() {
     return (
-      <div>
-        <textarea
-          onKeyPress={this.handleKey}
-          onChange={this.onChange}
-          placeholder={this.props.label}
-          value={this.state.note}
-          style={{
-            width: '100%',
-            fontFamily: 'inherit',
-            fontSize: 'inherit',
-            WebkitAppearance: 'none',
-            display: 'block',
-            padding: '48px',
-            margin: '0',
-            background: 'none',
-            resize: 'none',
-            outline: 'none',
-            color: 'inherit',
-            border: 'none',
-          }}
-        ></textarea>
-
-        {this.state.startTime &&
-          <span>{this.state.startTime}</span>
-        }
-      </div>
+      <MinimalTextarea
+        onKeyPress={this.handleKey}
+        onChange={this.onChange}
+        placeholder={this.props.label}
+        value={this.state.note}
+        minRows={1}
+        maxRows={10}
+      />
     );
   }
 }
 
 export default WritingSurface;
 
+const MinimalTextarea = styled(Textarea)`
+  -webkit-appearance: none;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  display: block;
+  padding: 48px;
+  margin: 0;
+  background: none;
+  resize: none;
+  outline: none;
+  color: inherit;
+  border: none;
+`;

@@ -78,5 +78,4 @@ const Column = styled('div')`
 
 const FullHeight = styled('div')`
   flex: 1;
-  overflow: scroll;
 `;

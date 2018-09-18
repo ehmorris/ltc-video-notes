@@ -15,7 +15,7 @@ const Timespan = styled('div')`
 `;
 
 const Text = styled('div')`
-  white-space: pre;
+  white-space: pre-wrap;
 `;
 
 class Notes extends Component {

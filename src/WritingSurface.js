@@ -22,6 +22,7 @@ class WritingSurface extends Component {
 
     this.setState({
       note: '',
+      timeStart: null,
     });
   }
 
@@ -33,12 +34,6 @@ class WritingSurface extends Component {
     if (!this.state.timeStart && value.trim().length) {
       this.setState({
         timeStart: this.props.time,
-      });
-    }
-
-    if (!value.trim().length) {
-      this.setState({
-        timeStart: null,
       });
     }
   }

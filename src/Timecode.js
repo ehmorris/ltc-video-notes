@@ -1,15 +1,12 @@
 import React from 'react';
-
-const pad = (n) => n < 10 ? `0${n}` : n;
+import SMPTETimecode from 'smpte-timecode';
 
 const Timecode = ({time}) => {
-  const date = new Date(time * 1000);
-  const formattedTime = [
-    pad(date.getUTCHours()),
-    pad(date.getUTCMinutes()),
-    pad(date.getUTCSeconds()),
-    (((date.getUTCMilliseconds() / 1000) * .23976) + 1).toFixed(2).slice(2, 5),
-  ].join(':');
+  let dateObject = new Date();
+  dateObject.setHours(0, 0, 0);
+  dateObject.setMilliseconds(time * 1000);
+
+  const formattedTime = new SMPTETimecode(dateObject).toString();
 
   return (
     <span>{formattedTime}</span>

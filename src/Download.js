@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import SMPTETimecode from 'smpte-timecode';
 
 const mapStateToProps = state => ({
   producerNotes: state.notes.filter(note => note.type === 'producer'),
@@ -8,17 +9,25 @@ const mapStateToProps = state => ({
 
 const pad = (n) => n < 10 ? `0${n}` : n;
 
-const formattedNote = ({timeStart, timeEnd, note}) => {
+const formatTime = (time) => {
+  let dateObject = new Date();
+  dateObject.setHours(0, 0, 0);
+  dateObject.setMilliseconds(time * 1000);
+
+  return new SMPTETimecode(dateObject).toString();
+}
+
+const formatNote = ({timeStart, timeEnd, note}) => {
   return `
-Started typing: ${timeStart}
-Entered note: ${timeEnd}
+Started: ${formatTime(timeStart)}
+Entered: ${formatTime(timeEnd)}
 Note Content:
 ${note}
 `;
 }
 
 const notesToString = (notes) => {
-  return notes.map(note => formattedNote(note)).join('');
+  return notes.map(note => formatNote(note)).join('');
 }
 
 class Download extends Component {

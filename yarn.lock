@@ -6274,6 +6274,10 @@ slice-ansi@1.0.0:
   dependencies:
     is-fullwidth-code-point "^2.0.0"
 
+smpte-timecode@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/smpte-timecode/-/smpte-timecode-1.2.1.tgz#647a6100deb6efb52c5c091ec19c77ec52e60414"
+
 snapdragon-node@^2.0.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/snapdragon-node/-/snapdragon-node-2.1.1.tgz#6c175f86ff14bdb0724563e8f3c1b021a286853b"

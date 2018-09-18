@@ -15,7 +15,7 @@ class Clock extends Component {
       pad(date.getUTCHours()),
       pad(date.getUTCMinutes()),
       pad(date.getUTCSeconds()),
-      (date.getUTCMilliseconds() / 1000).toFixed(2).slice(2, 5),
+      (((date.getUTCMilliseconds() / 1000) * .23976) + 1).toFixed(2).slice(2, 5),
     ].join(':');
 
     return (

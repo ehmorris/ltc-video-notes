@@ -6,7 +6,7 @@ const Timecode = ({time}) => {
   dateObject.setHours(0, 0, 0);
   dateObject.setMilliseconds(time * 1000);
 
-  const formattedTime = new SMPTETimecode(dateObject).toString();
+  const formattedTime = new SMPTETimecode(dateObject, 23.976).toString();
 
   return (
     <span>{formattedTime}</span>

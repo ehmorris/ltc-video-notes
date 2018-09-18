@@ -14,7 +14,7 @@ const formatTime = (time) => {
   dateObject.setHours(0, 0, 0);
   dateObject.setMilliseconds(time * 1000);
 
-  return new SMPTETimecode(dateObject).toString();
+  return new SMPTETimecode(dateObject, 23.976).toString();
 }
 
 const formatNote = ({timeStart, timeEnd, note}) => {

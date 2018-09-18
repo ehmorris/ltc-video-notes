@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'react-emotion';
+import Timecode from './Timecode';
 
 const Note = styled('div')`
   width: 100%;
@@ -25,7 +26,7 @@ class Notes extends Component {
           {note.note}
         </Text>
         <Timespan>
-          {note.timeStart} – {note.timeEnd}
+          <Timecode time={note.timeStart} /> – <Timecode time={note.timeEnd} />
         </Timespan>
       </Note>
     );

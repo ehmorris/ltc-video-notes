@@ -2,8 +2,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({
-  notes: state.notes,
+  producerNotes: state.notes.filter(note => note.type === 'producer'),
+  interviewerNotes: state.notes.filter(note => note.type === 'interviewer'),
 });
+
+const pad = (n) => n < 10 ? `0${n}` : n;
+
+const formattedNote = ({timeStart, timeEnd, note}) => {
+  return `
+Started typing: ${timeStart}
+Entered note: ${timeEnd}
+Note Content:
+${note}
+`;
+}
+
+const notesToString = (notes) => {
+  return notes.map(note => formattedNote(note)).join('');
+}
 
 class Download extends Component {
   constructor(props) {
@@ -15,7 +31,11 @@ class Download extends Component {
   }
 
   componentDidMount() {
-    const notes = JSON.stringify(this.props.notes);
+    const notes = `PRODUCER NOTES:
+${notesToString(this.props.producerNotes)}
+
+INTERVIEWER NOTES:
+${notesToString(this.props.interviewerNotes)}`;
 
     const file = new Blob([notes], {
       type: 'text/plain'
@@ -29,11 +49,16 @@ class Download extends Component {
   }
 
   render() {
+    const sysTime = new Date();
+    const localTime = `${pad(sysTime.getHours())}${pad(sysTime.getMinutes())}`;
+    const localDate = `${pad(sysTime.getMonth() + 1)}${pad(sysTime.getDate())}${sysTime.getFullYear()}`;
+    const filename = `video_notes_${localTime}_${localDate}`;
+
     return (
       <div>
         <a
           href={this.state.fileURL}
-          download
+          download={filename}
           style={{
             textDecoration: 'inherit',
             color: 'inherit',

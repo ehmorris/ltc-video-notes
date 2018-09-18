@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SMPTETimecode from 'smpte-timecode';
+import styled from 'react-emotion';
 
 const mapStateToProps = state => ({
   producerNotes: state.notes.filter(note => note.type === 'producer'),
@@ -64,18 +65,12 @@ ${notesToString(this.props.interviewerNotes)}`;
     const filename = `video_notes_${localTime}_${localDate}`;
 
     return (
-      <div>
-        <a
-          href={this.state.fileURL}
-          download={filename}
-          style={{
-            textDecoration: 'inherit',
-            color: 'inherit',
-          }}
-        >
-          Download notes
-        </a>
-      </div>
+      <InheritingLink
+        href={this.state.fileURL}
+        download={filename}
+      >
+        Download notes
+      </InheritingLink>
     );
   }
 }
@@ -83,3 +78,8 @@ ${notesToString(this.props.interviewerNotes)}`;
 export default connect(
   mapStateToProps
 )(Download);
+
+const InheritingLink = styled('a')`
+  text-decoration: inherit;
+  color: inherit;
+`;

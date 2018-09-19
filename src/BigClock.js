@@ -8,19 +8,6 @@ const mapStateToProps = state => ({
 
 const pad = (n) => n < 10 ? `0${n}` : n;
 
-const Monospace = styled('div')`
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 18vw;
-  font-weight: 600;
-  text-align: center;
-  width: 100%;
-  line-height: 1;
-`;
-
-const Deemphasized = styled('span')`
-  opacity: .25;
-`;
-
 class BigClock extends Component {
   render() {
     const date = new Date(this.props.time * 1000);
@@ -38,3 +25,16 @@ class BigClock extends Component {
 export default connect(
   mapStateToProps
 )(BigClock);
+
+const Monospace = styled('div')`
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 18vw;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+  line-height: 1;
+`;
+
+const Deemphasized = styled('span')`
+  opacity: .25;
+`;

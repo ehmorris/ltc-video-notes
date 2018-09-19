@@ -1,6 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'react-emotion';
 import Timecode from './Timecode';
+
+const Notes = ({notes}) => {
+  const noteList = notes.map((note) =>
+    <Note key={note.timeStart + note.timeEnd}>
+      <Text>
+        {note.note}
+      </Text>
+      <Timespan>
+        <Timecode time={note.timeStart} /> – <Timecode time={note.timeEnd} />
+      </Timespan>
+    </Note>
+  );
+
+  return (
+    <div>
+      {noteList}
+    </div>
+  );
+}
+
+export default Notes;
 
 const Note = styled('div')`
   width: 100%;
@@ -17,26 +38,3 @@ const Timespan = styled('div')`
 const Text = styled('div')`
   white-space: pre-wrap;
 `;
-
-class Notes extends Component {
-  render() {
-    const notes = this.props.notes.map((note) =>
-      <Note key={note.timeStart + note.timeEnd}>
-        <Text>
-          {note.note}
-        </Text>
-        <Timespan>
-          <Timecode time={note.timeStart} /> – <Timecode time={note.timeEnd} />
-        </Timespan>
-      </Note>
-    );
-
-    return (
-      <div>
-        {notes}
-      </div>
-    );
-  }
-}
-
-export default Notes;

@@ -1,12 +1,11 @@
 body {
-  --color-gray: #424242;
-  --color-red: #bb0000;
   font-family: 'IBM Plex Sans', sans-serif;
   font-size: 32px;
   font-weight: 300;
   line-height: 42px;
   margin: 0;
   padding: 0;
+  line-height: 1.35;
   text-rendering: optimizeLegibility;
 }
 

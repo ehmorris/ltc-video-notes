@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addProducerNote, addInterviewerNote } from './actions';
+import { addProducerNote, addInterviewerNote, clearInterviewerNotes } from './actions';
 import WritingSurface from './WritingSurface';
 import InterviewerNotes from './InterviewerNotes';
+import LatestInterviewerNote from './LatestInterviewerNote';
 import ProducerNotes from './ProducerNotes';
+import Button from './Button';
+import Label from './Label';
 import styled from 'react-emotion';
 
 const mapStateToProps = state => ({
@@ -16,6 +19,7 @@ class ForProducer extends Component {
 
     this.onProducerNote = this.onProducerNote.bind(this);
     this.onInterviewerNote = this.onInterviewerNote.bind(this);
+    this.onClearPrompt = this.onClearPrompt.bind(this);
   }
 
   onProducerNote(note) {
@@ -30,6 +34,10 @@ class ForProducer extends Component {
     );
   }
 
+  onClearPrompt() {
+    this.props.dispatch(clearInterviewerNotes());
+  }
+
   render() {
     return (
       <Grid>
@@ -39,19 +47,31 @@ class ForProducer extends Component {
             time={this.props.time}
             label="Add a producer note"
           />
-          <FullHeight>
-            <ProducerNotes />
-          </FullHeight>
+          <ProducerNotes />
         </Column>
         <Column>
-          <WritingSurface
-            onAddedNote={this.onInterviewerNote}
-            time={this.props.time}
-            label="Add an interviewer note"
-          />
-          <FullHeight>
+          <Preview>
+            <UrgentLabels>
+              <Label>Live on the prompt</Label>
+              <Label>
+                <Button onClick={this.onClearPrompt}>
+                  Clear prompt
+                </Button>
+              </Label>
+            </UrgentLabels>
+            <LatestInterviewerNote />
+          </Preview>
+          <InterviewerNotePrompt>
+            <WritingSurface
+              onAddedNote={this.onInterviewerNote}
+              time={this.props.time}
+              label="Add an interviewer note"
+            />
+          </InterviewerNotePrompt>
+          <Details>
+            <Summary><Label>Interviewer note log</Label></Summary>
             <InterviewerNotes />
-          </FullHeight>
+          </Details>
         </Column>
       </Grid>
     );
@@ -64,18 +84,47 @@ export default connect(
 
 const Grid = styled('div')`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: calc(100vh - 88px);
-  position: absolute;
-  bottom: 0;
+  grid-template-columns: 1fr minmax(450px, 40%);
   width: 100%;
 `;
 
 const Column = styled('div')`
   display: flex;
+  padding: 48px;
   flex-direction: column;
 `;
 
-const FullHeight = styled('div')`
-  flex: 1;
+const Preview = styled('div')`
+  border: 1px solid red;
+  padding: 24px;
+`;
+
+const UrgentLabels = styled('div')`
+  display: flex;
+  margin-bottom: .35rem;
+  justify-content: space-between;
+  width: 100%;
+  color: rgb(255, 0, 0);
+`;
+
+const InterviewerNotePrompt = styled('div')`
+  border: 1px solid #000;
+  margin-top: 24px;
+  padding: 24px;
+`;
+
+const Details = styled('details')`
+  border: 1px solid #000;
+  margin: 24px 0;
+  padding: 24px;
+`;
+
+const Summary = styled('summary')`
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+
+  ::-webkit-details-marker {
+    display: none;
+  }
 `;

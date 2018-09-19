@@ -10,6 +10,14 @@ const notes = (state = [], action) => {
           note: action.note
         }
       ];
+    case 'CLEAR_INTERVIEWER_NOTES':
+      return [
+        ...state,
+        {
+          type: 'interviewer',
+          action: 'clear'
+        }
+      ];
     case 'ADD_PRODUCER_NOTE':
       return [
         ...state,

@@ -75,8 +75,9 @@ const MinimalTextarea = styled(Textarea)`
   width: 100%;
   font-family: inherit;
   font-size: inherit;
+  line-height: inherit;
   display: block;
-  padding: 48px;
+  padding: 0;
   margin: 0;
   background: none;
   resize: none;

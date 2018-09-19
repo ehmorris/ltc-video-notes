@@ -1,16 +1,19 @@
 import React from 'react';
 import styled from 'react-emotion';
 import Timecode from './Timecode';
+import Label from './Label';
 
-const Notes = ({notes}) => {
+const Notes = ({notes, margin, padding}) => {
   const noteList = notes.map((note) =>
     <Note key={note.timeStart + note.timeEnd}>
       <Text>
         {note.note}
       </Text>
-      <Timespan>
-        <Timecode time={note.timeStart} /> – <Timecode time={note.timeEnd} />
-      </Timespan>
+      <Label>
+        <Timespan>
+          <Timecode time={note.timeStart} /> – <Timecode time={note.timeEnd} />
+        </Timespan>
+      </Label>
     </Note>
   );
 
@@ -23,15 +26,14 @@ const Notes = ({notes}) => {
 
 export default Notes;
 
+
 const Note = styled('div')`
   width: 100%;
-  padding: 0 48px;
-  margin-bottom: 48px;
+  margin-top: 48px;
 `;
 
 const Timespan = styled('div')`
-  display: flex;
-  font-size: 14px;
+  margin-top: .75em;
   font-family: 'IBM Plex Mono', monospace,
 `;
 

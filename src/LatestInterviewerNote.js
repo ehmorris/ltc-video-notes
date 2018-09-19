@@ -3,15 +3,27 @@ import { connect } from 'react-redux';
 import styled from 'react-emotion';
 
 const mapStateToProps = state => ({
-  latestNote: state.notes.filter(note => note.type === 'interviewer').reverse(),
+  latestNotes: state.notes.filter(note => note.type === 'interviewer').reverse(),
 });
 
 class LatestInterviewerNote extends Component {
+  componentDidUpdate(prevProps) {
+    if (this.props.latestNotes.length > 0 && prevProps.latestNotes.length > 0 && this.props.onNoteUpdate) {
+      if (this.props.latestNotes[0].action) {
+        this.props.onNoteUpdate(0);
+      }
+
+      else if (prevProps.latestNotes[0].note.length !== this.props.latestNotes[0].note.length) {
+        this.props.onNoteUpdate(this.props.latestNotes[0].note.length);
+      }
+    }
+  }
+
   render() {
     return (
       <div>
-        {this.props.latestNote.length > 0 && !this.props.latestNote.action &&
-          <Text>{this.props.latestNote[0].note}</Text>
+        {this.props.latestNotes.length > 0 && !this.props.latestNotes.action &&
+          <Text>{this.props.latestNotes[0].note}</Text>
         }
       </div>
     );

@@ -26,7 +26,6 @@ const Notes = ({notes, margin, padding}) => {
 
 export default Notes;
 
-
 const Note = styled('div')`
   width: 100%;
   margin-top: 48px;

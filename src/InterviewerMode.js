@@ -1,45 +1,37 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styled from 'react-emotion';
 import BigClock from './BigClock';
-import LatestInterviewerNote from './LatestInterviewerNote';
+import { Textfit } from 'react-textfit';
+
+const mapStateToProps = state => ({
+  latestNotes: state.notes.filter(note => note.type === 'interviewer').reverse(),
+});
 
 class InterviewerMode extends Component {
-  constructor(props) {
-    super(props);
-
-    this.sizeNote = this.sizeNote.bind(this);
-
-    this.state = {
-      fontSize: '24vw',
-    }
-  }
-
-  sizeNote(length) {
-    let fontSize = '24vw';
-
-    if (length > 10) fontSize = '18vw';
-    if (length > 15) fontSize = '14vw';
-    if (length > 20) fontSize = '12vw';
-    if (length > 30) fontSize = '8vw';
-
-    this.setState({
-      fontSize: fontSize,
-    });
-  }
-
   render() {
     return (
       <Screen>
         <BigClock />
-        <PromptType fontSize={this.state.fontSize}>
-          <LatestInterviewerNote />
-        </PromptType>
+
+        {this.props.latestNotes.length > 0 && !this.props.latestNotes[0].action &&
+          <PromptType>
+            <Textfit
+              min={40}
+              max={1000}
+            >
+              {this.props.latestNotes[0].note}
+            </Textfit>
+          </PromptType>
+        }
       </Screen>
     );
   }
 }
 
-export default InterviewerMode;
+export default connect(
+  mapStateToProps
+)(InterviewerMode);
 
 const Screen = styled('div')`
   width: 100vw;
@@ -54,9 +46,10 @@ const Screen = styled('div')`
 `;
 
 const PromptType = styled('div')`
-  font-size: ${props => props.fontSize};
-  line-height: ${props => props.fontSize};
+  flex: 1;
+  line-height: 1.2;
   font-weight: 600;
+  white-space: pre-wrap;
 
   &:empty {
     display: none;

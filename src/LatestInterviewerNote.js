@@ -8,7 +8,7 @@ const mapStateToProps = state => ({
 
 class LatestInterviewerNote extends Component {
   render() {
-    if (this.props.latestNotes.length && !this.props.latestNotes[0].action) {
+    if (this.props.latestNotes.length > 0 && !this.props.latestNotes[0].action) {
       return <Text>{this.props.latestNotes[0].note}</Text>;
     } else {
       return null;

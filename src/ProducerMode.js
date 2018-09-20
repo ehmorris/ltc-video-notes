@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
   time: state.time,
 });
 
-class ForProducer extends Component {
+class ProducerMode extends Component {
   constructor(props) {
     super(props);
 
@@ -80,7 +80,7 @@ class ForProducer extends Component {
 
 export default connect(
   mapStateToProps
-)(ForProducer);
+)(ProducerMode);
 
 const Grid = styled('div')`
   display: grid;

@@ -3,7 +3,7 @@ import styled from 'react-emotion';
 import BigClock from './BigClock';
 import LatestInterviewerNote from './LatestInterviewerNote';
 
-class ForInterviewer extends Component {
+class InterviewerMode extends Component {
   constructor(props) {
     super(props);
 
@@ -49,7 +49,7 @@ class ForInterviewer extends Component {
   }
 }
 
-export default ForInterviewer;
+export default InterviewerMode;
 
 const Screen = styled('div')`
   width: 100vw;

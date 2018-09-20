@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ControlBar from './ControlBar';
-import ForProducer from './ForProducer';
-import ForInterviewer from './ForInterviewer';
+import ProducerMode from './ProducerMode';
+import InterviewerMode from './InterviewerMode';
 import PausedMode from './PausedMode';
 import Modal from './Modal';
 
@@ -77,11 +77,11 @@ class App extends Component {
         }
 
         {this.state.mode === 'producerMode' &&
-          <ForProducer />
+          <ProducerMode />
         }
 
         {this.state.mode === 'interviewerMode' &&
-          <ForInterviewer />
+          <InterviewerMode />
         }
 
         {this.state.mode === 'pausedMode' &&

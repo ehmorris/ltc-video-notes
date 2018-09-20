@@ -11,39 +11,29 @@ class InterviewerMode extends Component {
 
     this.state = {
       fontSize: '24vw',
-      notePresent: false,
     }
   }
 
   sizeNote(length) {
-    if (length === 0) {
-      this.setState({
-        notePresent: false,
-      });
-    } else {
-      let fontSize = '24vw';
+    let fontSize = '24vw';
 
-      if (length > 10) fontSize = '18vw';
-      if (length > 15) fontSize = '14vw';
-      if (length > 20) fontSize = '12vw';
-      if (length > 30) fontSize = '8vw';
+    if (length > 10) fontSize = '18vw';
+    if (length > 15) fontSize = '14vw';
+    if (length > 20) fontSize = '12vw';
+    if (length > 30) fontSize = '8vw';
 
-      this.setState({
-        fontSize: fontSize,
-        notePresent: true,
-      });
-    }
+    this.setState({
+      fontSize: fontSize,
+    });
   }
 
   render() {
     return (
       <Screen>
         <BigClock />
-        {this.state.notePresent &&
-          <PromptType fontSize={this.state.fontSize}>
-            <LatestInterviewerNote onNoteUpdate={this.sizeNote} />
-          </PromptType>
-        }
+        <PromptType fontSize={this.state.fontSize}>
+          <LatestInterviewerNote />
+        </PromptType>
       </Screen>
     );
   }
@@ -67,4 +57,8 @@ const PromptType = styled('div')`
   font-size: ${props => props.fontSize};
   line-height: ${props => props.fontSize};
   font-weight: 600;
+
+  &:empty {
+    display: none;
+  }
 `;

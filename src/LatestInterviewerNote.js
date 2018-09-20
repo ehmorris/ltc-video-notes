@@ -7,26 +7,12 @@ const mapStateToProps = state => ({
 });
 
 class LatestInterviewerNote extends Component {
-  componentDidUpdate(prevProps) {
-    if (this.props.latestNotes.length > 0 && prevProps.latestNotes.length > 0 && this.props.onNoteUpdate) {
-      if (this.props.latestNotes[0].action) {
-        this.props.onNoteUpdate(0);
-      }
-
-      else if (prevProps.latestNotes[0].note.length !== this.props.latestNotes[0].note.length) {
-        this.props.onNoteUpdate(this.props.latestNotes[0].note.length);
-      }
-    }
-  }
-
   render() {
-    return (
-      <div>
-        {this.props.latestNotes.length > 0 && !this.props.latestNotes.action &&
-          <Text>{this.props.latestNotes[0].note}</Text>
-        }
-      </div>
-    );
+    if (this.props.latestNotes.length && !this.props.latestNotes[0].action) {
+      return <Text>{this.props.latestNotes[0].note}</Text>;
+    } else {
+      return null;
+    }
   }
 }
 

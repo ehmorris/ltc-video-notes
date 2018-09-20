@@ -4,8 +4,8 @@ import SMPTETimecode from 'smpte-timecode';
 import styled from 'react-emotion';
 
 const mapStateToProps = state => ({
-  producerNotes: state.notes.filter(note => note.type === 'producer'),
-  interviewerNotes: state.notes.filter(note => note.type === 'interviewer'),
+  producerNotes: state.notes.filter(note => note.type === 'producer' && !note.action),
+  interviewerNotes: state.notes.filter(note => note.type === 'interviewer' && !note.action),
 });
 
 const pad = (n) => n < 10 ? `0${n}` : n;

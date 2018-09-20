@@ -28,11 +28,11 @@ export default connect(
 
 const Monospace = styled('div')`
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 18vw;
   font-weight: 600;
   text-align: center;
   width: 100%;
   line-height: 1;
+  white-space: nowrap;
 `;
 
 const Deemphasized = styled('span')`

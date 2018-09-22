@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'react-emotion';
 
-const Button = ({onClick, children, type = 'default'}) => {
+const Modal = ({onClick, children, type = 'default'}) => {
   return (
     <ModalContainer>
       {children}
@@ -9,7 +9,7 @@ const Button = ({onClick, children, type = 'default'}) => {
   );
 }
 
-export default Button;
+export default Modal;
 
 const ModalContainer = styled('div')`
   position: absolute;

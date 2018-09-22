@@ -38,6 +38,7 @@ const Screen = styled('div')`
   color: #fff;
   padding: 48px;
   overflow: hidden;
+  user-select: none;
 `;
 
 const ClockSize = styled(Textfit)`

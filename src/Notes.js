@@ -1,41 +1,18 @@
 import React from 'react';
-import styled from 'react-emotion';
-import Timecode from './Timecode';
-import Label from './Label';
+import Note from './Note';
+import { Trail } from 'react-spring';
 
-const Notes = ({notes, margin, padding}) => {
-  const noteList = notes.map((note) =>
-    <Note key={note.timeStart + note.timeEnd}>
-      <Text>
-        {note.note}
-      </Text>
-      <Label>
-        <Timespan>
-          <Timecode time={note.timeStart} /> – <Timecode time={note.timeEnd} />
-        </Timespan>
-      </Label>
-    </Note>
-  );
-
+const Notes = ({notes}) => {
   return (
-    <div>
-      {noteList}
-    </div>
+    <Trail
+      keys={notes.map(note => note.timeStart + note.timeEnd)}
+      from={{ opacity: .5, y: -15 }}
+      to={{ opacity: 1, y: 0 }}
+      config={{ duration: 200 }}
+    >
+      {notes.map(note => styles => <Note style={styles} note={note} />)}
+    </Trail>
   );
 }
 
 export default Notes;
-
-const Note = styled('div')`
-  width: 100%;
-  margin-top: 48px;
-`;
-
-const Timespan = styled('div')`
-  margin-top: .75em;
-  font-family: 'IBM Plex Mono', monospace,
-`;
-
-const Text = styled('div')`
-  white-space: pre-wrap;
-`;

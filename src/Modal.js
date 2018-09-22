@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'react-emotion';
-import { Spring } from 'react-spring';
+import { Spring, animated } from 'react-spring';
 
-const Modal = ({...styles, children}) => {
+const Modal = ({style, children}) => {
   return (
     <ModalContainer
-      {...styles}
+      {...style}
     >{children}</ModalContainer>
   );
 }
@@ -13,18 +13,18 @@ const Modal = ({...styles, children}) => {
 const AnimatedModal = ({children}) => {
   return (
     <Spring
-      from={{ opacity: .5, scale: .98 }}
+      from={{ opacity: .5, scale: .96 }}
       to={{ opacity: 1, scale: 1 }}
       config={{ duration: 200 }}
     >
-      {styles => <Modal {...styles} children={children} /> }
+      {styles => <Modal style={styles} children={children} /> }
     </Spring>
   );
 }
 
 export default AnimatedModal;
 
-const ModalContainer = styled('div')`
+const ModalContainer = styled(animated.div)`
   opacity: ${props => props.opacity};
   position: absolute;
   width: 500px;

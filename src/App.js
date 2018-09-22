@@ -71,7 +71,7 @@ class App extends Component {
 
         {this.state.mode === 'uninitializedMode' &&
           <Modal>
-            <div>First click "Begin recording", and you’ll see producer mode.</div>
+            <div>First click “Begin recording”, and you’ll see producer mode.</div>
             <div>Then open a new window and it’ll automatically turn into interviewer mode</div>
           </Modal>
         }

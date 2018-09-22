@@ -24,11 +24,18 @@ class ControlBar extends Component {
 
     this.state = {
       loaded: false,
+      showLoader: false,
     }
   }
 
   componentDidMount() {
     this.audioTag.current.audioEl.currentTime = this.props.time;
+
+    this.timer = window.setTimeout(() => {
+      this.setState({
+        showLoader: true,
+      });
+    }, 1000);
 
     this.props.dispatch(
       updateTime(this.props.time)
@@ -36,8 +43,11 @@ class ControlBar extends Component {
   }
 
   isLoaded() {
+    window.clearTimeout(this.timer);
+
     this.setState({
       loaded: true,
+      showLoader: false,
     });
   }
 
@@ -58,14 +68,14 @@ class ControlBar extends Component {
   render() {
     return (
       <div>
-        {!this.state.loaded &&
+        {this.state.showLoader &&
           <Bar>
             Loading
           </Bar>
         }
 
         {this.state.loaded &&
-          <Bar mode={this.props.mode}>
+          <Bar>
             <WithIndicator recording={this.props.mode !== 'uninitializedMode' && this.props.mode !== 'pausedMode'}>
               <Clock />
             </WithIndicator>

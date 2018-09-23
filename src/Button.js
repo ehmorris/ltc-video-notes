@@ -21,15 +21,15 @@ class Button extends Component {
 
   nudgeButton({movementX, movementY}) {
     this.setState({
-      buttonX: clamp(movementX / 2, -5, 5),
-      buttonY: clamp(movementY / 2, -5, 5),
+      buttonX: clamp(movementX, -2, 2),
+      buttonY: clamp(movementY, -2, 2),
     });
   }
 
   followMouse({movementX, movementY}) {
     this.setState({
-      buttonX: clamp(this.state.buttonX + movementX, -5, 5),
-      buttonY: clamp(this.state.buttonY + movementY, -5, 5),
+      buttonX: clamp(this.state.buttonX + movementX, -2, 2),
+      buttonY: clamp(this.state.buttonY + movementY, -2, 2),
     });
   }
 
@@ -62,7 +62,7 @@ class Button extends Component {
               textShadow: `
                 ${-this.state.buttonX}px
                 ${-this.state.buttonY}px
-                ${(Math.abs(this.state.buttonX) + Math.abs(this.state.buttonY)) / 2}px
+                ${Math.abs(this.state.buttonX) + Math.abs(this.state.buttonY)}px
                 rgba(0, 0, 0, .2)`,
             }}
           >

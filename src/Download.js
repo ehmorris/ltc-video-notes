@@ -24,10 +24,9 @@ const formatTime = (time) => {
 
 const formatNote = ({timeStart, timeEnd, note}) => {
   return `
-Started: ${formatTime(timeStart)}
-Entered: ${formatTime(timeEnd)}
-Note Content:
-${note}
+[${formatTime(timeStart)}]    ${note}
+[${formatTime(timeEnd)}]
+
 `;
 }
 

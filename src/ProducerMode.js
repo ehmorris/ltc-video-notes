@@ -7,7 +7,7 @@ import Notes from './Notes';
 import Button from './Button';
 import Label from './Label';
 import styled from 'react-emotion';
-
+import { Spring } from 'react-spring';
 
 const filteredNotes = (notes, filter) => {
   return notes.filter(note => note.type === filter && !note.action).reverse();
@@ -64,20 +64,32 @@ class ProducerMode extends Component {
           />
           <Notes notes={this.producerNotes} />
         </Column>
+
         <Column>
           {noteExists &&
-            <Preview>
-              <UrgentLabels>
-                <Label>Live on the prompt</Label>
-                <Label>
-                  <Button onClick={this.onClearPrompt}>
-                    Clear prompt
-                  </Button>
-                </Label>
-              </UrgentLabels>
-              <LatestNote notes={this.rawInterviewerNotes} />
-            </Preview>
+            <Spring
+              from={{ opacity: .5, transform: 'scale(0.98)' }}
+              to={{ opacity: 1, transform: 'scale(1)' }}
+              config={{ duration: 200 }}
+            >
+              {styles => {
+                return (
+                  <div style={{...styles, ...preview}}>
+                    <UrgentLabels>
+                      <Label>Live on the prompt</Label>
+                      <Label>
+                        <Button onClick={this.onClearPrompt}>
+                          Clear prompt
+                        </Button>
+                      </Label>
+                    </UrgentLabels>
+                    <LatestNote notes={this.rawInterviewerNotes} />
+                  </div>
+                );
+              }}
+            </Spring>
           }
+
           <InterviewerNotePrompt>
             <WritingSurface
               onAddedNote={this.onInterviewerNote}
@@ -85,10 +97,13 @@ class ProducerMode extends Component {
               label="Add an interviewer note"
             />
           </InterviewerNotePrompt>
-          <Details>
-            <Summary><Label>Interviewer note log</Label></Summary>
-            <Notes notes={this.interviewerNotes} />
-          </Details>
+
+          {this.rawInterviewerNotes.length > 0 &&
+            <Details>
+              <Summary><Label><Button>Interviewer note log</Button></Label></Summary>
+              <Notes notes={this.interviewerNotes} />
+            </Details>
+          }
         </Column>
       </Grid>
     );
@@ -109,11 +124,11 @@ const Column = styled('div')`
   flex-direction: column;
 `;
 
-const Preview = styled('div')`
-  border: 1px solid red;
-  padding: 24px;
-  margin-bottom: 24px;
-`;
+const preview = {
+  border: '1px solid red',
+  padding: '24px',
+  marginBottom: '24px',
+};
 
 const UrgentLabels = styled('div')`
   display: flex;

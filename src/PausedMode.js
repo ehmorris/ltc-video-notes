@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import styled from 'react-emotion';
 import Reset from './Reset';
 import Download from './Download';
 import Button from './Button';
 import Modal from './Modal';
 
-const mapStateToProps = state => ({
-  notes: state.notes,
-  producerNotes: state.notes.filter(note => note.type === 'producer'),
-  interviewerNotes: state.notes.filter(note => note.type === 'interviewer'),
-});
-
 const pluralize = (word, count) => {
   return `${word}${count === 1 ? '' : 's'}`;
 };
 
 class PausedMode extends Component {
+  constructor(props) {
+    super(props);
+
+    this.producerNotes = this.props.notes.filter(note => note.type === 'producer' && !note.action);
+    this.interviewerNotes = this.props.notes.filter(note => note.type === 'interviewer' && !note.action);
+  }
+
   render() {
     const notesExist = this.props.notes.length > 0;
-    const producerNoteCount = this.props.producerNotes.length;
-    const interviewerNoteCount = this.props.interviewerNotes.length;
+    const producerNoteCount = this.producerNotes.length;
+    const interviewerNoteCount = this.interviewerNotes.length;
 
     const producerNoteCountSentence = `
       There ${producerNoteCount === 1 ? 'is' : 'are'}
@@ -57,9 +57,7 @@ class PausedMode extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps
-)(PausedMode);
+export default PausedMode;
 
 const Actions = styled('div')`
   > * {

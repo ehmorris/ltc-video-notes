@@ -4,10 +4,11 @@ import ControlBar from './ControlBar';
 import ProducerMode from './ProducerMode';
 import InterviewerMode from './InterviewerMode';
 import PausedMode from './PausedMode';
-import Modal from './Modal';
+import UninitializedMode from './UninitializedMode';
 
 const mapStateToProps = state => ({
   time: state.time,
+  notes: state.notes,
 });
 
 class App extends Component {
@@ -64,28 +65,34 @@ class App extends Component {
         {this.state.mode !== 'interviewerMode' &&
           <ControlBar
             mode={this.state.mode}
+            time={this.props.time}
             onPlay={this.producerMode}
             onPause={this.pausedMode}
           />
         }
 
         {this.state.mode === 'uninitializedMode' &&
-          <Modal>
-            <div>First click “Begin recording”, and you’ll see producer mode.</div>
-            <div>Then open a new window and it’ll automatically turn into interviewer mode</div>
-          </Modal>
+          <UninitializedMode />
         }
 
         {this.state.mode === 'producerMode' &&
-          <ProducerMode />
+          <ProducerMode
+            time={this.props.time}
+            notes={this.props.notes}
+          />
         }
 
         {this.state.mode === 'interviewerMode' &&
-          <InterviewerMode />
+          <InterviewerMode
+            time={this.props.time}
+            notes={this.props.notes}
+          />
         }
 
         {this.state.mode === 'pausedMode' &&
-          <PausedMode />
+          <PausedMode
+            notes={this.props.notes}
+          />
         }
       </div>
     );

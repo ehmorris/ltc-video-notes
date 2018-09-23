@@ -2,16 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addProducerNote, addInterviewerNote, clearInterviewerNotes } from './actions';
 import WritingSurface from './WritingSurface';
-import InterviewerNotes from './InterviewerNotes';
-import LatestInterviewerNote from './LatestInterviewerNote';
-import ProducerNotes from './ProducerNotes';
+import LatestNote from './LatestNote';
+import Notes from './Notes';
 import Button from './Button';
 import Label from './Label';
 import styled from 'react-emotion';
-
-const mapStateToProps = state => ({
-  time: state.time,
-});
 
 class ProducerMode extends Component {
   constructor(props) {
@@ -20,6 +15,8 @@ class ProducerMode extends Component {
     this.onProducerNote = this.onProducerNote.bind(this);
     this.onInterviewerNote = this.onInterviewerNote.bind(this);
     this.onClearPrompt = this.onClearPrompt.bind(this);
+    this.producerNotes = this.props.notes.filter(note => note.type === 'producer' && !note.action);
+    this.interviewerNotes = this.props.notes.filter(note => note.type === 'interviewer' && !note.action);
   }
 
   onProducerNote(note) {
@@ -47,7 +44,7 @@ class ProducerMode extends Component {
             time={this.props.time}
             label="Add a producer note"
           />
-          <ProducerNotes />
+          <Notes notes={this.producerNotes} />
         </Column>
         <Column>
           <Preview>
@@ -59,7 +56,7 @@ class ProducerMode extends Component {
                 </Button>
               </Label>
             </UrgentLabels>
-            <LatestInterviewerNote />
+            <LatestNote notes={this.interviewerNotes} />
           </Preview>
           <InterviewerNotePrompt>
             <WritingSurface
@@ -70,7 +67,7 @@ class ProducerMode extends Component {
           </InterviewerNotePrompt>
           <Details>
             <Summary><Label>Interviewer note log</Label></Summary>
-            <InterviewerNotes />
+            <Notes notes={this.interviewerNotes} />
           </Details>
         </Column>
       </Grid>
@@ -78,9 +75,7 @@ class ProducerMode extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps
-)(ProducerMode);
+export default connect()(ProducerMode);
 
 const Grid = styled('div')`
   display: grid;

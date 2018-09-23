@@ -8,6 +8,11 @@ import Button from './Button';
 import Label from './Label';
 import styled from 'react-emotion';
 
+
+const filteredNotes = (notes, filter) => {
+  return notes.filter(note => note.type === filter && !note.action).reverse();
+}
+
 class ProducerMode extends Component {
   constructor(props) {
     super(props);
@@ -15,8 +20,15 @@ class ProducerMode extends Component {
     this.onProducerNote = this.onProducerNote.bind(this);
     this.onInterviewerNote = this.onInterviewerNote.bind(this);
     this.onClearPrompt = this.onClearPrompt.bind(this);
-    this.producerNotes = this.props.notes.filter(note => note.type === 'producer' && !note.action);
-    this.interviewerNotes = this.props.notes.filter(note => note.type === 'interviewer' && !note.action);
+    this.producerNotes = filteredNotes(this.props.notes, 'producer');
+    this.interviewerNotes = filteredNotes(this.props.notes, 'interviewer');
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.notes.length !== this.props.notes.length) {
+      this.producerNotes = filteredNotes(this.props.notes, 'producer');
+      this.interviewerNotes = filteredNotes(this.props.notes, 'interviewer');
+    }
   }
 
   onProducerNote(note) {

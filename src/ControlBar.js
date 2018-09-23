@@ -64,37 +64,37 @@ class ControlBar extends Component {
   render() {
     return (
       <div>
-        {this.state.showLoader &&
-          <Bar>
-            Loading
-          </Bar>
-        }
+        <Bar>
+          {this.state.showLoader &&
+            <div>Loading</div>
+          }
 
-        {this.state.loaded &&
-          <Bar>
-            <WithIndicator recording={this.props.mode !== 'uninitializedMode' && this.props.mode !== 'pausedMode'}>
-              <Clock />
-            </WithIndicator>
+          {this.state.loaded &&
+            <div>
+              <WithIndicator recording={this.props.mode !== 'uninitializedMode' && this.props.mode !== 'pausedMode'}>
+                <Clock />
+              </WithIndicator>
 
-            {this.props.mode === 'uninitializedMode' &&
-              <Button onClick={this.play}>
-                Begin Recording
-              </Button>
-            }
+              {this.props.mode === 'uninitializedMode' &&
+                <Button onClick={this.play}>
+                  Begin Recording
+                </Button>
+              }
 
-            {this.props.mode === 'producerMode' &&
-              <Button onClick={this.pause}>
-                Stop
-              </Button>
-            }
+              {this.props.mode === 'producerMode' &&
+                <Button onClick={this.pause}>
+                  Stop
+                </Button>
+              }
 
-            {this.props.mode === 'pausedMode' &&
-              <Button onClick={this.play}>
-                Resume
-              </Button>
-            }
-          </Bar>
-        }
+              {this.props.mode === 'pausedMode' &&
+                <Button onClick={this.play}>
+                  Resume
+                </Button>
+              }
+            </div>
+          }
+        </Bar>
 
         <Hidden>
           <Audio
@@ -121,7 +121,11 @@ const Bar = styled('div')`
   position: relative;
   top: 0;
   padding: 48px 48px 0;
-  display: flex;
+  min-height: 91px;
+
+  > * {
+    display: flex;
+  }
 `;
 
 const Hidden = styled('div')`

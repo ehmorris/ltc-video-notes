@@ -34,7 +34,6 @@ class Button extends Component {
   }
 
   resetButton() {
-    console.log(`0, 0`);
     this.setState({
       buttonX: 0,
       buttonY: 0,

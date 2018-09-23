@@ -20,15 +20,19 @@ class ProducerMode extends Component {
     this.onProducerNote = this.onProducerNote.bind(this);
     this.onInterviewerNote = this.onInterviewerNote.bind(this);
     this.onClearPrompt = this.onClearPrompt.bind(this);
-    this.producerNotes = filteredNotes(this.props.notes, 'producer');
-    this.interviewerNotes = filteredNotes(this.props.notes, 'interviewer');
+    this.updateNotes();
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.notes.length !== this.props.notes.length) {
-      this.producerNotes = filteredNotes(this.props.notes, 'producer');
-      this.interviewerNotes = filteredNotes(this.props.notes, 'interviewer');
+      this.updateNotes();
     }
+  }
+
+  updateNotes() {
+    this.producerNotes = filteredNotes(this.props.notes, 'producer');
+    this.interviewerNotes = filteredNotes(this.props.notes, 'interviewer');
+    this.rawInterviewerNotes = this.props.notes.filter(note => note.type === 'interviewer').reverse();
   }
 
   onProducerNote(note) {
@@ -48,6 +52,8 @@ class ProducerMode extends Component {
   }
 
   render() {
+    const noteExists = this.rawInterviewerNotes.length > 0 && !this.rawInterviewerNotes[0].action;
+
     return (
       <Grid>
         <Column>
@@ -59,17 +65,19 @@ class ProducerMode extends Component {
           <Notes notes={this.producerNotes} />
         </Column>
         <Column>
-          <Preview>
-            <UrgentLabels>
-              <Label>Live on the prompt</Label>
-              <Label>
-                <Button onClick={this.onClearPrompt}>
-                  Clear prompt
-                </Button>
-              </Label>
-            </UrgentLabels>
-            <LatestNote notes={this.interviewerNotes} />
-          </Preview>
+          {noteExists &&
+            <Preview>
+              <UrgentLabels>
+                <Label>Live on the prompt</Label>
+                <Label>
+                  <Button onClick={this.onClearPrompt}>
+                    Clear prompt
+                  </Button>
+                </Label>
+              </UrgentLabels>
+              <LatestNote notes={this.rawInterviewerNotes} />
+            </Preview>
+          }
           <InterviewerNotePrompt>
             <WritingSurface
               onAddedNote={this.onInterviewerNote}
@@ -104,6 +112,7 @@ const Column = styled('div')`
 const Preview = styled('div')`
   border: 1px solid red;
   padding: 24px;
+  margin-bottom: 24px;
 `;
 
 const UrgentLabels = styled('div')`
@@ -116,13 +125,13 @@ const UrgentLabels = styled('div')`
 
 const InterviewerNotePrompt = styled('div')`
   border: 1px solid #000;
-  margin-top: 24px;
+  margin-bottom: 24px;
   padding: 24px;
 `;
 
 const Details = styled('details')`
   border: 1px solid #000;
-  margin: 24px 0;
+  margin-bottom: 24px;
   padding: 24px;
 `;
 

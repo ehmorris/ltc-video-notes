@@ -5,6 +5,7 @@ import ProducerMode from './ProducerMode';
 import InterviewerMode from './InterviewerMode';
 import PausedMode from './PausedMode';
 import UninitializedMode from './UninitializedMode';
+import { Transition } from 'react-spring';
 
 const mapStateToProps = state => ({
   time: state.time,
@@ -71,9 +72,15 @@ class App extends Component {
           />
         }
 
-        {this.state.mode === 'uninitializedMode' &&
-          <UninitializedMode />
-        }
+        <Transition
+          native
+          from={{ opacity: .5, transform: 'scale(0.98) translate3d(-50%, -50%, 0)' }}
+          enter={{ opacity: 1, transform: 'scale(1) translate3d(-50%, -50%, 0)' }}
+          leave={{ opacity: 0, transform: 'scale(0.98) translate3d(-50%, -50%, 0)' }}
+          config={{ duration: 200 }}
+        >
+          {this.state.mode === 'uninitializedMode' && (style => <UninitializedMode style={style} />)}
+        </Transition>
 
         {this.state.mode === 'producerMode' &&
           <ProducerMode
@@ -89,11 +96,15 @@ class App extends Component {
           />
         }
 
-        {this.state.mode === 'pausedMode' &&
-          <PausedMode
-            notes={this.props.notes}
-          />
-        }
+        <Transition
+          native
+          from={{ opacity: .5, transform: 'scale(0.98) translate3d(-50%, -50%, 0)' }}
+          enter={{ opacity: 1, transform: 'scale(1) translate3d(-50%, -50%, 0)' }}
+          leave={{ opacity: 0, transform: 'scale(0.98) translate3d(-50%, -50%, 0)' }}
+          config={{ duration: 200 }}
+        >
+          {this.state.mode === 'pausedMode' && (style => <PausedMode style={style} notes={this.props.notes} />)}
+        </Transition>
       </div>
     );
   }

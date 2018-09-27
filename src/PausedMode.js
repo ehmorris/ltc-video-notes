@@ -32,7 +32,7 @@ class PausedMode extends Component {
       interviewer ${pluralize('note', interviewerNoteCount)}`;
 
     return (
-      <Modal>
+      <Modal style={this.props.style}>
         {!notesExist &&
           <div>You haven’t made any notes yet.</div>
         }

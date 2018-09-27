@@ -28,7 +28,7 @@ const noteContainer = {
 
 const Timespan = styled('div')`
   margin-top: .75em;
-  font-family: 'IBM Plex Mono', monospace,
+  font-family: 'IBM Plex Mono', monospace;
 `;
 
 const Text = styled('div')`

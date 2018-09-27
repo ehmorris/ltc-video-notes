@@ -11,7 +11,6 @@ class Button extends Component {
 
     this.nudgeButton = this.nudgeButton.bind(this);
     this.resetButton = this.resetButton.bind(this);
-    this.followMouse = this.followMouse.bind(this);
 
     this.state = {
       buttonX: 0,
@@ -23,13 +22,6 @@ class Button extends Component {
     this.setState({
       buttonX: clamp(movementX, -2, 2),
       buttonY: clamp(movementY, -2, 2),
-    });
-  }
-
-  followMouse({movementX, movementY}) {
-    this.setState({
-      buttonX: clamp(this.state.buttonX + movementX, -2, 2),
-      buttonY: clamp(this.state.buttonY + movementY, -2, 2),
     });
   }
 
@@ -53,7 +45,6 @@ class Button extends Component {
           <div
             onClick={this.props.onClick}
             onMouseOver={this.nudgeButton}
-            onMouseMove={this.followMouse}
             onMouseOut={this.resetButton}
             onMouseDown={this.resetButton}
             style={{

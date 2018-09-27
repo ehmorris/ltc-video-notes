@@ -5,7 +5,7 @@ import AudioFile from './LTC_00_00_00_00__30mins_23976.wav';
 import Audio from 'react-audio-player';
 import Clock from './Clock';
 import Button from './Button';
-import styled from 'react-emotion';
+import styled, { keyframes } from 'react-emotion';
 
 class ControlBar extends Component {
   constructor(props) {
@@ -135,11 +135,18 @@ const Hidden = styled('div')`
   opacity: 0;
 `;
 
+const pulse = keyframes`
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+`
+
 const WithIndicator = styled('div')`
   position: relative;
   margin-right: 48px;
 
   :before {
+    ${props => props.recording ? `animation: ${pulse} 3s infinite;` : ''}
     border-radius: 10px;
     box-shadow: ${props => props.recording ? '-3px 5px 12px rgba(255, 0, 0, .2)' : ''};
     background-color: ${props => props.recording ? 'rgb(255, 0, 0)' : '#999999'};

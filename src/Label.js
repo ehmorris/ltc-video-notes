@@ -13,4 +13,5 @@ export default Label;
 
 const LabelContainer = styled('div')`
   font-size: 14px;
+  line-height: 1.6;
 `;

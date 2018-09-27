@@ -148,7 +148,7 @@ const WithIndicator = styled('div')`
   :before {
     ${props => props.recording ? `animation: ${pulse} 3s infinite;` : ''}
     border-radius: 10px;
-    box-shadow: ${props => props.recording ? '-3px 5px 12px rgba(255, 0, 0, .2)' : ''};
+    box-shadow: ${props => props.recording ? '-3px 5px 12px rgba(255, 0, 0, .3)' : ''};
     background-color: ${props => props.recording ? 'rgb(255, 0, 0)' : '#999999'};
     content: '';
     height: 10px;

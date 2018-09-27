@@ -4,7 +4,11 @@ import { animated } from 'react-spring';
 const Modal = ({style, children}) => {
   return (
     <animated.div
-      style={{...style, ...modalContainer}}
+      style={{
+        opacity: style.opacity,
+        transform: style.scale.interpolate(s => `scale(${s}) translate3d(-50%, -50%, 0)`),
+        ...modalContainer
+      }}
     >
       {children}
     </animated.div>

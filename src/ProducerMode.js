@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addProducerNote, addInterviewerNote, clearInterviewerNotes } from './actions';
 import WritingSurface from './WritingSurface';
-import LatestNote from './LatestNote';
 import Notes from './Notes';
 import Button from './Button';
 import Label from './Label';
+import InterviewerModePreview from './InterviewerModePreview';
+import InterviewerModePrompt from './InterviewerModePrompt';
 import styled from 'react-emotion';
-import { Spring } from 'react-spring';
+import { Transition } from 'react-spring';
 
 const filteredNotes = (notes, filter) => {
   return notes.filter(note => note.type === filter && !note.action).reverse();
@@ -66,37 +67,32 @@ class ProducerMode extends Component {
         </Column>
 
         <Column>
-          {noteExists &&
-            <Spring
-              from={{ opacity: .5, transform: 'scale(0.98)' }}
-              to={{ opacity: 1, transform: 'scale(1)' }}
-              config={{ duration: 200 }}
+          <InterviewerBox>
+            <Transition
+              native
+              from={{ opacity: .5, scale: 0.98 }}
+              enter={{ opacity: 1, scale: 1 }}
+              leave={{ opacity: 0, scale: 0.98 }}
             >
-              {styles => {
-                return (
-                  <div style={{...styles, ...preview}}>
-                    <UrgentLabels>
-                      <Label>Live on the prompt</Label>
-                      <Label>
-                        <Button onClick={this.onClearPrompt}>
-                          Clear prompt
-                        </Button>
-                      </Label>
-                    </UrgentLabels>
-                    <LatestNote notes={this.rawInterviewerNotes} />
-                  </div>
-                );
-              }}
-            </Spring>
-          }
-
-          <InterviewerNotePrompt>
-            <WritingSurface
-              onAddedNote={this.onInterviewerNote}
-              time={this.props.time}
-              label="Add an interviewer note"
-            />
-          </InterviewerNotePrompt>
+              {noteExists
+                ? (style => (
+                  <InterviewerModePreview
+                    style={style}
+                    onClearPrompt={this.onClearPrompt}
+                    latestNote={this.rawInterviewerNotes}
+                  />
+                ))
+                : (style => (
+                  <InterviewerModePrompt
+                    style={style}
+                    onAddedNote={this.onInterviewerNote}
+                    time={this.props.time}
+                    label="Add an interviewer note"
+                  />
+                ))
+              }
+            </Transition>
+          </InterviewerBox>
 
           {this.rawInterviewerNotes.length > 0 &&
             <Details>
@@ -124,24 +120,11 @@ const Column = styled('div')`
   flex-direction: column;
 `;
 
-const preview = {
-  border: '1px solid red',
-  padding: '24px',
-  marginBottom: '24px',
-};
-
-const UrgentLabels = styled('div')`
-  display: flex;
-  margin-bottom: .35rem;
-  justify-content: space-between;
+const InterviewerBox = styled('div')`
   width: 100%;
-  color: rgb(255, 0, 0);
-`;
-
-const InterviewerNotePrompt = styled('div')`
-  border: 1px solid #000;
+  height: 250px;
+  position relative;
   margin-bottom: 24px;
-  padding: 24px;
 `;
 
 const Details = styled('details')`

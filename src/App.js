@@ -74,9 +74,9 @@ class App extends Component {
 
         <Transition
           native
-          from={{ opacity: .5, transform: 'scale(0.98) translate3d(-50%, -50%, 0)' }}
-          enter={{ opacity: 1, transform: 'scale(1) translate3d(-50%, -50%, 0)' }}
-          leave={{ opacity: 0, transform: 'scale(0.98) translate3d(-50%, -50%, 0)' }}
+          from={{ opacity: .5, scale: 0.98 }}
+          enter={{ opacity: 1, scale: 1 }}
+          leave={{ opacity: 0, scale: 0.98 }}
         >
           {this.state.mode === 'uninitializedMode' && (style => <UninitializedMode style={style} />)}
         </Transition>
@@ -97,9 +97,9 @@ class App extends Component {
 
         <Transition
           native
-          from={{ opacity: .5, transform: 'scale(0.98) translate3d(-50%, -50%, 0)' }}
-          enter={{ opacity: 1, transform: 'scale(1) translate3d(-50%, -50%, 0)' }}
-          leave={{ opacity: 0, transform: 'scale(0.98) translate3d(-50%, -50%, 0)' }}
+          from={{ opacity: .5, scale: 0.98 }}
+          enter={{ opacity: 1, scale: 1 }}
+          leave={{ opacity: 0, scale: 0.98 }}
         >
           {this.state.mode === 'pausedMode' && (style => <PausedMode style={style} notes={this.props.notes} />)}
         </Transition>

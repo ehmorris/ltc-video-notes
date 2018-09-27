@@ -100,7 +100,6 @@ class ControlBar extends Component {
           <Audio
             ref={this.audioTag}
             controls
-            muted
             onListen={this.onAudioUpdate}
             onPlay={this.props.onPlay}
             onPause={this.props.onPause}

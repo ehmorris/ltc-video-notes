@@ -62,6 +62,7 @@ class ProducerMode extends Component {
             onAddedNote={this.onProducerNote}
             time={this.props.time}
             label="Add a producer note"
+            autoFocus
           />
           <Notes notes={this.producerNotes} />
         </Column>

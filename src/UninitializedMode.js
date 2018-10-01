@@ -6,7 +6,7 @@ const UninitializedMode = ({style}) => {
   return (
     <Container>
       <div>First click “Begin recording”, and you’ll see producer mode, then open a new window and it’ll automatically turn into interviewer mode.</div>
-      <Label>30 minutes of timecode; 23.976fps; 48 Khz sample rate; 8 bit unsigned int bit depth.</Label>
+      <Label>1h20m of runtime; No LTC will be transmitted.</Label>
     </Container>
   );
 }

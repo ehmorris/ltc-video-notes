@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateTime } from './actions';
-import AudioFile from './LTC_00_00_00_00__30mins_23976.wav';
-import Audio from 'react-audio-player';
 import Clock from './Clock';
 import Button from './Button';
 import styled, { keyframes } from 'react-emotion';
@@ -11,104 +9,76 @@ class ControlBar extends Component {
   constructor(props) {
     super(props);
 
-    this.audioTag = React.createRef();
-
     this.onAudioUpdate = this.onAudioUpdate.bind(this);
-    this.isLoaded = this.isLoaded.bind(this);
     this.play = this.play.bind(this);
     this.pause = this.pause.bind(this);
 
     this.state = {
-      loaded: false,
-      showLoader: false,
-    }
+      time: 0,
+    };
   }
 
   componentDidMount() {
-    this.audioTag.current.audioEl.currentTime = this.props.time;
-
-    this.timer = window.setTimeout(() => {
-      this.setState({
-        showLoader: true,
-      });
-    }, 1000);
-
-    this.props.dispatch(
-      updateTime(this.props.time)
-    );
-  }
-
-  isLoaded() {
-    window.clearTimeout(this.timer);
-
     this.setState({
-      loaded: true,
-      showLoader: false,
+      time: this.props.time,
     });
   }
 
-  onAudioUpdate(time) {
+  startCounting() {
+    this.interval = setInterval(this.onAudioUpdate, 41.70837);
+  }
+
+  stopCounting() {
+    clearInterval(this.interval);
+  }
+
+  onAudioUpdate(time = null) {
+    const newTime = this.state.time + .02397600;
+
+    this.setState({
+      time: newTime,
+    });
+
     this.props.dispatch(
-      updateTime(time)
+      updateTime(newTime)
     );
   }
 
   play() {
-    this.audioTag.current.audioEl.play();
+    this.startCounting();
+    this.props.onPlay();
   }
 
   pause() {
-    this.audioTag.current.audioEl.pause();
+    this.stopCounting();
+    this.props.onPause();
   }
 
   render() {
     return (
-      <div>
-        <Bar>
-          {this.state.showLoader &&
-            <div>Loading</div>
-          }
+      <Bar>
+        <WithIndicator recording={this.props.mode !== 'uninitializedMode' && this.props.mode !== 'pausedMode'}>
+          <Clock />
+        </WithIndicator>
 
-          {this.state.loaded &&
-            <div>
-              <WithIndicator recording={this.props.mode !== 'uninitializedMode' && this.props.mode !== 'pausedMode'}>
-                <Clock />
-              </WithIndicator>
+        {this.props.mode === 'uninitializedMode' &&
+          <Button onClick={this.play}>
+            Begin Recording
+          </Button>
+        }
 
-              {this.props.mode === 'uninitializedMode' &&
-                <Button onClick={this.play}>
-                  Begin Recording
-                </Button>
-              }
+        {this.props.mode === 'producerMode' &&
+          <Button onClick={this.pause}>
+            Stop
+          </Button>
+        }
 
-              {this.props.mode === 'producerMode' &&
-                <Button onClick={this.pause}>
-                  Stop
-                </Button>
-              }
-
-              {this.props.mode === 'pausedMode' &&
-                <Button onClick={this.play}>
-                  Resume
-                </Button>
-              }
-            </div>
-          }
-        </Bar>
-
-        <Hidden>
-          <Audio
-            ref={this.audioTag}
-            controls
-            onListen={this.onAudioUpdate}
-            onPlay={this.props.onPlay}
-            onPause={this.props.onPause}
-            onCanPlay={this.isLoaded}
-            listenInterval={41.70837}
-            src={AudioFile}
-          />
-        </Hidden>
-      </div>
+        {this.props.mode === 'pausedMode' &&
+          <Button onClick={this.play}>
+            Resume
+          </Button>
+        }
+      </Bar>
     );
   }
 }
@@ -121,17 +91,7 @@ const Bar = styled('div')`
   top: 0;
   padding: 48px 48px 0;
   min-height: 91px;
-
-  > * {
-    display: flex;
-  }
-`;
-
-const Hidden = styled('div')`
-  position: absolute;
-  top: 0;
-  pointer-events: none;
-  opacity: 0;
+  display: flex;
 `;
 
 const pulse = keyframes`

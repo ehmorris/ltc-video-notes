@@ -57,6 +57,7 @@ class WritingSurface extends Component {
   render() {
     return (
       <MinimalTextarea
+        autoFocus
         onKeyPress={this.handleKey}
         onChange={this.onChange}
         placeholder={this.props.label}

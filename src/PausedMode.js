@@ -3,7 +3,6 @@ import styled from 'react-emotion';
 import Reset from './Reset';
 import Download from './Download';
 import Button from './Button';
-import Modal from './Modal';
 
 const pluralize = (word, count) => {
   return `${word}${count === 1 ? '' : 's'}`;
@@ -32,7 +31,7 @@ class PausedMode extends Component {
       interviewer ${pluralize('note', interviewerNoteCount)}`;
 
     return (
-      <Modal style={this.props.style}>
+      <Container>
         {!notesExist &&
           <div>You haven’t made any notes yet.</div>
         }
@@ -52,12 +51,20 @@ class PausedMode extends Component {
             <Reset text={notesExist ? 'Clear notes and reset' : 'Reset timer'} />
           </Button>
         </Actions>
-      </Modal>
+      </Container>
     );
   }
 }
 
 export default PausedMode;
+
+const Container = styled('div')`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+`;
 
 const Actions = styled('div')`
   > * {

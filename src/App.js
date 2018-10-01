@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import ControlBar from './ControlBar';
 import ProducerMode from './ProducerMode';
 import InterviewerMode from './InterviewerMode';
+import Modal from './Modal';
 import PausedMode from './PausedMode';
 import UninitializedMode from './UninitializedMode';
-import { Transition } from 'react-spring';
 
 const mapStateToProps = state => ({
   time: state.time,
@@ -72,14 +72,13 @@ class App extends Component {
           />
         }
 
-        <Transition
-          native
-          from={{ opacity: .5, scale: 0.98 }}
-          enter={{ opacity: 1, scale: 1 }}
-          leave={{ opacity: 0, scale: 0.98 }}
-        >
-          {this.state.mode === 'uninitializedMode' && (style => <UninitializedMode style={style} />)}
-        </Transition>
+        <Modal showOn={this.state.mode === 'uninitializedMode'}>
+          <UninitializedMode />
+        </Modal>
+
+        <Modal showOn={this.state.mode === 'pausedMode'}>
+          <PausedMode notes={this.props.notes} />
+        </Modal>
 
         {this.state.mode === 'producerMode' &&
           <ProducerMode
@@ -94,15 +93,6 @@ class App extends Component {
             notes={this.props.notes}
           />
         }
-
-        <Transition
-          native
-          from={{ opacity: .5, scale: 0.98 }}
-          enter={{ opacity: 1, scale: 1 }}
-          leave={{ opacity: 0, scale: 0.98 }}
-        >
-          {this.state.mode === 'pausedMode' && (style => <PausedMode style={style} notes={this.props.notes} />)}
-        </Transition>
       </div>
     );
   }

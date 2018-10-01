@@ -6,7 +6,7 @@ const Notes = ({notes}) => {
   return (
     <Trail
       native
-      keys={notes.map(note => note.timeStart + note.timeEnd)}
+      keys={notes.map(note => note.id)}
       from={{ opacity: .5, transform: 'translateY(-15px)' }}
       to={{ opacity: 1, transform: 'translateY(0px)' }}
     >

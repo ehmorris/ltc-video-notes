@@ -23,6 +23,7 @@ const notes = (state = [], action) => {
         ...state,
         {
           type: 'producer',
+          id: action.id,
           timeStart: action.timeStart,
           timeEnd: action.timeEnd,
           note: action.note

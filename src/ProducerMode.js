@@ -123,7 +123,7 @@ const Column = styled('div')`
 
 const InterviewerBox = styled('div')`
   width: 100%;
-  height: 250px;
+  height: 300px;
   position relative;
   margin-bottom: 24px;
 `;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addProducerNote, addInterviewerNote, clearInterviewerNotes } from './actions';
+import { addProducerNote, addNestedProducerNote, addInterviewerNote, clearInterviewerNotes } from './actions';
 import WritingSurface from './WritingSurface';
 import Notes from './Notes';
 import Button from './Button';
@@ -36,10 +36,26 @@ class ProducerMode extends Component {
     this.rawInterviewerNotes = this.props.notes.filter(note => note.type === 'interviewer').reverse();
   }
 
+  isNestedNote(note) {
+    return note[0] === '-' && this.producerNotes.length > 0;
+  }
+
+  parentNoteId() {
+    const parentNotes = this.producerNotes.filter(note => !note.parentId);
+    return parentNotes.length > 0 ? parentNotes[0].id : false;
+  }
+
   onProducerNote(note) {
-    this.props.dispatch(
-      addProducerNote(note.timeStart, note.timeEnd, note.note)
-    );
+    if (this.isNestedNote(note.note)) {
+      const parentNoteId = this.parentNoteId();
+      this.props.dispatch(
+        addNestedProducerNote(note.timeStart, note.timeEnd, note.note, parentNoteId)
+      );
+    } else {
+      this.props.dispatch(
+        addProducerNote(note.timeStart, note.timeEnd, note.note)
+      );
+    }
   }
 
   onInterviewerNote(note) {

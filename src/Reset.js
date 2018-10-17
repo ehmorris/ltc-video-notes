@@ -8,8 +8,10 @@ class Reset extends Component {
   }
 
   onClick() {
-    window.localStorage.clear();
-    window.location.reload();
+    if (window.confirm('This deletes all producer and interviewer notes. Make sure you’ve downloaded them if you want them.')) {
+      window.localStorage.clear();
+      window.location.reload();
+    }
   }
 
   render() {

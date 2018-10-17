@@ -8,8 +8,8 @@ const filteredNotes = (notes, filter) => {
 }
 
 const mapStateToProps = state => ({
-  producerNotes: filteredNotes(state.notes, 'producer'),
-  interviewerNotes: filteredNotes(state.notes, 'interviewer'),
+  producerNotes: filteredNotes(state.notes, 'producer').reverse(),
+  interviewerNotes: filteredNotes(state.notes, 'interviewer').reverse(),
 });
 
 const pad = (n) => n < 10 ? `0${n}` : n;

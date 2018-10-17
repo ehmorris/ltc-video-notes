@@ -6,7 +6,12 @@ const UninitializedMode = ({style}) => {
   return (
     <Container>
       <div>First click “Begin recording”, and you’ll see producer mode, then open a new window and it’ll automatically turn into interviewer mode.</div>
-      <Label>1h20m of runtime; No LTC will be transmitted.</Label>
+      <Label>
+        1h20m of runtime; No LTC will be transmitted.
+        <br />
+        <br />
+        To fullscreen the new window in Chrome, press control+command+F, then shift+command+F to hide the toolbar.
+      </Label>
     </Container>
   );
 }

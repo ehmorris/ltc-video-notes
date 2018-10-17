@@ -3,6 +3,7 @@ import styled from 'react-emotion';
 import Reset from './Reset';
 import Download from './Download';
 import Button from './Button';
+import Label from './Label';
 
 const pluralize = (word, count) => {
   return `${word}${count === 1 ? '' : 's'}`;
@@ -50,6 +51,9 @@ class PausedMode extends Component {
           <Button>
             <Reset text={notesExist ? 'Clear notes and reset' : 'Reset timer'} />
           </Button>
+          <Label>
+            To fullscreen the new window in Chrome, press control+command+F, then shift+command+F to hide the toolbar.
+          </Label>
         </Actions>
       </Container>
     );

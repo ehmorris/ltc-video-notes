@@ -20,7 +20,7 @@ const InterviewerModePreview = (props) => {
           </Button>
         </Label>
       </UrgentLabels>
-      <LatestNote notes={props.latestNote} />
+      <LatestNote notes={props.interviewerNotesWithActions} />
     </animated.div>
   );
 }

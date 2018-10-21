@@ -13,8 +13,10 @@ export const addInterviewerNote = (timeStart, timeEnd, note) => ({
   note
 });
 
-export const clearInterviewerNotes = () => ({
-  type: 'CLEAR_INTERVIEWER_NOTES'
+export const clearInterviewerNotes = (timeStart, timeEnd) => ({
+  type: 'CLEAR_INTERVIEWER_NOTES',
+  timeStart: timeStart,
+  timeEnd: timeEnd
 });
 
 export const addProducerNote = (timeStart, timeEnd, note) => ({

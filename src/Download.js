@@ -4,12 +4,16 @@ import SMPTETimecode from 'smpte-timecode';
 import styled from 'react-emotion';
 
 const filteredNotes = (notes, filter) => {
-  return notes.filter(note => note.type === filter && !note.action).reverse();
+  return notes.filter(note => note.type === filter && !note.action);
+}
+
+const sortByTimeAndParentAsc = (note1, note2) => {
+  return note2.timeStart + note1.timeStart;
 }
 
 const mapStateToProps = state => ({
-  producerNotes: filteredNotes(state.notes, 'producer').reverse(),
-  interviewerNotes: filteredNotes(state.notes, 'interviewer').reverse(),
+  producerNotes: filteredNotes(state.notes, 'producer').sort(sortByTimeAndParentAsc),
+  interviewerNotes: filteredNotes(state.notes, 'interviewer').sort(sortByTimeAndParentAsc),
 });
 
 const pad = (n) => n < 10 ? `0${n}` : n;

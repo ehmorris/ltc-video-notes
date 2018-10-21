@@ -11,7 +11,11 @@ import styled from 'react-emotion';
 import { Transition } from 'react-spring';
 
 const filteredNotes = (notes, filter) => {
-  return notes.filter(note => note.type === filter && !note.action).reverse();
+  return notes.filter(note => note.type === filter && !note.action);
+}
+
+const sortByTimeAndParentDesc = (note1, note2) => {
+  return note2.timeStart - note1.timeStart;
 }
 
 class ProducerMode extends Component {
@@ -31,12 +35,12 @@ class ProducerMode extends Component {
   }
 
   updateNotes() {
-    this.producerNotes = filteredNotes(this.props.notes, 'producer');
-    this.interviewerNotes = filteredNotes(this.props.notes, 'interviewer');
-    this.rawInterviewerNotes = this.props.notes.filter(note => note.type === 'interviewer').reverse();
+    this.producerNotes = filteredNotes(this.props.notes, 'producer').sort(sortByTimeAndParentDesc);
+    this.interviewerNotes = filteredNotes(this.props.notes, 'interviewer').sort(sortByTimeAndParentDesc);
+    this.interviewerNotesWithActions = this.props.notes.filter(note => note.type === 'interviewer').sort(sortByTimeAndParentDesc);
   }
 
-  isNestedNote(note) {
+  isNestedNote({note}) {
     return note[0] === '-' && this.producerNotes.length > 0;
   }
 
@@ -46,7 +50,7 @@ class ProducerMode extends Component {
   }
 
   onProducerNote(note) {
-    if (this.isNestedNote(note.note)) {
+    if (this.isNestedNote(note)) {
       const parentNoteId = this.parentNoteId();
       this.props.dispatch(
         addNestedProducerNote(note.timeStart, note.timeEnd, note.note, parentNoteId)
@@ -65,11 +69,11 @@ class ProducerMode extends Component {
   }
 
   onClearPrompt() {
-    this.props.dispatch(clearInterviewerNotes());
+    this.props.dispatch(clearInterviewerNotes(this.props.time, this.props.time));
   }
 
   render() {
-    const noteExists = this.rawInterviewerNotes.length > 0 && !this.rawInterviewerNotes[0].action;
+    const latestNoteIsNotAction = this.interviewerNotesWithActions.length > 0 && !this.interviewerNotesWithActions[0].action;
 
     return (
       <Grid>
@@ -91,12 +95,12 @@ class ProducerMode extends Component {
               enter={{ opacity: 1, scale: 1 }}
               leave={{ opacity: 0, scale: 0.98 }}
             >
-              {noteExists
+              {latestNoteIsNotAction
                 ? (style => (
                   <InterviewerModePreview
                     style={style}
                     onClearPrompt={this.onClearPrompt}
-                    latestNote={this.rawInterviewerNotes}
+                    interviewerNotesWithActions={this.interviewerNotesWithActions}
                   />
                 ))
                 : (style => (
@@ -111,7 +115,7 @@ class ProducerMode extends Component {
             </Transition>
           </InterviewerBox>
 
-          {this.rawInterviewerNotes.length > 0 &&
+          {this.interviewerNotes.length > 0 &&
             <Details>
               <Summary><Label><Button>Interviewer note log</Button></Label></Summary>
               <Notes notes={this.interviewerNotes} />

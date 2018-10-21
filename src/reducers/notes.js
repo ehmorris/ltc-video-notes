@@ -16,7 +16,9 @@ const notes = (state = [], action) => {
         ...state,
         {
           type: 'interviewer',
-          action: 'clear'
+          action: 'clear',
+          timeStart: action.timeStart,
+          timeEnd: action.timeEnd
         }
       ];
     case 'ADD_PRODUCER_NOTE':

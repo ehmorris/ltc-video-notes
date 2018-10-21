@@ -20,6 +20,8 @@ const sortByTimeAndParentDesc = (note1, note2) => {
   }
 }
 
+const sortByTimeAsc = (note1, note2) => note2.timeStart - note1.timeStart;
+
 class ProducerMode extends Component {
   constructor(props) {
     super(props);
@@ -27,19 +29,19 @@ class ProducerMode extends Component {
     this.onProducerNote = this.onProducerNote.bind(this);
     this.onInterviewerNote = this.onInterviewerNote.bind(this);
     this.onClearPrompt = this.onClearPrompt.bind(this);
-    this.updateNotes();
+    this.sortAndFilterNotes();
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.notes.length !== this.props.notes.length) {
-      this.updateNotes();
+      this.sortAndFilterNotes();
     }
   }
 
-  updateNotes() {
+  sortAndFilterNotes() {
     this.producerNotes = Array.from(nonActionNotesByType(this.props.notes, 'producer')).sort(sortByTimeAndParentDesc);
-    this.interviewerNotes = Array.from(nonActionNotesByType(this.props.notes, 'interviewer')).sort(sortByTimeAndParentDesc);
-    this.interviewerNotesWithActions = Array.from(this.props.notes.filter(note => note.type === 'interviewer')).sort(sortByTimeAndParentDesc);
+    this.interviewerNotes = Array.from(nonActionNotesByType(this.props.notes, 'interviewer')).sort(sortByTimeAsc);
+    this.interviewerNotesWithActions = Array.from(this.props.notes.filter(note => note.type === 'interviewer')).sort(sortByTimeAsc);
    }
 
   isNestedNote({note}) {

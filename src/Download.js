@@ -5,11 +5,19 @@ import styled from 'react-emotion';
 
 const nonActionNotesByType = (notes, filter) => notes.filter(note => note.type === filter && !note.action);
 
-const sortByTimeAndParentAsc = (note1, note2) => note1.timeStart - note2.timeStart;
+const sortByTimeAndParentAsc = (note1, note2) => {
+  if (!note1.parentId && note1.id === note2.parentId) {
+    return -1;
+  } else {
+    return note1.timeStart - note2.timeStart;
+  }
+}
+
+const sortByTimeAsc = (note1, note2) => note1.timeStart - note2.timeStart;
 
 const mapStateToProps = state => ({
   producerNotes: nonActionNotesByType(state.notes, 'producer').sort(sortByTimeAndParentAsc),
-  interviewerNotes: nonActionNotesByType(state.notes, 'interviewer').sort(sortByTimeAndParentAsc),
+  interviewerNotes: nonActionNotesByType(state.notes, 'interviewer').sort(sortByTimeAsc),
 });
 
 const pad = (n) => n < 10 ? `0${n}` : n;

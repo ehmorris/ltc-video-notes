@@ -10,15 +10,15 @@ import InterviewerModePrompt from './InterviewerModePrompt';
 import styled from 'react-emotion';
 import { Transition } from 'react-spring';
 
-const filteredNotes = (notes, filter) => notes.filter(note => note.type === filter && !note.action);
+const nonActionNotesByType = (notes, filter) => notes.filter(note => note.type === filter && !note.action);
 
 const sortByTimeAndParentDesc = (note1, note2) => {
   return note2.timeStart - note1.timeStart;
 }
 
 const mapStateToProps = state => ({
-  producerNotes: filteredNotes(state.notes, 'producer').sort(sortByTimeAndParentDesc),
-  interviewerNotes: filteredNotes(state.notes, 'interviewer').sort(sortByTimeAndParentDesc),
+  producerNotes: nonActionNotesByType(state.notes, 'producer').sort(sortByTimeAndParentDesc),
+  interviewerNotes: nonActionNotesByType(state.notes, 'interviewer').sort(sortByTimeAndParentDesc),
   interviewerNotesWithActions: state.notes.filter(note => note.type === 'interviewer').sort(sortByTimeAndParentDesc),
 });
 

@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import SMPTETimecode from 'smpte-timecode';
 import styled from 'react-emotion';
 
-const filteredNotes = (notes, filter) => notes.filter(note => note.type === filter && !note.action);
+const nonActionNotesByType = (notes, filter) => notes.filter(note => note.type === filter && !note.action);
 
 const sortByTimeAndParentAsc = (note1, note2) => note1.timeStart - note2.timeStart;
 
 const mapStateToProps = state => ({
-  producerNotes: filteredNotes(state.notes, 'producer').sort(sortByTimeAndParentAsc),
-  interviewerNotes: filteredNotes(state.notes, 'interviewer').sort(sortByTimeAndParentAsc),
+  producerNotes: nonActionNotesByType(state.notes, 'producer').sort(sortByTimeAndParentAsc),
+  interviewerNotes: nonActionNotesByType(state.notes, 'interviewer').sort(sortByTimeAndParentAsc),
 });
 
 const pad = (n) => n < 10 ? `0${n}` : n;

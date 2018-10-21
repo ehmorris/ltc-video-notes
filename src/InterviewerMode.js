@@ -34,7 +34,7 @@ class InterviewerMode extends Component {
     return (
       <Screen>
         <ClockSize displaySmall={latestNoteIsNotAction}>
-          <Textfit min={40} max={1000} mode="single" throttle={1000} onReady={this.logReady}>
+          <Textfit min={40} max={1000} mode="single" onReady={this.logReady}>
             <BigClock time={this.props.time} />
           </Textfit>
         </ClockSize>

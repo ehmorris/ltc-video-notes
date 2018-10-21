@@ -10,13 +10,17 @@ import InterviewerModePrompt from './InterviewerModePrompt';
 import styled from 'react-emotion';
 import { Transition } from 'react-spring';
 
-const filteredNotes = (notes, filter) => {
-  return notes.filter(note => note.type === filter && !note.action);
-}
+const filteredNotes = (notes, filter) => notes.filter(note => note.type === filter && !note.action);
 
 const sortByTimeAndParentDesc = (note1, note2) => {
   return note2.timeStart - note1.timeStart;
 }
+
+const mapStateToProps = state => ({
+  producerNotes: filteredNotes(state.notes, 'producer').sort(sortByTimeAndParentDesc),
+  interviewerNotes: filteredNotes(state.notes, 'interviewer').sort(sortByTimeAndParentDesc),
+  interviewerNotesWithActions: state.notes.filter(note => note.type === 'interviewer').sort(sortByTimeAndParentDesc),
+});
 
 class ProducerMode extends Component {
   constructor(props) {
@@ -25,27 +29,14 @@ class ProducerMode extends Component {
     this.onProducerNote = this.onProducerNote.bind(this);
     this.onInterviewerNote = this.onInterviewerNote.bind(this);
     this.onClearPrompt = this.onClearPrompt.bind(this);
-    this.updateNotes();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.notes.length !== this.props.notes.length) {
-      this.updateNotes();
-    }
-  }
-
-  updateNotes() {
-    this.producerNotes = filteredNotes(this.props.notes, 'producer').sort(sortByTimeAndParentDesc);
-    this.interviewerNotes = filteredNotes(this.props.notes, 'interviewer').sort(sortByTimeAndParentDesc);
-    this.interviewerNotesWithActions = this.props.notes.filter(note => note.type === 'interviewer').sort(sortByTimeAndParentDesc);
   }
 
   isNestedNote({note}) {
-    return note[0] === '-' && this.producerNotes.length > 0;
+    return note[0] === '-' && this.props.producerNotes.length > 0;
   }
 
   parentNoteId() {
-    const parentNotes = this.producerNotes.filter(note => !note.parentId);
+    const parentNotes = this.props.producerNotes.filter(note => !note.parentId);
     return parentNotes.length > 0 ? parentNotes[0].id : false;
   }
 
@@ -73,7 +64,7 @@ class ProducerMode extends Component {
   }
 
   render() {
-    const latestNoteIsNotAction = this.interviewerNotesWithActions.length > 0 && !this.interviewerNotesWithActions[0].action;
+    const latestNoteIsNotAction = this.props.interviewerNotesWithActions.length > 0 && !this.props.interviewerNotesWithActions[0].action;
 
     return (
       <Grid>
@@ -84,7 +75,7 @@ class ProducerMode extends Component {
             label="Add a producer note"
             autoFocus
           />
-          <Notes notes={this.producerNotes} />
+          <Notes notes={this.props.producerNotes} />
         </Column>
 
         <Column>
@@ -100,7 +91,7 @@ class ProducerMode extends Component {
                   <InterviewerModePreview
                     style={style}
                     onClearPrompt={this.onClearPrompt}
-                    interviewerNotesWithActions={this.interviewerNotesWithActions}
+                    interviewerNotesWithActions={this.props.interviewerNotesWithActions}
                   />
                 ))
                 : (style => (
@@ -115,10 +106,10 @@ class ProducerMode extends Component {
             </Transition>
           </InterviewerBox>
 
-          {this.interviewerNotes.length > 0 &&
+          {this.props.interviewerNotes.length > 0 &&
             <Details>
               <Summary><Label><Button>Interviewer note log</Button></Label></Summary>
-              <Notes notes={this.interviewerNotes} />
+              <Notes notes={this.props.interviewerNotes} />
             </Details>
           }
         </Column>
@@ -127,7 +118,9 @@ class ProducerMode extends Component {
   }
 }
 
-export default connect()(ProducerMode);
+export default connect(
+  mapStateToProps
+)(ProducerMode);
 
 const Grid = styled('div')`
   display: grid;

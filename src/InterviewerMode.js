@@ -3,25 +3,14 @@ import styled from 'react-emotion';
 import BigClock from './BigClock';
 import { Textfit } from '@wootencl/react-textfit';
 
+const sortByTimeAndParentDesc = (note1, note2) => {
+  return note2.timeStart - note1.timeStart;
+}
+
 class InterviewerMode extends Component {
-  constructor(props) {
-    super(props);
-
-    this.updateNotes();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.notes.length !== this.props.notes.length) {
-      this.updateNotes();
-    }
-  }
-
-  updateNotes() {
-    this.latestNotes = this.props.notes.filter(note => note.type === 'interviewer').reverse();
-  }
-
   render() {
-    const noteExists = this.latestNotes.length > 0 && !this.latestNotes[0].action;
+    const latestNotes = this.props.notes.filter(note => note.type === 'interviewer').sort(sortByTimeAndParentDesc);
+    const noteExists = latestNotes.length > 0 && !latestNotes[0].action;
 
     return (
       <Screen>
@@ -31,7 +20,7 @@ class InterviewerMode extends Component {
 
         {noteExists &&
           <PromptTextFit min={40} max={1000}>
-            {this.latestNotes[0].note}
+            {latestNotes[0].note}
           </PromptTextFit>
         }
       </Screen>

@@ -42,7 +42,7 @@ class ProducerMode extends Component {
     this.producerNotes = Array.from(nonActionNotesByType(this.props.notes, 'producer')).sort(sortByTimeAndParentDesc);
     this.interviewerNotes = Array.from(nonActionNotesByType(this.props.notes, 'interviewer')).sort(sortByTimeAsc);
     this.interviewerNotesWithActions = Array.from(this.props.notes.filter(note => note.type === 'interviewer')).sort(sortByTimeAsc);
-   }
+  }
 
   isNestedNote({note}) {
     return note[0] === '-' && this.producerNotes.length > 0;

@@ -3,24 +3,45 @@ import styled from 'react-emotion';
 import BigClock from './BigClock';
 import { Textfit } from '@wootencl/react-textfit';
 
-const sortByTimeAndParentDesc = (note1, note2) => {
+const sortByTimeDesc = (note1, note2) => {
   return note2.timeStart - note1.timeStart;
 }
 
 class InterviewerMode extends Component {
+  constructor(props) {
+    super(props);
+
+    this.sortAndFilterNotes();
+  }
+
+  logReady() {
+    console.log('ready');
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.notes.length !== this.props.notes.length) {
+      this.sortAndFilterNotes();
+    }
+  }
+
+  sortAndFilterNotes() {
+    this.latestNotes = this.props.notes.filter(note => note.type === 'interviewer').sort(sortByTimeDesc);
+  }
+
   render() {
-    const latestNotes = this.props.notes.filter(note => note.type === 'interviewer').sort(sortByTimeAndParentDesc);
-    const noteExists = latestNotes.length > 0 && !latestNotes[0].action;
+    const latestNoteIsNotAction = this.latestNotes.length > 0 && !this.latestNotes[0].action;
 
     return (
       <Screen>
-        <ClockSize min={40} max={1000} noteExists={noteExists}>
-          <BigClock time={this.props.time} />
+        <ClockSize displaySmall={latestNoteIsNotAction}>
+          <Textfit min={40} max={1000} mode="single" throttle={1000} onReady={this.logReady}>
+            <BigClock time={this.props.time} />
+          </Textfit>
         </ClockSize>
 
-        {noteExists &&
+        {latestNoteIsNotAction &&
           <PromptTextFit min={40} max={1000}>
-            {latestNotes[0].note}
+            {this.latestNotes[0].note}
           </PromptTextFit>
         }
       </Screen>
@@ -40,8 +61,8 @@ const Screen = styled('div')`
   user-select: none;
 `;
 
-const ClockSize = styled(Textfit)`
-  height: ${props => props.noteExists ? 'calc(15vh - 24px)' : 'calc(100vh - 48px)'};
+const ClockSize = styled('div')`
+  height: ${props => props.displaySmall ? 'calc(15vh - 24px)' : 'calc(100vh - 48px)'};
 
   * { height: 100%; }
 `;

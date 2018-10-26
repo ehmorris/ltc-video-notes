@@ -1,6 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import WritingSurface from './WritingSurface';
 import { animated } from 'react-spring';
+
+const mapStateToProps = state => ({
+  time: state.time,
+});
 
 const InterviewerModePrompt = (props) => {
   return (
@@ -18,7 +23,7 @@ const InterviewerModePrompt = (props) => {
   );
 }
 
-export default InterviewerModePrompt;
+export default connect()(InterviewerModePrompt);
 
 const interviewerNotePrompt = {
   border: '1px solid #000',

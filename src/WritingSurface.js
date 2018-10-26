@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import styled from 'react-emotion';
+
+const mapStateToProps = state => ({
+  time: state.time,
+  notes: state.notes,
+});
+
+const sortByTimeDesc = (note1, note2) => note2.timeStart - note1.timeStart;
+
+const latestParentNoteByType = (notes, filter) => notes.filter(note => note.type === filter && !note.action && !note.parentId);
 
 class WritingSurface extends Component {
   constructor(props) {
@@ -12,14 +22,30 @@ class WritingSurface extends Component {
     this.state = {
       timeStart: null,
       note: '',
+      hasNestingSyntax: false,
     }
   }
 
-  addNote(note) {
+  parentNoteId() {
+    const parentNotes = Array.from(
+      latestParentNoteByType(this.props.notes, this.props.noteType)
+    ).sort(sortByTimeDesc);
+
+    return parentNotes.length > 0 ? parentNotes[0].id : false;
+  }
+
+  addNote() {
+    let parentNoteId = false;
+
+    if (this.state.hasNestingSyntax && this.props.noteType) {
+      parentNoteId = this.parentNoteId();
+    }
+
     this.props.onAddedNote({
       timeStart: this.state.timeStart,
       timeEnd: this.props.time,
       note: this.state.note,
+      parentNoteId: parentNoteId,
     });
 
     this.setState({
@@ -69,7 +95,7 @@ class WritingSurface extends Component {
   }
 }
 
-export default WritingSurface;
+export default connect()(WritingSurface);
 
 const MinimalTextarea = styled(Textarea)`
   -webkit-appearance: none;

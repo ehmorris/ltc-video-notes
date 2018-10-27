@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import styled from 'react-emotion';
+
+const mapStateToProps = state => ({
+  time: state.time,
+});
 
 class WritingSurface extends Component {
   constructor(props) {
@@ -69,7 +74,9 @@ class WritingSurface extends Component {
   }
 }
 
-export default WritingSurface;
+export default connect(
+  mapStateToProps
+)(WritingSurface);
 
 const MinimalTextarea = styled(Textarea)`
   -webkit-appearance: none;

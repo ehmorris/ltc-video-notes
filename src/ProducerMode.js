@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addProducerNote, addNestedProducerNote, addInterviewerNote, clearInterviewerNotes } from './actions';
+import { addProducerNote, addNestedProducerNote, addInterviewerNote } from './actions';
 import WritingSurface from './WritingSurface';
 import Notes from './Notes';
 import Button from './Button';
@@ -28,7 +28,6 @@ class ProducerMode extends Component {
 
     this.onProducerNote = this.onProducerNote.bind(this);
     this.onInterviewerNote = this.onInterviewerNote.bind(this);
-    this.onClearPrompt = this.onClearPrompt.bind(this);
     this.sortAndFilterNotes();
   }
 
@@ -72,10 +71,6 @@ class ProducerMode extends Component {
     );
   }
 
-  onClearPrompt() {
-    this.props.dispatch(clearInterviewerNotes(this.props.time, this.props.time));
-  }
-
   render() {
     const latestNoteIsNotAction = this.interviewerNotesWithActions.length > 0 && !this.interviewerNotesWithActions[0].action;
 
@@ -84,7 +79,6 @@ class ProducerMode extends Component {
         <Column>
           <WritingSurface
             onAddedNote={this.onProducerNote}
-            time={this.props.time}
             label="Add a producer note"
             autoFocus
           />
@@ -103,7 +97,6 @@ class ProducerMode extends Component {
                 ? (style => (
                   <InterviewerModePreview
                     style={style}
-                    onClearPrompt={this.onClearPrompt}
                     interviewerNotesWithActions={this.interviewerNotesWithActions}
                   />
                 ))
@@ -111,7 +104,6 @@ class ProducerMode extends Component {
                   <InterviewerModePrompt
                     style={style}
                     onAddedNote={this.onInterviewerNote}
-                    time={this.props.time}
                     label="Add an interviewer note"
                   />
                 ))

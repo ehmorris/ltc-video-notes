@@ -81,17 +81,11 @@ class App extends Component {
         </Modal>
 
         {this.state.mode === 'producerMode' &&
-          <ProducerMode
-            time={this.props.time}
-            notes={this.props.notes}
-          />
+          <ProducerMode notes={this.props.notes} />
         }
 
         {this.state.mode === 'interviewerMode' &&
-          <InterviewerMode
-            time={this.props.time}
-            notes={this.props.notes}
-          />
+          <InterviewerMode notes={this.props.notes} />
         }
       </div>
     );

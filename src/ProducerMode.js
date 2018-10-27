@@ -32,27 +32,29 @@ class ProducerMode extends Component {
 
     this.onProducerNote = this.onProducerNote.bind(this);
     this.onInterviewerNote = this.onInterviewerNote.bind(this);
-    this.sortAndFilterNotes();
+    this.state = this.sortAndFilterNotes();
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.notes.length !== this.props.notes.length) {
-      this.sortAndFilterNotes();
+      this.setState(this.sortAndFilterNotes());
     }
   }
 
   sortAndFilterNotes() {
-    this.producerNotes = Array.from(nonActionNotesByType(this.props.notes, 'producer')).sort(sortByTimeAndParentDesc);
-    this.interviewerNotes = Array.from(nonActionNotesByType(this.props.notes, 'interviewer')).sort(sortByTimeAsc);
-    this.interviewerNotesWithActions = Array.from(this.props.notes.filter(note => note.type === 'interviewer')).sort(sortByTimeAsc);
+    return {
+      producerNotes: Array.from(nonActionNotesByType(this.props.notes, 'producer')).sort(sortByTimeAndParentDesc),
+      interviewerNotes: Array.from(nonActionNotesByType(this.props.notes, 'interviewer')).sort(sortByTimeAsc),
+      interviewerNotesWithActions: Array.from(this.props.notes.filter(note => note.type === 'interviewer')).sort(sortByTimeAsc),
+    }
   }
 
   isNestedNote({note}) {
-    return note[0] === '-' && this.producerNotes.length > 0;
+    return note[0] === '-' && this.state.producerNotes.length > 0;
   }
 
   parentNoteId() {
-    const parentNotes = this.producerNotes.filter(note => !note.parentId);
+    const parentNotes = this.state.producerNotes.filter(note => !note.parentId);
     return parentNotes.length > 0 ? parentNotes[0].id : false;
   }
 
@@ -76,7 +78,7 @@ class ProducerMode extends Component {
   }
 
   render() {
-    const latestNoteIsNotAction = this.interviewerNotesWithActions.length > 0 && !this.interviewerNotesWithActions[0].action;
+    const latestNoteIsNotAction = this.state.interviewerNotesWithActions.length > 0 && !this.state.interviewerNotesWithActions[0].action;
 
     return (
       <Grid>
@@ -86,7 +88,7 @@ class ProducerMode extends Component {
             label="Add a producer note"
             autoFocus
           />
-          <Notes notes={this.producerNotes} />
+          <Notes notes={this.state.producerNotes} />
         </Column>
 
         <Column>
@@ -101,7 +103,7 @@ class ProducerMode extends Component {
                 ? (style => (
                   <InterviewerModePreview
                     style={style}
-                    interviewerNotesWithActions={this.interviewerNotesWithActions}
+                    interviewerNotesWithActions={this.state.interviewerNotesWithActions}
                   />
                 ))
                 : (style => (
@@ -115,10 +117,10 @@ class ProducerMode extends Component {
             </Transition>
           </InterviewerBox>
 
-          {this.interviewerNotes.length > 0 &&
+          {this.state.interviewerNotes.length > 0 &&
             <Details>
               <Summary><Label><Button>Interviewer note log</Button></Label></Summary>
-              <Notes notes={this.interviewerNotes} />
+              <Notes notes={this.state.interviewerNotes} />
             </Details>
           }
         </Column>

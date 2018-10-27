@@ -22,6 +22,10 @@ const sortByTimeAndParentDesc = (note1, note2) => {
 
 const sortByTimeAsc = (note1, note2) => note2.timeStart - note1.timeStart;
 
+const mapStateToProps = state => ({
+  notes: state.notes,
+});
+
 class ProducerMode extends Component {
   constructor(props) {
     super(props);
@@ -123,7 +127,9 @@ class ProducerMode extends Component {
   }
 }
 
-export default connect()(ProducerMode);
+export default connect(
+  mapStateToProps
+)(ProducerMode);
 
 const Grid = styled('div')`
   display: grid;

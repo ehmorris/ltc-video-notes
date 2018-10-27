@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styled from 'react-emotion';
 import BigClock from './BigClock';
 import { Textfit } from '@wootencl/react-textfit';
@@ -6,6 +7,10 @@ import { Textfit } from '@wootencl/react-textfit';
 const sortByTimeDesc = (note1, note2) => {
   return note2.timeStart - note1.timeStart;
 }
+
+const mapStateToProps = state => ({
+  notes: state.notes,
+});
 
 class InterviewerMode extends Component {
   constructor(props) {
@@ -49,7 +54,9 @@ class InterviewerMode extends Component {
   }
 }
 
-export default InterviewerMode;
+export default connect(
+  mapStateToProps
+)(InterviewerMode);
 
 const Screen = styled('div')`
   width: 100vw;

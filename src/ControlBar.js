@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateTime } from './actions';
-import AudioFile from './1-hour-and-20-minutes-of-silence.mp3';
+import AudioFile from './2_hours_of_silence.ogg';
 import Audio from 'react-audio-player';
 import Clock from './Clock';
 import Button from './Button';

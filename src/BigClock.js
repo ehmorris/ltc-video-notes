@@ -1,21 +1,33 @@
 import React from 'react';
+import SMPTETimecode from 'smpte-timecode';
+import { connect } from 'react-redux';
 import styled from 'react-emotion';
 
 const pad = (n) => n < 10 ? `0${n}` : n;
 
-const BigClock = (props) => {
-  const date = new Date(props.time * 1000);
-  const minutes = `${pad(date.getUTCMinutes())}m`;
-  const seconds = `${pad(date.getUTCSeconds())}s`;
+const mapStateToProps = state => ({
+  time: state.time,
+});
+
+const BigClock = ({time}) => {
+  let dateObject = new Date();
+  dateObject.setHours(0, 0, 0);
+  dateObject.setMilliseconds(time * 1000);
+
+  const formattedTime = new SMPTETimecode(dateObject, 23.976);
+  const minutes = pad(formattedTime.minutes);
+  const seconds = pad(formattedTime.seconds);
 
   return (
     <Monospace>
-      {minutes}{'\u2005'}<Deemphasized>{seconds}</Deemphasized>
+      {minutes}m{'\u2005'}<Deemphasized>{seconds}s</Deemphasized>
     </Monospace>
   );
 };
 
-export default BigClock;
+export default connect(
+  mapStateToProps
+)(BigClock);
 
 const Monospace = styled('div')`
   font-family: 'IBM Plex Mono', monospace;

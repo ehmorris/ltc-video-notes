@@ -7,6 +7,10 @@ import Clock from './Clock';
 import Button from './Button';
 import styled, { keyframes } from 'react-emotion';
 
+const mapStateToProps = state => ({
+  time: state.time,
+});
+
 class ControlBar extends Component {
   constructor(props) {
     super(props);
@@ -36,6 +40,10 @@ class ControlBar extends Component {
     this.props.dispatch(
       updateTime(this.props.time)
     );
+  }
+
+  componentWillUnmount() {
+    window.clearTimeout(this.timer);
   }
 
   isLoaded() {
@@ -113,7 +121,9 @@ class ControlBar extends Component {
   }
 }
 
-export default connect()(ControlBar);
+export default connect(
+  mapStateToProps
+)(ControlBar);
 
 const Bar = styled('div')`
   width: 100%;

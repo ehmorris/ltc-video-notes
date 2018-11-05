@@ -66,7 +66,6 @@ class App extends Component {
         {this.state.mode !== 'interviewerMode' &&
           <ControlBar
             mode={this.state.mode}
-            time={this.props.time}
             onPlay={this.producerMode}
             onPause={this.pausedMode}
           />
@@ -81,17 +80,11 @@ class App extends Component {
         </Modal>
 
         {this.state.mode === 'producerMode' &&
-          <ProducerMode
-            time={this.props.time}
-            notes={this.props.notes}
-          />
+          <ProducerMode />
         }
 
         {this.state.mode === 'interviewerMode' &&
-          <InterviewerMode
-            time={this.props.time}
-            notes={this.props.notes}
-          />
+          <InterviewerMode />
         }
       </div>
     );

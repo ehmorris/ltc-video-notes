@@ -7,8 +7,8 @@ const Notes = ({notes}) => {
     <Trail
       native
       keys={notes.map(note => note.id)}
-      from={{ opacity: .5, transform: 'translateY(-15px)' }}
-      to={{ opacity: 1, transform: 'translateY(0px)' }}
+      from={{ opacity: .5, y: -15 }}
+      to={{ opacity: 1, y: 0 }}
     >
       {notes.map(note => styles => <Note style={styles} note={note} />)}
     </Trail>

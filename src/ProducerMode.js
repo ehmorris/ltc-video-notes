@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addProducerNote, addInterviewerNote, clearInterviewerNotes } from './actions';
+import { addProducerNote, addNestedProducerNote, addInterviewerNote } from './actions';
 import WritingSurface from './WritingSurface';
 import Notes from './Notes';
 import Button from './Button';
@@ -10,9 +10,21 @@ import InterviewerModePrompt from './InterviewerModePrompt';
 import styled from 'react-emotion';
 import { Transition } from 'react-spring';
 
-const filteredNotes = (notes, filter) => {
-  return notes.filter(note => note.type === filter && !note.action).reverse();
+const nonActionNotesByType = (notes, filter) => notes.filter(note => note.type === filter && !note.action);
+
+const sortByTimeAndParentDesc = (note1, note2) => {
+  if (!note2.parentId && note2.id === note1.parentId) {
+    return 1;
+  } else {
+    return note2.timeStart - note1.timeStart;
+  }
 }
+
+const sortByTimeDesc = (note1, note2) => note2.timeStart - note1.timeStart;
+
+const mapStateToProps = state => ({
+  notes: state.notes,
+});
 
 class ProducerMode extends Component {
   constructor(props) {
@@ -20,26 +32,43 @@ class ProducerMode extends Component {
 
     this.onProducerNote = this.onProducerNote.bind(this);
     this.onInterviewerNote = this.onInterviewerNote.bind(this);
-    this.onClearPrompt = this.onClearPrompt.bind(this);
-    this.updateNotes();
+    this.state = this.sortAndFilterNotes();
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.notes.length !== this.props.notes.length) {
-      this.updateNotes();
+      this.setState(this.sortAndFilterNotes());
     }
   }
 
-  updateNotes() {
-    this.producerNotes = filteredNotes(this.props.notes, 'producer');
-    this.interviewerNotes = filteredNotes(this.props.notes, 'interviewer');
-    this.rawInterviewerNotes = this.props.notes.filter(note => note.type === 'interviewer').reverse();
+  sortAndFilterNotes() {
+    return {
+      producerNotes: Array.from(nonActionNotesByType(this.props.notes, 'producer')).sort(sortByTimeAndParentDesc),
+      interviewerNotes: Array.from(nonActionNotesByType(this.props.notes, 'interviewer')).sort(sortByTimeDesc),
+      interviewerNotesWithActions: Array.from(this.props.notes.filter(note => note.type === 'interviewer')).sort(sortByTimeDesc),
+    }
+  }
+
+  isNestedNote({note}) {
+    return note[0] === '-' && this.state.producerNotes.length > 0;
+  }
+
+  parentNoteId() {
+    const parentNotes = this.state.producerNotes.filter(note => !note.parentId);
+    return parentNotes.length > 0 ? parentNotes[0].id : false;
   }
 
   onProducerNote(note) {
-    this.props.dispatch(
-      addProducerNote(note.timeStart, note.timeEnd, note.note)
-    );
+    if (this.isNestedNote(note)) {
+      const parentNoteId = this.parentNoteId();
+      this.props.dispatch(
+        addNestedProducerNote(note.timeStart, note.timeEnd, note.note, parentNoteId)
+      );
+    } else {
+      this.props.dispatch(
+        addProducerNote(note.timeStart, note.timeEnd, note.note)
+      );
+    }
   }
 
   onInterviewerNote(note) {
@@ -48,23 +77,18 @@ class ProducerMode extends Component {
     );
   }
 
-  onClearPrompt() {
-    this.props.dispatch(clearInterviewerNotes());
-  }
-
   render() {
-    const noteExists = this.rawInterviewerNotes.length > 0 && !this.rawInterviewerNotes[0].action;
+    const latestNoteIsNotAction = this.state.interviewerNotesWithActions.length > 0 && !this.state.interviewerNotesWithActions[0].action;
 
     return (
       <Grid>
         <Column>
           <WritingSurface
             onAddedNote={this.onProducerNote}
-            time={this.props.time}
             label="Add a producer note"
             autoFocus
           />
-          <Notes notes={this.producerNotes} />
+          <Notes notes={this.state.producerNotes} />
         </Column>
 
         <Column>
@@ -75,19 +99,17 @@ class ProducerMode extends Component {
               enter={{ opacity: 1, scale: 1 }}
               leave={{ opacity: 0, scale: 0.98 }}
             >
-              {noteExists
+              {latestNoteIsNotAction
                 ? (style => (
                   <InterviewerModePreview
                     style={style}
-                    onClearPrompt={this.onClearPrompt}
-                    latestNote={this.rawInterviewerNotes}
+                    interviewerNotesWithActions={this.state.interviewerNotesWithActions}
                   />
                 ))
                 : (style => (
                   <InterviewerModePrompt
                     style={style}
                     onAddedNote={this.onInterviewerNote}
-                    time={this.props.time}
                     label="Add an interviewer note"
                   />
                 ))
@@ -95,10 +117,10 @@ class ProducerMode extends Component {
             </Transition>
           </InterviewerBox>
 
-          {this.rawInterviewerNotes.length > 0 &&
+          {this.state.interviewerNotes.length > 0 &&
             <Details>
               <Summary><Label><Button>Interviewer note log</Button></Label></Summary>
-              <Notes notes={this.interviewerNotes} />
+              <Notes notes={this.state.interviewerNotes} />
             </Details>
           }
         </Column>
@@ -107,7 +129,9 @@ class ProducerMode extends Component {
   }
 }
 
-export default connect()(ProducerMode);
+export default connect(
+  mapStateToProps
+)(ProducerMode);
 
 const Grid = styled('div')`
   display: grid;

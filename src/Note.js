@@ -6,7 +6,13 @@ import { animated } from 'react-spring';
 
 const Note = ({style, note}) => {
   return (
-    <animated.div style={{...style, ...noteContainer}}>
+    <animated.div
+      style={{
+        opacity: style.opacity,
+        transform: style.y.interpolate(y => `translateY(${y}px)`),
+        ...noteContainer
+      }}
+    >
       <Text>
         {note.note}
       </Text>

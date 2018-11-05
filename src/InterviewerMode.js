@@ -17,7 +17,6 @@ class InterviewerMode extends Component {
     this.state = this.sortAndFilterNotes();
   }
 
-
   componentDidUpdate(prevProps) {
     if (prevProps.notes.length !== this.props.notes.length) {
       this.setState(this.sortAndFilterNotes());
@@ -26,7 +25,7 @@ class InterviewerMode extends Component {
 
   sortAndFilterNotes() {
     return {
-      latestNotes: this.props.notes.filter(note => note.type === 'interviewer').sort(sortByTimeDesc),
+      latestNotes: Array.from(this.props.notes.filter(note => note.type === 'interviewer')).sort(sortByTimeDesc),
     }
   }
 
@@ -35,11 +34,17 @@ class InterviewerMode extends Component {
 
     return (
       <Screen>
-        <ClockSize displaySmall={latestNoteIsNotAction}>
-          <Textfit min={40} max={1000} mode="single">
+        {!latestNoteIsNotAction &&
+          <BigClockContainer min={40} max={1000}>
             <BigClock />
-          </Textfit>
-        </ClockSize>
+          </BigClockContainer>
+        }
+
+        {latestNoteIsNotAction &&
+          <SmallClockContainer min={40} max={1000}>
+            <BigClock />
+          </SmallClockContainer>
+        }
 
         {latestNoteIsNotAction &&
           <PromptTextFit min={40} max={1000}>
@@ -65,8 +70,14 @@ const Screen = styled('div')`
   user-select: none;
 `;
 
-const ClockSize = styled('div')`
-  height: ${props => props.displaySmall ? 'calc(15vh - 24px)' : 'calc(100vh - 48px)'};
+const BigClockContainer = styled(Textfit)`
+  height: calc(100vh - 96px);
+
+  * { height: 100%; }
+`;
+
+const SmallClockContainer = styled(Textfit)`
+  height: calc(15vh - 24px);
 
   * { height: 100%; }
 `;

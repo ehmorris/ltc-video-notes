@@ -1,4 +1,5 @@
 import React from 'react';
+import SMPTETimecode from 'smpte-timecode';
 import { connect } from 'react-redux';
 import styled from 'react-emotion';
 
@@ -9,13 +10,17 @@ const mapStateToProps = state => ({
 });
 
 const BigClock = ({time}) => {
-  const date = new Date(time * 1000);
-  const minutes = `${pad(date.getUTCMinutes())}m`;
-  const seconds = `${pad(date.getUTCSeconds())}s`;
+  let dateObject = new Date();
+  dateObject.setHours(0, 0, 0);
+  dateObject.setMilliseconds(time * 1000);
+
+  const formattedTime = new SMPTETimecode(dateObject, 23.976);
+  const minutes = pad(formattedTime.minutes);
+  const seconds = pad(formattedTime.seconds);
 
   return (
     <Monospace>
-      {minutes}{'\u2005'}<Deemphasized>{seconds}</Deemphasized>
+      {minutes}m{'\u2005'}<Deemphasized>{seconds}s</Deemphasized>
     </Monospace>
   );
 };

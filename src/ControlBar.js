@@ -38,6 +38,10 @@ class ControlBar extends Component {
     );
   }
 
+  componentWillUnmount() {
+    window.clearTimeout(this.timer);
+  }
+
   isLoaded() {
     window.clearTimeout(this.timer);
 

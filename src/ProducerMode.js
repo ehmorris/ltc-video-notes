@@ -20,7 +20,7 @@ const sortByTimeAndParentDesc = (note1, note2) => {
   }
 }
 
-const sortByTimeAsc = (note1, note2) => note2.timeStart - note1.timeStart;
+const sortByTimeDesc = (note1, note2) => note2.timeStart - note1.timeStart;
 
 const mapStateToProps = state => ({
   notes: state.notes,
@@ -44,8 +44,8 @@ class ProducerMode extends Component {
   sortAndFilterNotes() {
     return {
       producerNotes: Array.from(nonActionNotesByType(this.props.notes, 'producer')).sort(sortByTimeAndParentDesc),
-      interviewerNotes: Array.from(nonActionNotesByType(this.props.notes, 'interviewer')).sort(sortByTimeAsc),
-      interviewerNotesWithActions: Array.from(this.props.notes.filter(note => note.type === 'interviewer')).sort(sortByTimeAsc),
+      interviewerNotes: Array.from(nonActionNotesByType(this.props.notes, 'interviewer')).sort(sortByTimeDesc),
+      interviewerNotesWithActions: Array.from(this.props.notes.filter(note => note.type === 'interviewer')).sort(sortByTimeDesc),
     }
   }
 

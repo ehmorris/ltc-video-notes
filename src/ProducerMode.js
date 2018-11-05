@@ -13,8 +13,8 @@ import { Transition } from 'react-spring';
 const nonActionNotesByType = (notes, filter) => notes.filter(note => note.type === filter && !note.action);
 
 const sortByTimeAndParentDesc = (note1, note2) => {
-  if (!note1.parentId && note1.id === note2.parentId) {
-    return -1;
+  if (!note2.parentId && note2.id === note1.parentId) {
+    return 1;
   } else {
     return note2.timeStart - note1.timeStart;
   }

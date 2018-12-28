@@ -28,8 +28,12 @@ class ControlBar extends Component {
     }
   }
 
-  componentDidMount() {
+  syncAudioWithState() {
     this.audioTag.current.audioEl.currentTime = this.props.time;
+  }
+
+  componentDidMount() {
+    this.syncAudioWithState();
 
     this.timer = window.setTimeout(() => {
       this.setState({
@@ -40,6 +44,12 @@ class ControlBar extends Component {
     this.props.dispatch(
       updateTime(this.props.time)
     );
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.time > this.props.time) {
+      this.syncAudioWithState();
+    }
   }
 
   componentWillUnmount() {

@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage';
-import { actionStorageMiddleware, createStorageListener } from 'redux-state-sync';
+import { createStateSyncMiddleware } from 'redux-state-sync';
 import appReducer from './reducers';
 import App from './App';
 import './index.css';
@@ -15,13 +15,20 @@ const persistConfig = {
   storage,
 };
 
+const syncConfig = {
+  broadcastChannelOption: { type: 'localstorage' },
+};
+
 const middlewares = [
-  actionStorageMiddleware,
+  createStateSyncMiddleware(syncConfig),
 ];
 
 const rootReducer = (state, action) => {
   if (action.type === 'RESET') {
-    state = undefined;
+    state = {
+      time: 0,
+      notes: [],
+    };
   }
 
   return appReducer(state, action)
@@ -39,5 +46,3 @@ render(
   </Provider>,
   document.getElementById('root')
 );
-
-createStorageListener(store);

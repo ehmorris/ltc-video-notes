@@ -6,7 +6,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage';
 import { actionStorageMiddleware, createStorageListener } from 'redux-state-sync';
-import rootReducer from './reducers';
+import appReducer from './reducers';
 import App from './App';
 import './index.css';
 
@@ -18,6 +18,14 @@ const persistConfig = {
 const middlewares = [
   actionStorageMiddleware,
 ];
+
+const rootReducer = (state, action) => {
+  if (action.type === 'RESET') {
+    state = undefined;
+  }
+
+  return appReducer(state, action)
+}
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = createStore(persistedReducer, {}, applyMiddleware(...middlewares))

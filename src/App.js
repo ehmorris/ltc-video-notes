@@ -31,8 +31,16 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if ((this.state.mode === 'pausedMode' || this.state.mode === 'uninitializedMode') && prevProps.time !== this.props.time) {
-      this.interviewerMode();
+    if (this.props.time === 0) {
+      if (this.state.mode !== 'uninitializedMode') {
+        this.uninitializedMode();
+      }
+    }
+
+    else if (prevProps.time === 0 && prevProps.time !== this.props.time) {
+      if (!document.hasFocus()) {
+        this.interviewerMode();
+      }
     }
   }
 

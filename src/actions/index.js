@@ -35,3 +35,7 @@ export const addNestedProducerNote = (timeStart, timeEnd, note, parentId) => ({
   timeEnd: timeEnd,
   note
 });
+
+export const reset = () => ({
+  type: 'RESET'
+});

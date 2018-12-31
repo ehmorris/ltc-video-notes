@@ -5,8 +5,8 @@ import { createStore, applyMiddleware } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage';
-import { actionStorageMiddleware, createStorageListener } from 'redux-state-sync';
-import rootReducer from './reducers';
+import { createStateSyncMiddleware } from 'redux-state-sync';
+import appReducer from './reducers';
 import App from './App';
 import './index.css';
 
@@ -15,9 +15,26 @@ const persistConfig = {
   storage,
 };
 
+const syncConfig = {
+  channel: 'ltc_video_notes_redux_channel',
+  broadcastChannelOption: { type: 'localstorage' },
+};
+
 const middlewares = [
-  actionStorageMiddleware,
+  createStateSyncMiddleware(syncConfig),
 ];
+
+const rootReducer = (state, action) => {
+  if (action.type === 'RESET') {
+    return state = {
+      time: 0,
+      notes: [],
+      wasReset: true,
+    };
+  }
+
+  return appReducer(state, action)
+}
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = createStore(persistedReducer, {}, applyMiddleware(...middlewares))
@@ -31,5 +48,3 @@ render(
   </Provider>,
   document.getElementById('root')
 );
-
-createStorageListener(store);

@@ -10,6 +10,7 @@ import UninitializedMode from './UninitializedMode';
 const mapStateToProps = state => ({
   time: state.time,
   notes: state.notes,
+  wasReset: state.wasReset,
 });
 
 class App extends Component {
@@ -18,6 +19,7 @@ class App extends Component {
 
     this.producerMode = this.producerMode.bind(this);
     this.pausedMode = this.pausedMode.bind(this);
+    this.modeChannel = new window.BroadcastChannel('ltc_video_notes_mode_channel');
 
     this.state = {
       mode: 'uninitializedMode',
@@ -28,11 +30,17 @@ class App extends Component {
     if (this.props.time > 0) {
       this.pausedMode();
     }
+
+    this.modeChannel.onmessage = ({data: message}) => {
+      if (message === 'producerMode') {
+        this.interviewerMode();
+      }
+    };
   }
 
-  componentDidUpdate(prevProps) {
-    if ((this.state.mode === 'pausedMode' || this.state.mode === 'uninitializedMode') && prevProps.time !== this.props.time) {
-      this.interviewerMode();
+  componentDidUpdate() {
+    if (this.props.wasReset && this.state.mode !== 'uninitializedMode') {
+      this.uninitializedMode();
     }
   }
 
@@ -46,6 +54,8 @@ class App extends Component {
     this.setState({
       mode: 'producerMode',
     });
+
+    this.modeChannel.postMessage('producerMode');
   }
 
   interviewerMode() {

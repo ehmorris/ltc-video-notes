@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { reset } from './actions';
 
 class Reset extends Component {
   constructor(props) {
@@ -9,8 +11,7 @@ class Reset extends Component {
 
   onClick() {
     if (window.confirm('This deletes all producer and interviewer notes. Make sure you’ve downloaded them if you want them.')) {
-      window.localStorage.clear();
-      window.location.reload();
+      this.props.dispatch(reset());
     }
   }
 
@@ -25,4 +26,4 @@ class Reset extends Component {
   }
 }
 
-export default Reset;
+export default connect()(Reset);

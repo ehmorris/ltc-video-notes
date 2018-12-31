@@ -18,6 +18,7 @@ class App extends Component {
 
     this.producerMode = this.producerMode.bind(this);
     this.pausedMode = this.pausedMode.bind(this);
+    this.modeChannel = new window.BroadcastChannel('ltc_video_notes_mode_channel');
 
     this.state = {
       mode: 'uninitializedMode',
@@ -28,20 +29,12 @@ class App extends Component {
     if (this.props.time > 0) {
       this.pausedMode();
     }
-  }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.time === 0) {
-      if (this.state.mode !== 'uninitializedMode') {
-        this.uninitializedMode();
-      }
-    }
-
-    else if (prevProps.time === 0 && prevProps.time !== this.props.time) {
-      if (!document.hasFocus()) {
+    this.modeChannel.onmessage = ({data: message}) => {
+      if (message === 'producerMode') {
         this.interviewerMode();
       }
-    }
+    };
   }
 
   uninitializedMode() {
@@ -54,6 +47,8 @@ class App extends Component {
     this.setState({
       mode: 'producerMode',
     });
+
+    this.modeChannel.postMessage('producerMode');
   }
 
   interviewerMode() {

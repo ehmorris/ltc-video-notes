@@ -16,6 +16,7 @@ const persistConfig = {
 };
 
 const syncConfig = {
+  channel: 'ltc_video_notes_redux_channel',
   broadcastChannelOption: { type: 'localstorage' },
 };
 

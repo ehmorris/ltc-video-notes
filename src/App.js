@@ -10,6 +10,7 @@ import UninitializedMode from './UninitializedMode';
 const mapStateToProps = state => ({
   time: state.time,
   notes: state.notes,
+  wasReset: state.wasReset,
 });
 
 class App extends Component {
@@ -35,6 +36,12 @@ class App extends Component {
         this.interviewerMode();
       }
     };
+  }
+
+  componentDidUpdate() {
+    if (this.props.wasReset && this.state.mode !== 'uninitializedMode') {
+      this.uninitializedMode();
+    }
   }
 
   uninitializedMode() {

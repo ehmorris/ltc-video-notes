@@ -6,6 +6,7 @@ import InterviewerMode from './InterviewerMode';
 import Modal from './Modal';
 import PausedMode from './PausedMode';
 import UninitializedMode from './UninitializedMode';
+import { unReset } from './actions';
 
 const mapStateToProps = state => ({
   time: state.time,
@@ -41,6 +42,7 @@ class App extends Component {
   componentDidUpdate() {
     if (this.props.wasReset && this.state.mode !== 'uninitializedMode') {
       this.uninitializedMode();
+      this.props.dispatch(unReset());
     }
   }
 

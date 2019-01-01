@@ -1,8 +1,7 @@
 import { combineReducers } from 'redux';
 import time from './time';
 import notes from './notes';
-
-const wasReset = () => false;
+import wasReset from './wasReset';
 
 export default combineReducers({
   time,

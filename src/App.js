@@ -32,8 +32,14 @@ class App extends Component {
       this.pausedMode();
     }
 
+    this.modeChannel.postMessage('doesProducerWindowExist');
+
     this.modeChannel.onmessage = ({data: message}) => {
-      if (message === 'producerMode') {
+      if (message === 'doesProducerWindowExist' && this.state.mode === 'producerMode') {
+        this.modeChannel.postMessage('producerWindowExists');
+      }
+
+      if (message === 'producerWindowExists') {
         this.interviewerMode();
       }
     };
@@ -57,7 +63,7 @@ class App extends Component {
       mode: 'producerMode',
     });
 
-    this.modeChannel.postMessage('producerMode');
+    this.modeChannel.postMessage('producerWindowExists');
   }
 
   interviewerMode() {

@@ -46,7 +46,7 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.wasReset && this.state.mode !== 'uninitializedMode') {
+    if (this.props.wasReset === true && this.state.mode !== 'uninitializedMode') {
       this.uninitializedMode();
       this.props.dispatch(unReset());
     }

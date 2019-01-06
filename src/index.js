@@ -33,7 +33,7 @@ const rootReducer = (state, action) => {
     };
   }
 
-  return appReducer(state, action)
+  return appReducer(state, action);
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

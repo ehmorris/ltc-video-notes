@@ -7,29 +7,29 @@ import { Textfit } from '@wootencl/react-textfit';
 const sortByTimeDesc = (note1, note2) => note2.timeStart - note1.timeStart;
 
 const mapStateToProps = state => ({
-  notes: state.notes,
+  notes: state.notes
 });
 
 class InterviewerMode extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.state = this.sortAndFilterNotes();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (prevProps.notes.length !== this.props.notes.length) {
       this.setState(this.sortAndFilterNotes());
     }
   }
 
-  sortAndFilterNotes() {
+  sortAndFilterNotes () {
     return {
-      latestNotes: Array.from(this.props.notes.filter(note => note.type === 'interviewer')).sort(sortByTimeDesc),
-    }
+      latestNotes: Array.from(this.props.notes.filter(note => note.type === 'interviewer')).sort(sortByTimeDesc)
+    };
   }
 
-  render() {
+  render () {
     const latestNoteIsNotAction = this.state.latestNotes.length > 0 && !this.state.latestNotes[0].action;
 
     return (

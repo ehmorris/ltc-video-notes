@@ -12,32 +12,34 @@ import './index.css';
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage
 };
 
 const syncConfig = {
   channel: 'ltc_video_notes_redux_channel',
-  broadcastChannelOption: { type: 'localstorage' },
+  broadcastChannelOption: { type: 'localstorage' }
 };
 
 const middlewares = [
-  createStateSyncMiddleware(syncConfig),
+  createStateSyncMiddleware(syncConfig)
 ];
 
 const rootReducer = (state, action) => {
   if (action.type === 'RESET') {
-    return state = {
+    state = {
       time: 0,
       notes: [],
-      wasReset: true,
+      wasReset: true
     };
+
+    return state;
   }
 
   return appReducer(state, action);
-}
+};
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-const store = createStore(persistedReducer, {}, applyMiddleware(...middlewares))
+const store = createStore(persistedReducer, {}, applyMiddleware(...middlewares));
 const persistor = persistStore(store);
 
 render(

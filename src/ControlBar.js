@@ -8,11 +8,11 @@ import Button from './Button';
 import styled, { keyframes } from 'react-emotion';
 
 const mapStateToProps = state => ({
-  time: state.time,
+  time: state.time
 });
 
 class ControlBar extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.audioTag = React.createRef();
@@ -24,20 +24,20 @@ class ControlBar extends Component {
 
     this.state = {
       loaded: false,
-      showLoader: false,
-    }
+      showLoader: false
+    };
   }
 
-  syncAudioWithState() {
+  syncAudioWithState () {
     this.audioTag.current.audioEl.currentTime = this.props.time;
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.syncAudioWithState();
 
     this.timer = window.setTimeout(() => {
       this.setState({
-        showLoader: true,
+        showLoader: true
       });
     }, 1000);
 
@@ -46,40 +46,40 @@ class ControlBar extends Component {
     );
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (prevProps.time > this.props.time) {
       this.syncAudioWithState();
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     window.clearTimeout(this.timer);
   }
 
-  isLoaded() {
+  isLoaded () {
     window.clearTimeout(this.timer);
 
     this.setState({
       loaded: true,
-      showLoader: false,
+      showLoader: false
     });
   }
 
-  onAudioUpdate(time) {
+  onAudioUpdate (time) {
     this.props.dispatch(
       updateTime(time)
     );
   }
 
-  play() {
+  play () {
     this.audioTag.current.audioEl.play();
   }
 
-  pause() {
+  pause () {
     this.audioTag.current.audioEl.pause();
   }
 
-  render() {
+  render () {
     return (
       <div>
         <Bar>
@@ -158,7 +158,7 @@ const pulse = keyframes`
   0% { transform: scale(1); }
   50% { transform: scale(1.15); }
   100% { transform: scale(1); }
-`
+`;
 
 const WithIndicator = styled('div')`
   position: relative;

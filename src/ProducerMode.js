@@ -18,16 +18,16 @@ const sortByTimeAndParentDesc = (note1, note2) => {
   } else {
     return note2.timeStart - note1.timeStart;
   }
-}
+};
 
 const sortByTimeDesc = (note1, note2) => note2.timeStart - note1.timeStart;
 
 const mapStateToProps = state => ({
-  notes: state.notes,
+  notes: state.notes
 });
 
 class ProducerMode extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.onProducerNote = this.onProducerNote.bind(this);
@@ -35,30 +35,30 @@ class ProducerMode extends Component {
     this.state = this.sortAndFilterNotes();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (prevProps.notes.length !== this.props.notes.length) {
       this.setState(this.sortAndFilterNotes());
     }
   }
 
-  sortAndFilterNotes() {
+  sortAndFilterNotes () {
     return {
       producerNotes: Array.from(nonActionNotesByType(this.props.notes, 'producer')).sort(sortByTimeAndParentDesc),
       interviewerNotes: Array.from(nonActionNotesByType(this.props.notes, 'interviewer')).sort(sortByTimeDesc),
-      interviewerNotesWithActions: Array.from(this.props.notes.filter(note => note.type === 'interviewer')).sort(sortByTimeDesc),
-    }
+      interviewerNotesWithActions: Array.from(this.props.notes.filter(note => note.type === 'interviewer')).sort(sortByTimeDesc)
+    };
   }
 
-  isNestedNote({note}) {
+  isNestedNote ({ note }) {
     return note[0] === '-' && this.state.producerNotes.length > 0;
   }
 
-  parentNoteId() {
+  parentNoteId () {
     const parentNotes = this.state.producerNotes.filter(note => !note.parentId);
     return parentNotes.length > 0 ? parentNotes[0].id : false;
   }
 
-  onProducerNote(note) {
+  onProducerNote (note) {
     if (this.isNestedNote(note)) {
       const parentNoteId = this.parentNoteId();
       this.props.dispatch(
@@ -71,13 +71,13 @@ class ProducerMode extends Component {
     }
   }
 
-  onInterviewerNote(note) {
+  onInterviewerNote (note) {
     this.props.dispatch(
       addInterviewerNote(note.timeStart, note.timeEnd, note.note)
     );
   }
 
-  render() {
+  render () {
     const latestNoteIsNotAction = this.state.interviewerNotesWithActions.length > 0 && !this.state.interviewerNotesWithActions[0].action;
 
     return (
@@ -85,7 +85,7 @@ class ProducerMode extends Component {
         <Column>
           <WritingSurface
             onAddedNote={this.onProducerNote}
-            label="Add a producer note"
+            label='Add a producer note'
             autoFocus
           />
           <Notes notes={this.state.producerNotes} />
@@ -95,24 +95,22 @@ class ProducerMode extends Component {
           <InterviewerBox>
             <Transition
               native
-              from={{ opacity: .5, scale: 0.98 }}
+              from={{ opacity: 0.5, scale: 0.98 }}
               enter={{ opacity: 1, scale: 1 }}
               leave={{ opacity: 0, scale: 0.98 }}
             >
               {latestNoteIsNotAction
-                ? (style => (
+                ? style =>
                   <InterviewerModePreview
                     style={style}
                     interviewerNotesWithActions={this.state.interviewerNotesWithActions}
                   />
-                ))
-                : (style => (
+                : style =>
                   <InterviewerModePrompt
                     style={style}
                     onAddedNote={this.onInterviewerNote}
-                    label="Add an interviewer note"
+                    label='Add an interviewer note'
                   />
-                ))
               }
             </Transition>
           </InterviewerBox>

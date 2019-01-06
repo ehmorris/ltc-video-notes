@@ -11,11 +11,11 @@ import { unReset } from './actions';
 const mapStateToProps = state => ({
   time: state.time,
   notes: state.notes,
-  wasReset: state.wasReset,
+  wasReset: state.wasReset
 });
 
 class App extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.producerMode = this.producerMode.bind(this);
@@ -23,18 +23,18 @@ class App extends Component {
     this.modeChannel = new window.BroadcastChannel('ltc_video_notes_mode_channel');
 
     this.state = {
-      mode: 'uninitializedMode',
-    }
+      mode: 'uninitializedMode'
+    };
   }
 
-  componentDidMount() {
+  componentDidMount () {
     if (this.props.time > 0) {
       this.pausedMode();
     }
 
     this.modeChannel.postMessage('doesProducerWindowExist');
 
-    this.modeChannel.onmessage = ({data: message}) => {
+    this.modeChannel.onmessage = ({ data: message }) => {
       if (message === 'doesProducerWindowExist' && this.state.mode === 'producerMode') {
         this.modeChannel.postMessage('producerWindowExists');
       }
@@ -45,40 +45,40 @@ class App extends Component {
     };
   }
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     if (this.props.wasReset === true && this.state.mode !== 'uninitializedMode') {
       this.uninitializedMode();
       this.props.dispatch(unReset());
     }
   }
 
-  uninitializedMode() {
+  uninitializedMode () {
     this.setState({
-      mode: 'uninitializedMode',
+      mode: 'uninitializedMode'
     });
   }
 
-  producerMode() {
+  producerMode () {
     this.setState({
-      mode: 'producerMode',
+      mode: 'producerMode'
     });
 
     this.modeChannel.postMessage('producerWindowExists');
   }
 
-  interviewerMode() {
+  interviewerMode () {
     this.setState({
-      mode: 'interviewerMode',
+      mode: 'interviewerMode'
     });
   }
 
-  pausedMode() {
+  pausedMode () {
     this.setState({
-      mode: 'pausedMode',
+      mode: 'pausedMode'
     });
   }
 
-  render() {
+  render () {
     return (
       <div>
         {this.state.mode !== 'interviewerMode' &&

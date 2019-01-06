@@ -4,7 +4,7 @@ import Timecode from './Timecode';
 import styled from 'react-emotion';
 import { animated } from 'react-spring';
 
-const Note = ({style, note}) => {
+const Note = ({ style, note }) => {
   return (
     <animated.div
       style={{
@@ -29,7 +29,7 @@ export default Note;
 
 const noteContainer = {
   width: '100%',
-  marginTop: '48px',
+  marginTop: '48px'
 };
 
 const Timespan = styled('div')`

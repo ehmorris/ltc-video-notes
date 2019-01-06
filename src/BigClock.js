@@ -6,10 +6,10 @@ import styled from 'react-emotion';
 const pad = (n) => n < 10 ? `0${n}` : n;
 
 const mapStateToProps = state => ({
-  time: state.time,
+  time: state.time
 });
 
-const BigClock = ({time}) => {
+const BigClock = ({ time }) => {
   let dateObject = new Date();
   dateObject.setHours(0, 0, 0);
   dateObject.setMilliseconds(time * 1000);

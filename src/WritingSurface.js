@@ -4,11 +4,11 @@ import Textarea from 'react-textarea-autosize';
 import styled from 'react-emotion';
 
 const mapStateToProps = state => ({
-  time: state.time,
+  time: state.time
 });
 
 class WritingSurface extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.handleKey = this.handleKey.bind(this);
@@ -16,40 +16,40 @@ class WritingSurface extends Component {
 
     this.state = {
       timeStart: null,
-      note: '',
-    }
+      note: ''
+    };
   }
 
-  addNote(note) {
+  addNote (note) {
     this.props.onAddedNote({
       timeStart: this.state.timeStart,
       timeEnd: this.props.time,
-      note: this.state.note,
+      note: this.state.note
     });
 
     this.setState({
       note: '',
-      timeStart: null,
+      timeStart: null
     });
   }
 
-  onChange({target: {value}}) {
+  onChange ({ target: { value } }) {
     this.setState({
-      note: value,
+      note: value
     });
 
     if (!this.state.timeStart && value.trim().length) {
       this.setState({
-        timeStart: this.props.time,
+        timeStart: this.props.time
       });
     }
   }
 
-  handleKey(event) {
+  handleKey (event) {
     if (
-      this.state.note.trim().length > 0
-      && event.key === 'Enter'
-      && !event.shiftKey
+      this.state.note.trim().length > 0 &&
+      event.key === 'Enter' &&
+      !event.shiftKey
     ) {
       this.addNote();
     }
@@ -59,7 +59,7 @@ class WritingSurface extends Component {
     }
   }
 
-  render() {
+  render () {
     return (
       <MinimalTextarea
         autoFocus={this.props.autoFocus}

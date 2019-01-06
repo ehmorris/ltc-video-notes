@@ -10,14 +10,14 @@ const pluralize = (word, count) => {
 };
 
 class PausedMode extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.producerNotes = this.props.notes.filter(note => note.type === 'producer' && !note.action);
     this.interviewerNotes = this.props.notes.filter(note => note.type === 'interviewer' && !note.action);
   }
 
-  render() {
+  render () {
     const notesExist = this.props.notes.length > 0;
     const producerNoteCount = this.producerNotes.length;
     const interviewerNoteCount = this.interviewerNotes.length;

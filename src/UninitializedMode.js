@@ -2,7 +2,7 @@ import React from 'react';
 import Label from './Label';
 import styled from 'react-emotion';
 
-const UninitializedMode = ({style}) => {
+const UninitializedMode = ({ style }) => {
   return (
     <Container>
       <div>First click “Begin recording”, and you’ll see producer mode, then open a new window and it’ll automatically turn into interviewer mode.</div>
@@ -14,7 +14,7 @@ const UninitializedMode = ({style}) => {
       </Label>
     </Container>
   );
-}
+};
 
 export default UninitializedMode;
 

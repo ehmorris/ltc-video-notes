@@ -4,7 +4,7 @@ import WritingSurface from './WritingSurface';
 import { animated } from 'react-spring';
 
 const mapStateToProps = state => ({
-  time: state.time,
+  time: state.time
 });
 
 const InterviewerModePrompt = (props) => {
@@ -21,7 +21,7 @@ const InterviewerModePrompt = (props) => {
       />
     </animated.div>
   );
-}
+};
 
 export default connect(
   mapStateToProps
@@ -32,5 +32,5 @@ const interviewerNotePrompt = {
   padding: '24px',
   position: 'absolute',
   width: '100%',
-  height: '100%',
+  height: '100%'
 };

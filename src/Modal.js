@@ -2,7 +2,7 @@ import React from 'react';
 import { animated } from 'react-spring';
 import { Transition } from 'react-spring';
 
-const ModalWrapper = ({style, children}) => {
+const ModalWrapper = ({ style, children }) => {
   return (
     <animated.div
       style={{
@@ -14,20 +14,20 @@ const ModalWrapper = ({style, children}) => {
       {children}
     </animated.div>
   );
-}
+};
 
-const Modal = ({showOn, children}) => {
+const Modal = ({ showOn, children }) => {
   return (
     <Transition
       native
-      from={{ opacity: .5, scale: 0.98 }}
+      from={{ opacity: 0.5, scale: 0.98 }}
       enter={{ opacity: 1, scale: 1 }}
       leave={{ opacity: 0, scale: 0.98 }}
     >
       {showOn && (style => <ModalWrapper style={style} children={children} />)}
     </Transition>
   );
-}
+};
 
 export default Modal;
 
@@ -40,5 +40,5 @@ const modalWrapper = {
   padding: '48px',
   left: '50%',
   top: '50%',
-  transformOrigin: 'bottom left',
+  transformOrigin: 'bottom left'
 };

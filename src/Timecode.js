@@ -1,7 +1,7 @@
 import React from 'react';
 import SMPTETimecode from 'smpte-timecode';
 
-const Timecode = ({time}) => {
+const Timecode = ({ time }) => {
   let dateObject = new Date();
   dateObject.setHours(0, 0, 0);
   dateObject.setMilliseconds(time * 1000);
@@ -11,6 +11,6 @@ const Timecode = ({time}) => {
   return (
     <span>{formattedTime}</span>
   );
-}
+};
 
 export default Timecode;

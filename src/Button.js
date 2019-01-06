@@ -3,10 +3,10 @@ import styled from 'react-emotion';
 
 const clamp = (number, min, max) => {
   return Math.max(min, Math.min(max, number));
-}
+};
 
 class Button extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.nudgeButton = this.nudgeButton.bind(this);
@@ -14,25 +14,25 @@ class Button extends Component {
 
     this.state = {
       buttonX: 0,
-      buttonY: 0,
-    }
+      buttonY: 0
+    };
   }
 
-  nudgeButton({movementX, movementY}) {
+  nudgeButton ({ movementX, movementY }) {
     this.setState({
       buttonX: clamp(movementX, -2, 2),
-      buttonY: clamp(movementY, -2, 2),
+      buttonY: clamp(movementY, -2, 2)
     });
   }
 
-  resetButton() {
+  resetButton () {
     this.setState({
       buttonX: 0,
-      buttonY: 0,
+      buttonY: 0
     });
   }
 
-  render() {
+  render () {
     return (
       <div>
         {this.props.disabled &&
@@ -54,7 +54,7 @@ class Button extends Component {
                 ${-this.state.buttonX}px
                 ${-this.state.buttonY}px
                 ${Math.abs(this.state.buttonX) + Math.abs(this.state.buttonY)}px
-                rgba(0, 0, 0, .2)`,
+                rgba(0, 0, 0, .2)`
             }}
           >
             {this.props.children}
@@ -66,7 +66,7 @@ class Button extends Component {
 }
 
 Button.defaultProps = {
-  disabled: false,
+  disabled: false
 };
 
 export default Button;
@@ -79,7 +79,7 @@ const buttonContainer = {
   color: 'inherit',
   transition: 'transform .2s ease, text-shadow .2s ease',
   padding: '1rem',
-  margin: '-1rem',
+  margin: '-1rem'
 };
 
 const DisabledButtonContainer = styled('div')`

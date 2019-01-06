@@ -4,11 +4,11 @@ import styled from 'react-emotion';
 import Timecode from './Timecode';
 
 const mapStateToProps = state => ({
-  time: state.time,
+  time: state.time
 });
 
 class Clock extends Component {
-  render() {
+  render () {
     return (
       <Monospace>
         <Timecode time={this.props.time} />

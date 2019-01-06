@@ -3,19 +3,19 @@ import { connect } from 'react-redux';
 import { reset } from './actions';
 
 class Reset extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.onClick = this.onClick.bind(this);
   }
 
-  onClick() {
+  onClick () {
     if (window.confirm('This deletes all producer and interviewer notes. Make sure you’ve downloaded them if you want them.')) {
       this.props.dispatch(reset());
     }
   }
 
-  render() {
+  render () {
     return (
       <div
         onClick={this.onClick}

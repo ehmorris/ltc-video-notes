@@ -26,11 +26,13 @@ const middlewares = [
 
 const rootReducer = (state, action) => {
   if (action.type === 'RESET') {
-    return state = {
+    state = {
       time: 0,
       notes: [],
       wasReset: true
     };
+
+    return state;
   }
 
   return appReducer(state, action);

@@ -1,6 +1,5 @@
 import React from 'react';
-import { animated } from 'react-spring';
-import { Transition } from 'react-spring';
+import { animated, Transition } from 'react-spring';
 
 const ModalWrapper = ({ style, children }) => {
   return (

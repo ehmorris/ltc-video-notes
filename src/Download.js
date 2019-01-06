@@ -50,7 +50,7 @@ ${notesToString(this.props.producerNotes)}
 INTERVIEWER NOTES:
 ${notesToString(this.props.interviewerNotes)}`;
 
-    const file = new Blob([notes], {
+    const file = new window.Blob([notes], {
       type: 'text/plain'
     });
 

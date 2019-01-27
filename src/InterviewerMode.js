@@ -86,5 +86,6 @@ const PromptTextFit = styled(Textfit)`
   line-height: 1;
   height: calc(85vh - 24px);
   font-weight: 600;
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
   white-space: pre-wrap;
 `;

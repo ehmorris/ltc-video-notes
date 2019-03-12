@@ -8,6 +8,7 @@ const nonActionNotesByType = (notes, filter) => notes.filter(note => note.type =
 const sortByTimeAsc = (note1, note2) => note1.timeStart - note2.timeStart;
 
 const mapStateToProps = state => ({
+  metadata: state.metadata,
   producerNotes: nonActionNotesByType(state.notes, 'producer').sort(sortByTimeAsc),
   interviewerNotes: nonActionNotesByType(state.notes, 'interviewer').sort(sortByTimeAsc)
 });
@@ -44,11 +45,28 @@ class Download extends Component {
   }
 
   componentDidMount () {
-    const notes = `PRODUCER NOTES:
+    const notes = `NOTES INITIALIZED:
+${this.props.metadata.timeOfDayInitialized}
+
+-----
+
+PRODUCER NOTES:
 ${notesToString(this.props.producerNotes)}
 
 INTERVIEWER NOTES:
-${notesToString(this.props.interviewerNotes)}`;
+${notesToString(this.props.interviewerNotes)}
+
+-----
+
+DEBUG METADATA PLUGINS:
+${this.props.metadata.plugins}
+
+DEBUG METADATA USER AGENT:
+${this.props.metadata.userAgent}
+
+DEBUG METADATA CONNECTION INFO:
+${this.props.metadata.connectionInfo}
+`;
 
     const file = new window.Blob([notes], {
       type: 'text/plain'

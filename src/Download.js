@@ -58,14 +58,8 @@ ${notesToString(this.props.interviewerNotes)}
 
 -----
 
-DEBUG METADATA PLUGINS:
-${this.props.metadata.plugins}
-
-DEBUG METADATA USER AGENT:
+DEBUG USER AGENT:
 ${this.props.metadata.userAgent}
-
-DEBUG METADATA CONNECTION INFO:
-${this.props.metadata.connectionInfo}
 `;
 
     const file = new window.Blob([notes], {

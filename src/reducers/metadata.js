@@ -3,7 +3,6 @@ const metadata = (state = [], action) => {
     case 'SET_METADATA':
       return {
         timeOfDayInitialized: action.timeOfDayInitialized,
-        plugins: action.plugins,
         userAgent: action.userAgent,
         connectionInfo: action.connectionInfo
       };

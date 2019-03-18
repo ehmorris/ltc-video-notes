@@ -25,12 +25,14 @@ const formatTime = (time) => {
 };
 
 const formatNote = (timeOfDayInitialized, { timeStart, timeEnd, note }) => {
-  const dateFromTimeStart = moment(timeOfDayInitialized).add(timeStart, 'seconds').format('h:mm:ss');
-  const dateFromTimeEnd = moment(timeOfDayInitialized).add(timeEnd, 'seconds').format('h:mm:ss');
+  const dateFromTimeStart = moment(timeOfDayInitialized).add(timeStart, 'seconds').toDate();
+  const dateFromTimeEnd = moment(timeOfDayInitialized).add(timeEnd, 'seconds').toDate();
+  const timecodeFromTimeStart = new SMPTETimecode(dateFromTimeStart, 23.976).toString();
+  const timecodeFromTimeEnd = new SMPTETimecode(dateFromTimeEnd, 23.976).toString();
 
   return `
-[${formatTime(timeStart)} (${dateFromTimeStart})]    ${note}
-[${formatTime(timeEnd)} (${dateFromTimeEnd})]
+[${formatTime(timeStart)} (${timecodeFromTimeStart})]    ${note}
+[${formatTime(timeEnd)} (${timecodeFromTimeEnd})]
 
 `;
 };
@@ -50,7 +52,7 @@ class Download extends Component {
 
   componentDidMount () {
     const notes = `NOTES INITIALIZED:
-${moment(this.props.metadata.timeOfDayInitialized).format()}
+${this.props.metadata.timeOfDayInitialized}
 
 -----
 

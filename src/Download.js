@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SMPTETimecode from 'smpte-timecode';
 import styled from 'react-emotion';
+import moment from 'moment';
 
 const nonActionNotesByType = (notes, filter) => notes.filter(note => note.type === filter && !note.action);
 
@@ -23,16 +24,19 @@ const formatTime = (time) => {
   return new SMPTETimecode(dateObject, 23.976).toString();
 };
 
-const formatNote = ({ timeStart, timeEnd, note }) => {
+const formatNote = (timeOfDayInitialized, { timeStart, timeEnd, note }) => {
+  const dateFromTimeStart = moment(timeOfDayInitialized).add(timeStart, 'seconds').format('h:mm:ss');
+  const dateFromTimeEnd = moment(timeOfDayInitialized).add(timeEnd, 'seconds').format('h:mm:ss');
+
   return `
-[${formatTime(timeStart)}]    ${note}
-[${formatTime(timeEnd)}]
+[${formatTime(timeStart)} (${dateFromTimeStart})]    ${note}
+[${formatTime(timeEnd)} (${dateFromTimeEnd})]
 
 `;
 };
 
-const notesToString = (notes) => {
-  return notes.map(note => formatNote(note)).join('');
+const notesToString = (timeOfDayInitialized, notes) => {
+  return notes.map(note => formatNote(timeOfDayInitialized, note)).join('');
 };
 
 class Download extends Component {
@@ -46,15 +50,15 @@ class Download extends Component {
 
   componentDidMount () {
     const notes = `NOTES INITIALIZED:
-${this.props.metadata.timeOfDayInitialized}
+${moment(this.props.metadata.timeOfDayInitialized).format()}
 
 -----
 
 PRODUCER NOTES:
-${notesToString(this.props.producerNotes)}
+${notesToString(this.props.metadata.timeOfDayInitialized, this.props.producerNotes)}
 
 INTERVIEWER NOTES:
-${notesToString(this.props.interviewerNotes)}
+${notesToString(this.props.metadata.timeOfDayInitialized, this.props.interviewerNotes)}
 
 -----
 

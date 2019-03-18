@@ -1,7 +1,7 @@
 import uuidv4 from 'uuid/v4';
 
 export const setMetadata = () => {
-  const timeOfDay = new Date(Date.now()).toString();
+  const timeOfDay = new Date(Date.now());
   const userAgent = JSON.stringify(window.navigator.userAgent);
 
   return {

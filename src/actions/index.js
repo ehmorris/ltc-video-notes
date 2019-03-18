@@ -1,5 +1,16 @@
 import uuidv4 from 'uuid/v4';
 
+export const setMetadata = () => {
+  const timeOfDay = new Date(Date.now());
+  const userAgent = JSON.stringify(window.navigator.userAgent);
+
+  return {
+    type: 'SET_METADATA',
+    timeOfDayInitialized: timeOfDay,
+    userAgent: userAgent,
+  };
+};
+
 export const updateTime = time => ({
   type: 'UPDATE_TIME',
   time

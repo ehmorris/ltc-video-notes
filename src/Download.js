@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SMPTETimecode from 'smpte-timecode';
 import styled from 'react-emotion';
-import moment from 'moment';
 
 const nonActionNotesByType = (notes, filter) => notes.filter(note => note.type === filter && !note.action);
 
 const sortByTimeAsc = (note1, note2) => note1.timeStart - note2.timeStart;
 
 const mapStateToProps = state => ({
-  metadata: state.metadata,
   producerNotes: nonActionNotesByType(state.notes, 'producer').sort(sortByTimeAsc),
   interviewerNotes: nonActionNotesByType(state.notes, 'interviewer').sort(sortByTimeAsc)
 });
@@ -24,21 +22,16 @@ const formatTime = (time) => {
   return new SMPTETimecode(dateObject, 23.976).toString();
 };
 
-const formatNote = (timeOfDayInitialized, { timeStart, timeEnd, note }) => {
-  const dateFromTimeStart = moment(timeOfDayInitialized).add(timeStart, 'seconds').toDate();
-  const dateFromTimeEnd = moment(timeOfDayInitialized).add(timeEnd, 'seconds').toDate();
-  const timecodeFromTimeStart = new SMPTETimecode(dateFromTimeStart, 23.976).toString();
-  const timecodeFromTimeEnd = new SMPTETimecode(dateFromTimeEnd, 23.976).toString();
-
+const formatNote = ({ timeStart, timeEnd, note }) => {
   return `
-[${formatTime(timeStart)} (${timecodeFromTimeStart})]    ${note}
-[${formatTime(timeEnd)} (${timecodeFromTimeEnd})]
+[${formatTime(timeStart)}]    ${note}
+[${formatTime(timeEnd)}]
 
 `;
 };
 
-const notesToString = (timeOfDayInitialized, notes) => {
-  return notes.map(note => formatNote(timeOfDayInitialized, note)).join('');
+const notesToString = (notes) => {
+  return notes.map(note => formatNote(note)).join('');
 };
 
 class Download extends Component {
@@ -51,22 +44,11 @@ class Download extends Component {
   }
 
   componentDidMount () {
-    const notes = `NOTES INITIALIZED:
-${this.props.metadata.timeOfDayInitialized}
-
------
-
-PRODUCER NOTES:
-${notesToString(this.props.metadata.timeOfDayInitialized, this.props.producerNotes)}
+    const notes = `PRODUCER NOTES:
+${notesToString(this.props.producerNotes)}
 
 INTERVIEWER NOTES:
-${notesToString(this.props.metadata.timeOfDayInitialized, this.props.interviewerNotes)}
-
------
-
-DEBUG USER AGENT:
-${this.props.metadata.userAgent}
-`;
+${notesToString(this.props.interviewerNotes)}`;
 
     const file = new window.Blob([notes], {
       type: 'text/plain'

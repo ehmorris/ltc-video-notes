@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateTime, setMetadata } from './actions';
+import { updateTime } from './actions';
 import AudioFile from './2_hours_of_silence.ogg';
 import Audio from 'react-audio-player';
 import Clock from './Clock';
@@ -19,7 +19,6 @@ class ControlBar extends Component {
 
     this.onAudioUpdate = this.onAudioUpdate.bind(this);
     this.isLoaded = this.isLoaded.bind(this);
-    this.initialize = this.initialize.bind(this);
     this.play = this.play.bind(this);
     this.pause = this.pause.bind(this);
 
@@ -72,11 +71,6 @@ class ControlBar extends Component {
     );
   }
 
-  initialize () {
-    this.props.dispatch(setMetadata());
-    this.play();
-  }
-
   play () {
     this.audioTag.current.audioEl.play();
   }
@@ -100,7 +94,7 @@ class ControlBar extends Component {
               </WithIndicator>
 
               {this.props.mode === 'uninitializedMode' &&
-                <Button onClick={this.initialize}>
+                <Button onClick={this.play}>
                   Begin Recording
                 </Button>
               }
